@@ -1,0 +1,11 @@
+#ifndef CMD_H
+#define CMD_H
+
+#include "mem.h"
+#include "elf.h"
+
+int loadcmd(char* fichier, mem memory, registre* reg);
+
+
+
+#endif

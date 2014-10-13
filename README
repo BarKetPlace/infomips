@@ -1,0 +1,21 @@
+*******************************************************************
+*******************************************************************
+*************************** PROJET INFO 2014 ********************** 
+**************************** Emulateur MIPS ***********************
+******************* Maxence PICHAT & Antoine HONORE**************** 
+*******************************************************************
+*******************************************************************
+
+
+Un fichier elf se trouve dans le dossier elf/
+Compilation du fichier principal:
+make main
+
+Lancement en mode script:
+./main
+
+Lancement des fichiers tests:
+./main ./tests/<fichier test>
+
+Suppression des fichiers objets (sauf ./elf/boucle.o )
+make clean

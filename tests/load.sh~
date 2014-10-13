@@ -1,0 +1,3 @@
+load ./elf/boucle.o
+exit
+

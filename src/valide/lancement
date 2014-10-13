@@ -1,0 +1,35 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+
+
+
+int check_appel(int argc, char* argv[], FILE* felf)
+{
+	
+	if ( argc != 2 )
+	{
+		printf("Usage: %s <fichier elf> \n", argv[0]);
+		return 1;
+	}
+
+
+	if ( (felf = fopen(argv[1], "r")) == NULL  )
+	{
+		printf(" ------->   Impossible d'ouvrir %s <--------\n", argv[1]);
+		return 1;
+	}
+
+	if (!assert_elf_file(felf)) //Le fichier est il un fichier elf
+	{
+		printf("file %s is not an ELF file", argv[1]);
+		return 1;
+	}
+
+}
+
+int main(int argc, char* argv[])
+{FILE* felf;
+	return check_appel(argc,argv,felf) ;
+}

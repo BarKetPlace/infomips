@@ -1,0 +1,27 @@
+#ifndef STRUCT_
+#define STRUCT_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#include "types.h"
+#include "bits.h"
+#include "notify.h"
+#include "reg.h"
+
+#include "mem.h"
+#include "formats.h"
+#include "types.h"
+#include "syms.h"
+#include "section.h"
+#include "elf.h"
+
+#define MAX_STR 512
+
+
+
+
+
+
+#endif

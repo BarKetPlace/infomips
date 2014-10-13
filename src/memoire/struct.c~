@@ -1,0 +1,3 @@
+#include "../../include/link.h"
+#include <string.h>
+

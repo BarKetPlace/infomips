@@ -1,0 +1,21 @@
+load ./elf/boucle.o
+disp reg all
+disp reg $v0 $t9 $s1 $v2
+
+
+#correcte
+disp mem 0x12:0x10
+
+disp mem 0x0:0xc
+
+#Erreur syntaxe
+disp mem
+disp mem map
+dips
+disp mem 0x13:
+disp mem 0xrZ
+disp mem 0x14:0xrh
+#Erreur plage
+#trop haute
+disp mem 0xffffff00:0xffffff0
+exit
