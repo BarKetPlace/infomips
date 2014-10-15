@@ -101,7 +101,7 @@ void del_defs(Liste l)
 
 int main(int argc, char* argv[])
 {	
-	Liste l = creer_liste();
+	Liste l = creer_liste(); //Le futur dictionnaire
 	char chaine[MAXSTR];
 	char* token;
 	FILE* fp = fopen(argv[1], "r");
@@ -112,34 +112,34 @@ int main(int argc, char* argv[])
 	while(fgets(chaine, MAXSTR, fp))
 	{	if (chaine[0] != '\n')
 		{
-		definition def = calloc(1, sizeof(*def));
+		definition def = calloc(1, sizeof(*def));//On alloue une nouvelle définition
 		//puts(chaine);
 		token = strtok(strdup( chaine ), " \t\n");
 		//puts(token);
-		sscanf(token, "%x", &def->sign);
+		sscanf(token, "%x", &def->sign);//Lecture & ecriture de la signature
 		
 		token = strtok(NULL, " \t\n") ;
 		//puts(token);
-		sscanf(token, "%x", &def->masq);
+		sscanf(token, "%x", &def->masq);//Lecture & ecriture du masque
 	
 		token = strtok(NULL, " \t\n") ;
 		//puts(token);
-		strcpy(def->nom, token);
+		strcpy(def->nom, token); //Lecture & ecriture du nom
 		
 		token = strtok(NULL, " \t\n") ;
 		//puts(token);
-		sscanf(token, "%c", &def->type);
+		sscanf(token, "%c", &def->type);//Lecture & ecriture du type
 
 		token = strtok(NULL, " \t\n") ;
 		//puts(token);
-		sscanf(token, "%d", &def->nb_op);
+		sscanf(token, "%d", &def->nb_op);//Lecture & ecriture du nb d'opérande
 
 		token = strtok(NULL, "\n\0") ;
 		
-		strcpy(def->nom_op, token);
+		strcpy(def->nom_op, token); //Lecture & ecriture de la syntaxe des opérande
 		//puts(def->nom_op);
 		
-		l = ajout_tete(def, l);
+		l = ajout_tete(def, l);//On ajoute la définition au dictionnaire
 		
 		//DEBUG_MSG("");
 		
