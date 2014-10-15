@@ -25,6 +25,7 @@ main: main.o $(OBJ_DBG)
 
 dico: ./src/dico/dico.o 
 	gcc $^ $(LFLAGS) -g -o $@
+
 %.o:%.c
 	gcc $< $(CFLAGS) -c -o $(basename $<).o
 

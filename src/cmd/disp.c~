@@ -10,7 +10,7 @@
 int dispcmd(interpreteur inter, mem memory, registre* reg)
 {	
 	char* token, sep, addr_fin;
-	uint debut,fin, decalage;
+	uint debut,fin, decalage,adr;
 	token = get_next_token(inter);
 	
 	if (token == NULL) //disp (null)
@@ -50,7 +50,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 				return CMD_UNKOWN_RETURN_VALUE;
 			}
-			DEBUG_MSG("sfsg token : %s", token);	
+			//DEBUG_MSG("sfsg token : %s", token);	
 
 
 			
@@ -64,7 +64,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 						WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 						return CMD_UNKOWN_RETURN_VALUE;
 					}
-					//disp mem HEXA:HEXA			avec 0<= HEXA,HEXA <=0xfffff000
+					//disp mem HEXA:HEXA			avec 0<= HEXA,HEXA <= 0xfffff000
 					if (!(fin<debut)) print_case_mem(memory, debut, fin);
 					else print_case_mem(memory,fin,debut);
 					return CMD_OK_RETURN_VALUE;
@@ -88,11 +88,19 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				return CMD_OK_RETURN_VALUE;
 				}
 			}
-
-			print_case_mem(memory, debut, debut); //disp mem HEXA            on affiche uniquement la case HEXA
-			
+			else if ( token && is_hexa(token) )
+			{	print_case_mem(memory, debut, debut);
+				sscanf(token, "%x", &adr);
+				do {	
+					print_case_mem(memory, adr, adr);
+					token = get_next_token(inter);
+				} while (token && is_hexa(token));
+			}
+			else{
 			WARNING_MSG("USAGE: disp mem \"map\" or <plage>+");
 			return CMD_UNKOWN_RETURN_VALUE;
+			}
+			return CMD_OK_RETURN_VALUE;
 		}
 	}
 
