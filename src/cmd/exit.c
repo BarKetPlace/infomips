@@ -14,8 +14,9 @@
  * @param inter l'interpreteur qui demande l'analyse
  * @return 0 en case de succes, un nombre positif sinon
  */
-int exitcmd(interpreteur inter) {
-    INFO_MSG("Bye bye !");
+int exitcmd(interpreteur inter, mem memory, registre* reg) {
+    del_mem(memory);INFO_MSG("Liberation memoire");
+	del_reg(reg);INFO_MSG("Liberation des registres");
     return CMD_EXIT_RETURN_VALUE;
 }
 

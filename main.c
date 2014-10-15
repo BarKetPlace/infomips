@@ -19,6 +19,65 @@
 #include "emulateur.h"
 
 
+/**
+*
+* @brief parse la chaine courante de l'interpreteur à la recherche d'une commande, et execute cette commande.
+* @param inter l'interpreteur qui demande l'analyse
+* @return CMD_OK_RETURN_VALUE si la commande s'est exécutée avec succès (0)
+* @return CMD_EXIT_RETURN_VALUE si c'est la commande exit. Dans ce cas, le programme doit se terminer. (-1)
+* @return CMD_UNKOWN_RETURN_VALUE si la commande n'est pas reconnue. (-2)
+* @return tout autre nombre (eg tout nombre positif) si erreur d'execution de la commande
+*/
+
+int execute_cmd(interpreteur inter, mem memory, registre* reg) {
+    //DEBUG_MSG("input '%s'", inter->input);
+    char cmdStr[MAX_STR];
+    memset( cmdStr, '\0', MAX_STR );
+
+    /* gestion des commandes vides, commentaires, etc*/
+    if(strlen(inter->input) == 0
+            || sscanf(inter->input, "%s", cmdStr) == 0
+            || strlen(cmdStr) == 0
+            || cmdStr[0] == '#') { /* ligne commence par # => commentaire*/
+        return CMD_OK_RETURN_VALUE;
+    }
+	
+	//if (is_conform_line(inter) != CMD_OK_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
+    /*on identifie la commande avec un premier appel à get_next_token*/
+	//DEBUG_MSG("ok");
+    char * token = get_next_token(inter);
+
+    if(strcmp(token, "exit") == 0) {
+	
+        return exitcmd(inter, memory, reg);
+    }
+    if(strcmp(token, "test") == 0) {
+        return testcmd(inter);
+    }
+    if(strcmp(token, "load") == 0)
+ 	{
+		return loadcmd(get_next_token(inter), memory, reg);
+	}
+	if(strcmp(token, "disp") == 0){
+		//print_segment_raw_content(memory->seg);
+		return dispcmd(inter, memory, reg);
+	}
+	if(strcmp(token, "set") == 0){
+		return CMD_OK_RETURN_VALUE;
+	}
+	
+	if(strcmp(token, "assert") == 0){
+		return CMD_OK_RETURN_VALUE;
+	}
+
+	if(strcmp(token, "disasm") == 0){
+		return disasmcmd(inter, memory, reg);
+	}
+	
+		WARNING_MSG("Unknown Command : '%s'\n", cmdStr);
+    return CMD_UNKOWN_RETURN_VALUE;
+}
+
 
 
 /**
@@ -89,6 +148,7 @@ int main ( int argc, char *argv[] ) {
                 if (inter->mode == SCRIPT) {
                     fclose( fp );
                     del_inter(inter);
+					
                    //macro ERROR_MSG : message d'erreur puis fin de programme ! 
                     ERROR_MSG("ERREUR DETECTEE. Aborts");
                 }
@@ -101,6 +161,8 @@ int main ( int argc, char *argv[] ) {
             DEBUG_MSG("FIN DE FICHIER");
             fclose( fp );
             del_inter(inter);
+			del_mem(memory);INFO_MSG("Liberation memoire");
+			del_reg(reg);INFO_MSG("Liberation des registres");
             exit(EXIT_SUCCESS);
         }
     }

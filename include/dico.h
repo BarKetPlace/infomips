@@ -37,7 +37,24 @@ typedef struct _liste {
 definition val; 
 struct _liste * suiv; }* Liste;
 
+
+Liste creer_liste(void);
+int est_vide(Liste l);
+void visualiser(Liste l);
+Liste ajout_tete(definition c, Liste l);
+Liste supp(Liste l);
+Liste ajout_queue(definition c, Liste l);
+Liste supprimen(int n, Liste l);
+Liste concat(Liste l1, Liste l2);
+Liste copie(Liste l);
+
+
+
 int lecture_dico(char* fichier, Liste l);
 void detail_def(definition def);
+void del_defs(Liste l);
+
+
+
 
 #endif

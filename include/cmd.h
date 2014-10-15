@@ -10,7 +10,7 @@
 
 ////////////////////////////////
 int testcmd(interpreteur inter);
-int exitcmd(interpreteur inter);
+int exitcmd(interpreteur inter, mem memory, registre* reg);
 
 
 int loadcmd(char* fichier, mem memory, registre* reg);

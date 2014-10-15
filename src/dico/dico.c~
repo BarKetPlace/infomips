@@ -18,7 +18,7 @@ void visualiser(Liste l)
 		detail_def(l->val);
 		l=l->suiv;
 	}
-	printf("\n");
+
 }
 
 Liste ajout_tete(definition c, Liste l)
@@ -90,6 +90,14 @@ void detail_def(definition def)
 {	printf("0x%08x\t0x%08x\t%s\t%c\t%d\t%s\n",def->sign, def->masq, def->nom, def->type, def->nb_op, def->nom_op);
 }
 
+void del_defs(Liste l)
+{
+	while (l)
+	{	
+		l=supp(l);
+	}
+}
+
 
 int main(int argc, char* argv[])
 {	
@@ -98,7 +106,7 @@ int main(int argc, char* argv[])
 	char* token;
 	FILE* fp = fopen(argv[1], "r");
 	if (!fp) return 1;
-	int i=0;
+
 	fgets(chaine, MAXSTR, fp);
 	
 	while(fgets(chaine, MAXSTR, fp))
@@ -122,7 +130,6 @@ int main(int argc, char* argv[])
 		token = strtok(NULL, " \t\n") ;
 		//puts(token);
 		sscanf(token, "%c", &def->type);
-		
 
 		token = strtok(NULL, " \t\n") ;
 		//puts(token);
@@ -134,11 +141,18 @@ int main(int argc, char* argv[])
 		//puts(def->nom_op);
 		
 		l = ajout_tete(def, l);
+		
 		//DEBUG_MSG("");
 		
 		}
 	}
+
+
+
 	visualiser(l);
+	fclose(fp);
+	del_defs(l);
+
 	return 0;
 }
 
