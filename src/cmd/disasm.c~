@@ -15,9 +15,20 @@
 #include "is_.h"
 
 
-int disasm(mem memory, int val, char* res)
-{	
-	printf("\t0x%08x\t%s\n", val, res);
+int swap_mot(int mot)
+{	int res=0;
+	res = mot&0xff000000<<24 + mot&0x00ff0000>>8 + mot&0x0000ff00<<8 + mot&0x000000ff<<24;
+	return res;
+}
+
+
+
+int disasm(mem memory, int adrr, int val, char* res)
+{	int val_swapped = swap_mot(val);
+	//printf("swap(0x%08x) = 0x%08x\n",val, val_swapped );
+	
+	//printf("0x%08x: 0x%08x %s\n",adrr, val, res);
+
 	return CMD_OK_RETURN_VALUE;
 }
 
@@ -25,23 +36,29 @@ int disasm(mem memory, int val, char* res)
 int disasm_(interpreteur inter, mem memory, registre* reg, int debut, int fin)
 {	int i;
 	char res[MAX_STR];
-	int val;
-	if (fin-debut<4 && !disasm(memory, find_val(memory, debut), res ) ){
-		WARNING_MSG("Erreur de desassemblage a l'adresse : 0x%08x",i);
-		return CMD_UNKOWN_RETURN_VALUE;
+	int val = find_val(memory, debut);
+
+	if (fin-debut<4)
+	{	
+		if (disasm(memory, debut ,val , res )) //Si il y a eu un probleme
+		{ 
+			WARNING_MSG("Erreur de desassemblage a l'adresse : 0x%08x",debut);
+			return CMD_UNKOWN_RETURN_VALUE;
+		}
+			
+		printf("0x%08x: 0x%08x %s\n",debut, val, "pas encore code");
+		return CMD_OK_RETURN_VALUE;
 	}
 	
 	for (i=debut;i<fin;i+=4)
 	{	val = find_val(memory, i );
 		
-		if (disasm(memory, val, res) != CMD_OK_RETURN_VALUE){
+		if (disasm(memory,i, val, res) != CMD_OK_RETURN_VALUE){
 			WARNING_MSG("Erreur de desassemblage a l'adresse : 0x%08x",i);
 			return CMD_UNKOWN_RETURN_VALUE;
 		}
 		
-		printf("0x%08x: 0x%08x %s\n",i, val, res);
-		
-		
+		printf("0x%08x: 0x%08x %s\n",i, val, "pas encore code");
 	}
 	
 	
@@ -101,8 +118,8 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg)
 		}
 		else { //disasm HEXA
 			DEBUG_MSG("");
-			printf("0x%08x",debut);
-			if (!disasm(memory, find_val(memory, debut),res)) return CMD_UNKOWN_RETURN_VALUE;
+			//printf("0x%08x",debut);
+			if (!disasm(memory,debut , find_val(memory, debut),res)) return CMD_UNKOWN_RETURN_VALUE;
 			
 			return CMD_OK_RETURN_VALUE ;
 		}
