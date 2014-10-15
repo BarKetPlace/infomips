@@ -88,8 +88,9 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				return CMD_OK_RETURN_VALUE;
 				}
 			}
-			else if ( token && is_hexa(token) )
-			{	print_case_mem(memory, debut, debut);
+			print_case_mem(memory, debut, debut);
+			if ( token && is_hexa(token) )
+			{	
 				sscanf(token, "%x", &adr);
 				do {	
 					print_case_mem(memory, adr, adr);

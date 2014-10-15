@@ -91,8 +91,9 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 			print_case_mem(memory, debut, debut);
 			if ( token && is_hexa(token) )
 			{	
-				sscanf(token, "%x", &adr);
+				
 				do {	
+					sscanf(token, "%x", &adr);
 					print_case_mem(memory, adr, adr);
 					token = get_next_token(inter);
 				} while (token && is_hexa(token));
