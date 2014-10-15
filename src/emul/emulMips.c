@@ -163,20 +163,27 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg) {
 	
         return exitcmd(inter);
     }
-    else if(strcmp(token, "test") == 0) {
+    if(strcmp(token, "test") == 0) {
         return testcmd(inter);
     }
-    else if(strcmp(token, "load") == 0)
+    if(strcmp(token, "load") == 0)
  	{
-	loadcmd(get_next_token(inter), memory, reg);
-	//print_mem(memory);
-	//print_tab_reg(reg);
-	
-	return 0;
+		return loadcmd(get_next_token(inter), memory, reg);
 	}
-	else if(strcmp(token, "disp") == 0){
+	if(strcmp(token, "disp") == 0){
 		//print_segment_raw_content(memory->seg);
 		return dispcmd(inter, memory, reg);
+	}
+	if(strcmp(token, "set") == 0){
+		return CMD_OK_RETURN_VALUE;
+	}
+	
+	if(strcmp(token, "assert") == 0){
+		return CMD_OK_RETURN_VALUE;
+	}
+
+	if(strcmp(token, "disasm") == 0){
+		return disasmcmd(inter, memory, reg);
 	}
 	
 		WARNING_MSG("Unknown Command : '%s'\n", cmdStr);

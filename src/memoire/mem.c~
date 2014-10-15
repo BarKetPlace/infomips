@@ -365,11 +365,11 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 	int i;
 	uint debut=debut_;
 	uint fin=fin_;
-	DEBUG_MSG("%x %x",debut,fin);
+	//DEBUG_MSG("%x %x",debut,fin);
 	if (debut_%4!=0) debut = debut_ - (debut_%4);
 	if (fin_%4!=0) fin = fin_ -(fin_%4);
 
-	DEBUG_MSG("%x %x",debut,fin);
+	//DEBUG_MSG("%x %x",debut,fin);
 	
 	for (i=debut;i<=fin;i+=4)
 	{

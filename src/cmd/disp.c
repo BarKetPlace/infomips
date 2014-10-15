@@ -10,7 +10,7 @@
 int dispcmd(interpreteur inter, mem memory, registre* reg)
 {	
 	char* token, sep, addr_fin;
-	uint debut,fin;
+	uint debut,fin, decalage;
 	token = get_next_token(inter);
 	
 	if (token == NULL) //disp (null)
@@ -37,7 +37,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 		else if (strcmp(token,"map")==0)//disp mem map
 		{
 			print_mem(memory);
-			return 0;
+			return CMD_OK_RETURN_VALUE;
 		}
 			
 			
@@ -50,9 +50,12 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 				return CMD_UNKOWN_RETURN_VALUE;
 			}
-				
+			DEBUG_MSG("sfsg token : %s", token);	
+
+
+			
 			if (token && !strcmp(token,":") )//disp mem HEXA:
-			{	
+			{	DEBUG_MSG("sfsg");
 				token = get_next_token(inter);
 				if (token && is_hexa(token) ) //disp mem HEXA:HEXA
 				{	sscanf(token, "%x", &fin);		
@@ -61,47 +64,63 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 						WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 						return CMD_UNKOWN_RETURN_VALUE;
 					}
-					//disp mem HEXA:HEXA			avec 0<= HEXA,HEXA <=0xfffff000
+					//disp mem HEXA:HEXA			avec 0<= HEXA,HEXA <= 0xfffff000
 					if (!(fin<debut)) print_case_mem(memory, debut, fin);
 					else print_case_mem(memory,fin,debut);
 					return CMD_OK_RETURN_VALUE;
-					}
-				
-				WARNING_MSG("USAGE: disp mem HEXA:HEXA");
-				return CMD_UNKOWN_RETURN_VALUE;
 				}
-				//disp mem HEXA            on affiche uniquement la case HEXA
-				print_case_mem(memory, debut, debut);
-				return CMD_UNKOWN_RETURN_VALUE;
-			}
-				
-				WARNING_MSG("USAGE: disp mem HEXA:HEXA");
-				return CMD_UNKOWN_RETURN_VALUE;
-		}
-		
-
-		else if (!strcmp(token,"reg"))//disp reg
-		{	if (reg == NULL) WARNING_MSG("Registres non-chargés");
-			
-			token = get_next_token(inter);
-			if (!token) {WARNING_MSG("Missing arguments"); return CMD_UNKOWN_RETURN_VALUE;}
-			switch (strcmp(token,"all")) {
-				case 0: print_tab_reg(reg); break; //disp reg all
-				default:// disp reg $.. $....
-					do {
-						print_reg(reg, is_registre(token));
-						token = get_next_token(inter); //printf("%s\n",token);
+				else { WARNING_MSG("Usage : disp mem HEXA:HEXA ");
+						return CMD_UNKOWN_RETURN_VALUE; 
+						}
+			}		
+			else if ( token && !strcmp(token,"+") )
+			{	DEBUG_MSG("sfsg");
+				token = get_next_token(inter);
+				if (token && is_valeur(token) ) //disp mem HEXA+val
+				{	sscanf(token, "%x", &decalage);		
+					if (debut+decalage>STOP_MEM) //L'adresse est trop haute (voir mem.h)
+					{
+						WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
+						return CMD_UNKOWN_RETURN_VALUE;
 					}
-					while (token != NULL);
-					
-					break;
+				print_case_mem(memory, debut, debut+decalage);	
+				
+				return CMD_OK_RETURN_VALUE;
+				}
 			}
-	
-		}
-		else //disp "autre chose que reg ou mem"  
-		{
-			WARNING_MSG("Usage: disp \"mem\" | disp \"reg\"");
+
+			print_case_mem(memory, debut, debut); //disp mem HEXA            on affiche uniquement la case HEXA
+			
+			WARNING_MSG("USAGE: disp mem \"map\" or <plage>+");
 			return CMD_UNKOWN_RETURN_VALUE;
 		}
+	}
+
+	else if (!strcmp(token,"reg"))//disp reg
+	{	if (reg == NULL) WARNING_MSG("Registres non-chargés");
+			
+		token = get_next_token(inter);
+		if (!token) {WARNING_MSG("Missing arguments"); return CMD_UNKOWN_RETURN_VALUE;}
+		if(strcmp(token,"all")) { //disp reg all
+			print_tab_reg(reg); 
+			return CMD_OK_RETURN_VALUE; 
+		}
+		else //disp reg $.. $....
+		{		
+			do {
+				print_reg(reg, is_registre(token));
+				token = get_next_token(inter); //printf("%s\n",token);
+				}
+			while (token != NULL);
+					
+		}
+	
+	}
+	else //disp "autre chose que reg ou mem"  
+	{
+		WARNING_MSG("Usage: disp \"mem\" | disp \"reg\"");
+		return CMD_UNKOWN_RETURN_VALUE;
+	}
 	return CMD_OK_RETURN_VALUE;
-}
+	}
+

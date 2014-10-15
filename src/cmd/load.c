@@ -81,5 +81,5 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 	
 	//printf("\n\n");
 
-	return 1;
+	return CMD_OK_RETURN_VALUE;
 }

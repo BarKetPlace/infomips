@@ -378,4 +378,44 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 
 }
 
+int find_val(mem memory, int adresse) {	
+	int  faddr = adresse;
+	int i=0;
+	int taille;
+	int word = 0;
+	int start =0;
+	segment* seg =NULL;
+	//DEBUG_MSG("%d",memory->nseg);
+	
+	if (adresse<START_MEM) return CMD_UNKOWN_RETURN_VALUE;
+	
+	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
+	//DEBUG_MSG("nb seg %d",memory->nseg);
+	for ( i=0; i< memory->nseg;) {
+		seg = memory->seg+i;
+		taille = seg->size._32;
+		start = seg->start._32;
+		//DEBUG_MSG("seg %d starts : 0x%08x taille: %d byte(s)",i,start,taille);
+		//DEBUG_MSG("faddr %d",faddr);
+		
+		//faddr = faddr - seg->start._32;
 
+
+		if (adresse > start+taille && adresse < memory->seg[i+1].start._32 )  {
+			WARNING_MSG("L'adresse 0x%08x n'est pas non-allouee", adresse);
+			return CMD_UNKOWN_RETURN_VALUE;
+		}
+		
+		if ( i < memory->nseg-1 && adresse > memory->seg[i+1].start._32 ) {
+			i++;
+		}
+		
+		else {
+			word = *((unsigned int *) (seg->content+adresse-start));
+			FLIP_ENDIANNESS(word);
+			return word;
+		}
+		
+	}
+	return 0;
+}	

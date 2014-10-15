@@ -44,7 +44,6 @@ typedef struct {
 } *mem;
 
 
-
 #define R__   1
 #define RW_   2
 #define R_X   3

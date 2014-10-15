@@ -11,7 +11,7 @@ disp mem 0x0:0xc
 #Erreur syntaxe
 disp mem
 disp mem map
-
+dips
 disp mem 0x13:
 disp mem 0xrZ
 disp mem 0x14:0xrh

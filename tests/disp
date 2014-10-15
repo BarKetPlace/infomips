@@ -5,6 +5,7 @@ disp reg $v0 $t9 $s1 $v2
 
 #correcte
 disp mem 0x12:0x10
+disp mem 0x0+24
 
 disp mem 0x0:0xc
 
