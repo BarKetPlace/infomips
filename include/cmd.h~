@@ -21,15 +21,16 @@ union inst_poly {
 	struct J j;
 };
 
-//représente une instruction type sortie du dictionnaire
+//représente une instruction type, sortie du dictionnaire
 typedef struct {
-	uint32_t signature;
-	uint32_t masque;
+	uint32_t sign;
+	uint32_t masq;
 	char* nom;
 	char type;
 	int nb_op;
 	char* nom_op;
-} definition;
+}* definition;
+
 
 
 ////////////////////////////////
@@ -40,10 +41,10 @@ int exitcmd(interpreteur inter);
 int loadcmd(char* fichier, mem memory, registre* reg);
 int dispcmd(interpreteur inter, mem memory, registre* reg);
 
-int disasm(mem memory,int adrr, int val, char* res);
+int disasm(mem memory, int adrr, int val, char* res);
 int disasm_(interpreteur inter, mem memory, registre* reg, int debut, int fin);
 int disasmcmd(interpreteur inter, mem memory, registre* reg);
 int swap_mot(int mot);
-
-
+int lecture_dico(char* fichier, Liste
+void detail_def(definition def);
 #endif

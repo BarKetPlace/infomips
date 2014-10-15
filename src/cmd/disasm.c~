@@ -46,7 +46,7 @@ int disasm_(interpreteur inter, mem memory, registre* reg, int debut, int fin)
 			return CMD_UNKOWN_RETURN_VALUE;
 		}
 			
-		printf("0x%08x: 0x%08x %s\n",debut, val, "pas encore code");
+		printf("0x%08x: 0x%08x %s\n",debut, val, res);
 		return CMD_OK_RETURN_VALUE;
 	}
 	
@@ -58,7 +58,7 @@ int disasm_(interpreteur inter, mem memory, registre* reg, int debut, int fin)
 			return CMD_UNKOWN_RETURN_VALUE;
 		}
 		
-		printf("0x%08x: 0x%08x %s\n",i, val, "pas encore code");
+		printf("0x%08x: 0x%08x %s\n",i, val, res);
 	}
 	
 	

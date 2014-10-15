@@ -65,9 +65,6 @@ int disasm_(interpreteur inter, mem memory, registre* reg, int debut, int fin)
 	return CMD_OK_RETURN_VALUE;
 }
 
-
-
-
 int disasmcmd(interpreteur inter, mem memory, registre* reg)
 {	
 	char* token;
