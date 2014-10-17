@@ -21,6 +21,7 @@ union inst_poly {
 	struct J j;
 };
 typedef union inst_poly instruc;
+
 //représente une instruction type, sortie du dictionnaire
 typedef struct {
 	uint32_t sign;

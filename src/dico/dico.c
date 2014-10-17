@@ -174,48 +174,51 @@ int swap_mot(int mot)
 	return res;
 }
 
-
+void print_disasm(definition def, instruc mot)
+{
+	char* token;
+	char* delim = " ";
+	int i;
+	
+	if (def->type == 'R')
+	{	printf("%s ",def->nom);
+		token = strtok(def->nom_op, delim);
+		for (i=0;i<def->nb_op;i++)
+		{
+			//DEBUG_MSG("0x%08x", mot.code);
+			//DEBUG_MSG(" 0x%08x 0x%08x 0x%08x ",mot.r.rd, mot.r.rt, mot.r.rs);
+			
+			//DEBUG_MSG("%s",token);
+			if ( !strcmp(token, "rd") ) printf("$%d ",mot.r.rd);
+			if ( !strcmp(token, "rs") ) printf("$%d ",mot.r.rs);
+			if ( !strcmp(token, "rt") ) printf("$%d ",mot.r.rt);
+			token = strtok(NULL, delim);
+		}
+		printf("\n");
+	}
+}
 
 int main(int argc, char* argv[])
 {	
 
-DEBUG_MSG("");
+	
 	Liste dico = NULL;
 	if (!(dico =  read_dico(argv[1]) ) ) return 1;
-	/*int masque;
-	int signature;
-
-	union inst_poly mot;
-	
-	
-	if(mot.r.op == 0) DEBUG_MSG(" Type R ");
-
-	while(dico)
-	{	
-		masque = dico->val->masq;
-		signature = dico->val->sign;
-		
-		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
-
-		if ( (mot.code&masque) == signature ) DEBUG_MSG("ADD");
-		
-		dico=dico->suiv;
-	}*/
+	char* token;
+	char* delim = " ";
 	instruc mot;
+	int i;
 	mot.code = 0x00641020;
+	//On va trouver l'instruction qui correspond au mot code stocke en memoire
 	definition def = find_def(dico, mot);
 	if (!def) return 1;
 	detail_def(def);
 
 	DEBUG_MSG("0x%08x", mot.code);
-	if (def->type == 'R')
-	{	
-		DEBUG_MSG("0x%08x", mot.code);
-		DEBUG_MSG(" 0x%08x 0x%08x 0x%08x ",mot.r.rd, mot.r.rt, mot.r.rs);
-	}
+	print_disasm(def, mot);
 
 
-	DEBUG_MSG("swap(0x%08x) = 0x%08x", mot.code,swap_mot(mot.code));
+	//DEBUG_MSG("swap(0x%08x) = 0x%08x", mot.code,swap_mot(mot.code));
 	
 	//visualiser(dico);
 	del_defs(dico);
