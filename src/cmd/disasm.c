@@ -15,12 +15,6 @@
 #include "is_.h"
 
 
-int swap_mot(int mot)
-{	int res=0;
-	res = mot&0xff000000<<24 + mot&0x00ff0000>>8 + mot&0x0000ff00<<8 + mot&0x000000ff<<24;
-	return res;
-}
-
 
 
 int disasm(mem memory, int adrr, int val, char* res)

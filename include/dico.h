@@ -20,7 +20,7 @@ union inst_poly {
 	struct I i;
 	struct J j;
 };
-
+typedef union inst_poly instruc;
 //représente une instruction type, sortie du dictionnaire
 typedef struct {
 	uint32_t sign;
@@ -53,7 +53,7 @@ Liste copie(Liste l);
 int lecture_dico(char* fichier, Liste l);
 void detail_def(definition def);
 void del_defs(Liste l);
-
+Liste read_dico(char* fichier);
 
 
 

@@ -5,7 +5,7 @@
 #include "dico.h"
 
 #include "notify.h"
-
+#include "emulateur.h"
 
 //Fonctions de base sur les listes
 Liste creer_liste(void){return NULL;}
@@ -99,13 +99,13 @@ void del_defs(Liste l)
 }
 
 
-int main(int argc, char* argv[])
-{	
+Liste read_dico(char* fichier)
+{
 	Liste l = creer_liste();
 	char chaine[MAXSTR];
 	char* token;
-	FILE* fp = fopen(argv[1], "r");
-	if (!fp) return 1;
+	FILE* fp = fopen(fichier, "r");
+	if (!fp) return CMD_UNKOWN_RETURN_VALUE;
 
 	fgets(chaine, MAXSTR, fp);
 	
@@ -145,13 +145,79 @@ int main(int argc, char* argv[])
 		
 		}
 	}
-
-
-
-	visualiser(l);
 	fclose(fp);
-	del_defs(l);
+	return l;
+}
 
+definition find_def(Liste dico, instruc mot)
+{
+	int masque;
+	int signature;
+	
+	while(dico)
+	{	
+		masque = dico->val->masq;
+		signature = dico->val->sign;
+		
+		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
+
+		if ( (mot.code&masque) == signature ) return dico->val;
+		dico=dico->suiv;
+	}
+	return NULL;
+}
+
+
+int swap_mot(int mot)
+{	int res=0;
+	res = ((mot&0xff000000)>>24) + ((mot&0x00ff0000)>>8) + ((mot&0x0000ff00)<<8) + ((mot&0x000000ff)<<24);
+	return res;
+}
+
+
+
+int main(int argc, char* argv[])
+{	
+
+DEBUG_MSG("");
+	Liste dico = NULL;
+	if (!(dico =  read_dico(argv[1]) ) ) return 1;
+	/*int masque;
+	int signature;
+
+	union inst_poly mot;
+	
+	
+	if(mot.r.op == 0) DEBUG_MSG(" Type R ");
+
+	while(dico)
+	{	
+		masque = dico->val->masq;
+		signature = dico->val->sign;
+		
+		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
+
+		if ( (mot.code&masque) == signature ) DEBUG_MSG("ADD");
+		
+		dico=dico->suiv;
+	}*/
+	instruc mot;
+	mot.code = 0x00641020;
+	definition def = find_def(dico, mot);
+	if (!def) return 1;
+	detail_def(def);
+
+	DEBUG_MSG("0x%08x", mot.code);
+	if (def->type == 'R')
+	{	DEBUG_MSG("0x%08x", mot.code);
+		DEBUG_MSG(" 0x%08x 0x%08x 0x%08x ",mot.r.rd, mot.r.rt, mot.r.rs);
+	}
+
+
+	DEBUG_MSG("swap(0x%08x) = 0x%08x", mot.code,swap_mot(mot.code));
+	
+	//visualiser(dico);
+	del_defs(dico);
 	return 0;
 }
 
