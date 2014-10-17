@@ -5,7 +5,7 @@
 #include "elf.h"
 #include "emulateur.h"
 #include "reg.h"
-
+#include "dico.h"
 
 
 ////////////////////////////////
@@ -16,9 +16,9 @@ int exitcmd(interpreteur inter, mem memory, registre* reg);
 int loadcmd(char* fichier, mem memory, registre* reg);
 int dispcmd(interpreteur inter, mem memory, registre* reg);
 
-int disasm(mem memory, int adrr, int val, char* res);
-int disasm_(interpreteur inter, mem memory, registre* reg, int debut, int fin);
-int disasmcmd(interpreteur inter, mem memory, registre* reg);
-int swap_mot(int mot);
+int disasm(mem memory, int adrr, int val, Liste dico);
+int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico);
+int disasmcmd(interpreteur, mem memory, registre* reg, Liste dico);
+
 
 #endif

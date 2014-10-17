@@ -17,7 +17,7 @@
 #include "cmd.h"
 #include "is_.h"
 #include "emulateur.h"
-
+#include "dico.h"
 
 /**
 *
@@ -41,7 +41,9 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg) {
             || cmdStr[0] == '#') { /* ligne commence par # => commentaire*/
         return CMD_OK_RETURN_VALUE;
     }
-	
+	INFO_MSG("Chargement du dictionnaire d'instructions");
+	Liste dico =  read_dico("./src/dico/dico.txt");
+	INFO_MSG("Dictionnaire d'instructions chargé");
 	//if (is_conform_line(inter) != CMD_OK_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
     /*on identifie la commande avec un premier appel à get_next_token*/
 	//DEBUG_MSG("ok");
@@ -71,7 +73,7 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg) {
 	}
 
 	if(strcmp(token, "disasm") == 0){
-		return disasmcmd(inter, memory, reg);
+		return disasmcmd(inter, memory, reg, dico);
 	}
 	
 		WARNING_MSG("Unknown Command : '%s'\n", cmdStr);

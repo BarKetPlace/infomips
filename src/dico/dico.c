@@ -148,7 +148,8 @@ Liste read_dico(char* fichier)
 	fclose(fp);
 	return l;
 }
-
+//On va trouver l'instruction qui correspond au mot code stocke en memoire
+//Cette fonction repose sur la comparaison entre le code masqué et la signature
 definition find_def(Liste dico, instruc mot)
 {
 	int masque;
@@ -167,21 +168,23 @@ definition find_def(Liste dico, instruc mot)
 	return NULL;
 }
 
-
+//Inverse tout les octets d'un entier
 int swap_mot(int mot)
 {	int res=0;
 	res = ((mot&0xff000000)>>24) + ((mot&0x00ff0000)>>8) + ((mot&0x0000ff00)<<8) + ((mot&0x000000ff)<<24);
 	return res;
 }
 
+//Affichage de l'instruction desassemblée
 void print_disasm(definition def, instruc mot)
 {
 	char* token;
 	char* delim = " ";
 	int i;
-	
+	//DEBUG_MSG("");
 	if (def->type == 'R')
-	{	printf("%s ",def->nom);
+	{	//DEBUG_MSG("");
+		printf("%s ",def->nom);
 		token = strtok(def->nom_op, delim);
 		for (i=0;i<def->nb_op;i++)
 		{
@@ -197,13 +200,13 @@ void print_disasm(definition def, instruc mot)
 		printf("\n");
 	}
 }
-
+/*
 int main(int argc, char* argv[])
 {	
 
-	
 	Liste dico = NULL;
-	if (!(dico =  read_dico(argv[1]) ) ) return 1;
+	if (!(dico =  read_dico("./src/dico/dico.txt") ) ) return 1;
+
 	char* token;
 	char* delim = " ";
 	instruc mot;
@@ -223,7 +226,8 @@ int main(int argc, char* argv[])
 	//visualiser(dico);
 	del_defs(dico);
 	return 0;
-}
+
+}*/
 
 
 

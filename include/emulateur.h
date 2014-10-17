@@ -45,7 +45,7 @@ int is_hexa(char* chaine);
 int get_type(char* chaine);
 int _testcmd(int hexValue);
 
-int execute_cmd(interpreteur inter, mem memory, registre* reg);
+//int execute_cmd(interpreteur inter, mem memory, registre* reg);
 void string_standardise( char* in, char* out );
 int  acquire_line(FILE *fp, interpreteur inter);
 void usage_ERROR_MSG( char *command );

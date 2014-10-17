@@ -13,28 +13,35 @@
 #include "section.h"
 #include "reg.h"
 #include "is_.h"
+#include "dico.h"
 
 
 
-
-int disasm(mem memory, int adrr, int val, char* res)
-{	int val_swapped = swap_mot(val);
+int disasm(mem memory, int adrr, int val, Liste dico)
+{	//int val_swapped = swap_mot(val);
 	//printf("swap(0x%08x) = 0x%08x\n",val, val_swapped );
 	
-	//printf("0x%08x: 0x%08x %s\n",adrr, val, res);
+	printf("0x%08x: 0x%08x ",adrr, val);
+	instruc mot;
+	mot.code=val;	
+	definition def = find_def(dico, mot);
+
+	if (!def) return CMD_UNKOWN_RETURN_VALUE;//Si def == NULL
+	//detail_def(def);
+	print_disasm(def, mot);
 
 	return CMD_OK_RETURN_VALUE;
 }
 
 
-int disasm_(interpreteur inter, mem memory, registre* reg, int debut, int fin)
+int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 {	int i;
 	char res[MAX_STR];
 	int val = find_val(memory, debut);
 
 	if (fin-debut<4)
 	{	
-		if (disasm(memory, debut ,val , res )) //Si il y a eu un probleme
+		if (disasm(memory, debut ,val , dico)) //Si il y a eu un probleme
 		{ 
 			WARNING_MSG("Erreur de desassemblage a l'adresse : 0x%08x",debut);
 			return CMD_UNKOWN_RETURN_VALUE;
@@ -59,7 +66,7 @@ int disasm_(interpreteur inter, mem memory, registre* reg, int debut, int fin)
 	return CMD_OK_RETURN_VALUE;
 }
 
-int disasmcmd(interpreteur inter, mem memory, registre* reg)
+int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 {	
 	char* token;
 	char* res[MAX_STR];
@@ -86,7 +93,7 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg)
 					WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 					return CMD_UNKOWN_RETURN_VALUE;
 				}
-				return disasm_(inter, memory, reg, debut, fin);
+				return disasm_(memory, reg, debut, fin, dico);
 			}
 			WARNING_MSG(" Usage disasm HEXA:HEXA ");
 		}
@@ -103,14 +110,14 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg)
 					return CMD_UNKOWN_RETURN_VALUE;
 				}
 				
-				return disasm_(inter, memory, reg, debut, debut+decalage);
+				return disasm_(memory, reg, debut, debut+decalage, dico);
 			}
 			WARNING_MSG(" Usage disasm HEXA+val ");
 		}
 		else { //disasm HEXA
 			DEBUG_MSG("");
 			//printf("0x%08x",debut);
-			if (!disasm(memory,debut , find_val(memory, debut),res)) return CMD_UNKOWN_RETURN_VALUE;
+			if (!disasm(memory,debut , find_val(memory, debut), dico)) return CMD_UNKOWN_RETURN_VALUE;
 			
 			return CMD_OK_RETURN_VALUE ;
 		}
