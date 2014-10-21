@@ -14,12 +14,12 @@
 #include "reg.h"
 #include "is_.h"
 
-int setcmd(interpreteur inter, mem memory, registre *reg, int adresse)
+int setcmd(interpreteur inter, mem memory, registre *reg)
 
 {
 	char *token=get_next_token(inter);
 	char *r;
-	int j;
+	int j, adresse;
 	if (token == NULL) //set (null)
 	{
 		WARNING_MSG("Missing arguments");
@@ -143,10 +143,9 @@ int setcmd(interpreteur inter, mem memory, registre *reg, int adresse)
 		return CMD_UNKOWN_RETURN_VALUE;
 	}
 	return CMD_OK_RETURN_VALUE;
-<<<<<<< HEAD
-	}
-		*/
 
 }
 		
->>>>>>> 9b5713b6191d23620af3961e8b9d7914804da1ab
+
+
+

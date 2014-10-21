@@ -15,11 +15,11 @@
 #include "is_.h"
 
 
-int assertcmd(interpreteur inter, mem memory, registre *reg, uint adresse)
+int assertcmd(interpreteur inter, mem memory, registre *reg)
 {
 	char *token=get_next_token(inter);
 	char* r;
-	int j;
+	int j, adresse;
 	int val_f_r, val_f_a;
 	int val_t_a, val_t_r;
 
@@ -97,6 +97,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg, uint adresse)
 
 		else if (is_adresse(token)) //assert word or byte <adresse>
 		{	
+			sscanf(token, "%x", &adresse);
 			token = get_next_token(inter);
 
 			if (token == NULL) //assert word or byte <adresse> (null)

@@ -63,11 +63,11 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico) {
 		return dispcmd(inter, memory, reg);
 	}
 	if(strcmp(token, "set") == 0){
-		return CMD_OK_RETURN_VALUE;
+		return setcmd(inter, memory, reg);
 	}
 	
 	if(strcmp(token, "assert") == 0){
-		return CMD_OK_RETURN_VALUE;
+		return assertcmd(inter, memory, reg);
 	}
 
 	if(strcmp(token, "disasm") == 0){
