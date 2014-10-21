@@ -14,7 +14,7 @@
 #include "reg.h"
 #include "is_.h"
 
-
+/*
 int assertcmd(interpreteur inter, mem memory, registre *reg, uint adresse)
 {
 	char *token=get_next_token(inter);
@@ -132,4 +132,4 @@ int assertcmd(interpreteur inter, mem memory, registre *reg, uint adresse)
 		return CMD_UNKOWN_RETURN_VALUE;
 	}
 	return CMD_OK_RETURN_VALUE;
-	}
+	}*/

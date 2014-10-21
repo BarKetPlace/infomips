@@ -14,7 +14,7 @@
 #include "reg.h"
 #include "is_.h"
 
-
+/*
 int setcmd(interpreteur inter, mem memory, registre *reg, uint *adresse)
 {
 	char *token=get_next_token(inter);
@@ -142,4 +142,4 @@ int setcmd(interpreteur inter, mem memory, registre *reg, uint *adresse)
 	}
 	return CMD_OK_RETURN_VALUE;
 	}
-		
+		*/

@@ -13,7 +13,8 @@ Liste creer_liste(void){return NULL;}
 int est_vide(Liste l){ return (!l);}
 
 void visualiser(Liste l)
-{	while ( !est_vide(l) ) 
+{	if (!l) printf("Liste Vide	\n");
+	while ( !est_vide(l) ) 
 	{	//DEBUG_MSG("");
 		detail_def(l->val);
 		l=l->suiv;
@@ -151,21 +152,35 @@ Liste read_dico(char* fichier)
 //On va trouver l'instruction qui correspond au mot code stocke en memoire
 //Cette fonction repose sur la comparaison entre le code masqué et la signature
 definition find_def(Liste dico, instruc mot)
-{
+{	definition res =NULL;
+	Liste dico_1 = NULL;
+	dico_1 = dico;
+	//visualiser(dico_1);
+	
 	int masque;
 	int signature;
-	
-	while(dico)
-	{	
-		masque = dico->val->masq;
-		signature = dico->val->sign;
+	//DEBUG_MSG("%08x", mot.code);
+	if (!dico_1) DEBUG_MSG("");
+	//visualiser(dico);
+	while (dico)
+	{	//visualiser(dico);printf("\n");
+		masque = dico->val->masq;DEBUG_MSG("");
+		signature = dico->val->sign;DEBUG_MSG("");
 		
-		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
+		DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
 
-		if ( (mot.code&masque) == signature ) return dico->val;
+		if ( (mot.code&masque) == signature )  {
+			dico = dico_1;	
+			//detail_def(dico->val);
+			res = dico->val;
+			
+			break;
+		}
+		//DEBUG_MSG("");
 		dico=dico->suiv;
 	}
-	return NULL;
+	dico = dico_1;
+	return res;
 }
 
 //Inverse tout les octets d'un entier
@@ -181,9 +196,9 @@ void print_disasm(definition def, instruc mot)
 	char* token;
 	char* delim = " ";
 	int i;
-	DEBUG_MSG("");
+	//DEBUG_MSG("");
 	if (def->type == 'R')
-	{	DEBUG_MSG("");
+	{	//DEBUG_MSG("");
 		printf("%s ",def->nom);
 		token = strtok(def->nom_op, delim);
 		for (i=0;i<def->nb_op;i++)
@@ -197,8 +212,9 @@ void print_disasm(definition def, instruc mot)
 			if ( !strcmp(token, "rt") ) printf("$%d ",mot.r.rt);
 			token = strtok(NULL, delim);
 		}
-		printf("\n");
+		
 	}
+	printf("\n");
 }
 /*
 int main(int argc, char* argv[])

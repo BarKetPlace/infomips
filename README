@@ -17,5 +17,5 @@ Lancement en mode script:
 Lancement des fichiers tests:
 ./main ./tests/<fichier test>
 
-Suppression des fichiers objets (sauf ./elf/boucle.o )
+Suppression des fichiers objets (sauf ./elf/*.o )
 make clean
