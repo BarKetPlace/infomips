@@ -14,10 +14,12 @@
 #include "reg.h"
 #include "is_.h"
 
+
 int assertcmd(interpreteur inter, mem memory, registre *reg, uint adresse)
 {
 	char *token=get_next_token(inter);
 	int valf;
+
 	if (token == NULL) //set (null)
 	{
 		WARNING_MSG("Missing arguments");
@@ -57,7 +59,9 @@ int assertcmd(interpreteur inter, mem memory, registre *reg, uint adresse)
 
 
 			
+
 			find_val(memory, adresse);
+
 
 
 			}
@@ -111,6 +115,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg, uint adresse)
 			}
 
 			else 
+
 			{	
 				WARNING_MSG("Wrong argument: must be <valeur>");
 				return CMD_UNKOWN_RETURN_VALUE;
