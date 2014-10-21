@@ -102,7 +102,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg, uint adresse)
 				return CMD_UNKOWN_RETURN_VALUE;
 			}
 			token = get_next_token(inter);
-
+			truc
 			else if (is_valeur(token)) //assert word or byte adresse valeur
 			{
 			
