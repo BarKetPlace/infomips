@@ -76,3 +76,13 @@ int nom_indice(char* nom)
 {
 		
 }
+
+int transf_reg(registre *reg, char* nom_reg )
+{
+	int i;
+	for(i=0;i<NBREG;i++)
+	{
+		if (!strcmp(reg[i].nom,nom_reg) ) {return i;}
+	}	
+	return -1;
+}
