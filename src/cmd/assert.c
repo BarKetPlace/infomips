@@ -14,7 +14,7 @@
 #include "reg.h"
 #include "is_.h"
 
-int assertcmd(interpreteur inter, mem memory, registre *reg, uint *adresse)
+int assertcmd(interpreteur inter, mem memory, registre *reg, uint adresse)
 {
 	char *token=get_next_token(inter);
 	if (token == NULL) //set (null)
@@ -98,13 +98,13 @@ int assertcmd(interpreteur inter, mem memory, registre *reg, uint *adresse)
 			}
 			token = get_next_token(inter);
 
-			else if (is_valeur(token)) //assert reg registre valeur
+			else if (is_valeur(token)) //assert word or byte adresse valeur
 			{
-			//...
+			
 
 
 			
-			find_val(mem memory, int adresse);
+			find_val(memory, adresse);
 
 
 			}
