@@ -107,11 +107,13 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 	}
 
 	else if (!strcmp(token,"reg"))//disp reg
-	{	if (reg == NULL) WARNING_MSG("Registres non-chargés");
+	{	//DEBUG_MSG("");
+		if (reg == NULL) WARNING_MSG("Registres non-chargés");
 			
 		token = get_next_token(inter);
 		if (!token) {WARNING_MSG("Missing arguments"); return CMD_UNKOWN_RETURN_VALUE;}
-		if(strcmp(token,"all")) { //disp reg all
+		if(!strcmp(token,"all")) { //disp reg all
+			//DEBUG_MSG("");
 			print_tab_reg(reg); 
 			return CMD_OK_RETURN_VALUE; 
 		}

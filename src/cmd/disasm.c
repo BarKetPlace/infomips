@@ -44,7 +44,7 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 	int tmp=10;
 	//DEBUG_MSG("");
 	if (fin-debut<4)
-	{	tmp = disasm(memory, i ,val , dico);
+	{	tmp = disasm(memory, debut ,val , dico);
 		if (tmp != CMD_OK_RETURN_VALUE) //Si il y a eu un probleme
 		{ 	
 			WARNING_MSG("Erreur de desassemblage à l'adresse : 0x%08x",debut);
@@ -58,14 +58,14 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 	
 	for (i=debut;i<fin;i+=4)
 	{	val = find_val(memory, i );
-		DEBUG_MSG("0x%08x: 0x%08x",i, val);
+		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
 		tmp = disasm(memory, i ,val , dico);
-		DEBUG_MSG(" %d ",tmp);
+		//DEBUG_MSG(" %d ",tmp);
 		if ( tmp != CMD_OK_RETURN_VALUE ){
 			WARNING_MSG("Erreur de desassemblage a l'adresse : 0x%08x",i);
 			return CMD_UNKOWN_RETURN_VALUE;
 		}
-		DEBUG_MSG(" ");
+		//DEBUG_MSG(" ");
 		//printf("0x%08x: 0x%08x %s\n",i, val, res);
 	}
 	
@@ -116,7 +116,7 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 					WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 					return CMD_UNKOWN_RETURN_VALUE;
 				}
-				DEBUG_MSG("");
+				//DEBUG_MSG("");
 				return disasm_(memory, reg, debut, debut+decalage, dico);
 			}
 			WARNING_MSG(" Usage disasm HEXA+val ");
