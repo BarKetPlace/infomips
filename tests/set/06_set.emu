@@ -1,0 +1,8 @@
+#-------
+#TEST_RETURN_CODE=FAIL           
+#TEST_COMMENT="Teste fonctionnement standard"
+#-------
+
+load ./elf/boucle.o
+
+set mem word 0x5000 0xAAFFBBDD 0xBEE 
