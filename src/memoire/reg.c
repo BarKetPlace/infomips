@@ -82,7 +82,9 @@ int transf_reg(registre *reg, char* nom_reg )
 	int i;
 	for(i=0;i<NBREG;i++)
 	{
-		if (!strcmp(reg[i].nom,nom_reg) ) {return i;}
+		//puts(reg[i].nom);
+		//puts(nom_reg+1);
+		if (!strcmp(reg[i].nom,nom_reg+1) ) {return i;}
 	}	
 	return -1;
 }

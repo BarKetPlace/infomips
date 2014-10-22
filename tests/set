@@ -1,29 +1,7 @@
 load ./elf/boucle.o
 
-#registres
-#Erreur de syntaxe
-set reg v0 200
-#registre inexistant
-set reg v3 200
-#Correcte
-set reg $v0 0x45
-set reg $v1 34
-
-#trop d'arguments
-#argument en plus
-set reg $v0 34 4
-set mem word 0x5000 0xAAFFBBDD 0xBEE 
-
-#memoire
-#Erreur de syntaxe
-set mem wor 0x5000 0xAAFFBBDD
-set mem word 5000 0xAAFFBBDD
-set mem word 0x5000 AAFFBBDD
-#correcte
-set mem word 0x5000 0xAAFFBBDD
-#correcte
-set mem byte 0x5000 0xAAFFBBDD
-#case memoire trop elevée
-set mem word 0xffffff00 0xAAFFBBDD
-
-exit
+set reg $t1 25
+assert reg $t1 25
+assert reg $t1 0x19
+assert reg $t1 45
+assert reg $t1 0x18

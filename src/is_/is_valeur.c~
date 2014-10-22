@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-
+#include "is_.h"
 
 int is_valeur(char* chaine) 
 {
