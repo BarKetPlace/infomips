@@ -29,7 +29,8 @@ typedef struct {
 	char nom[6];
 	char type;
 	int nb_op;
-	char nom_op[MAXSTR];
+//	char nom_op[MAXSTR];
+	char* nom_op[4]; // MAXOP -> nombre max d'op
 }* definition;
 
 

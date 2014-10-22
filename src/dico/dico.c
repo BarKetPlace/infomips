@@ -88,7 +88,10 @@ Liste copie(Liste l)
 }
 
 void detail_def(definition def)
-{	printf("0x%08x\t0x%08x\t%s\t%c\t%d\t%s\n",def->sign, def->masq, def->nom, def->type, def->nb_op, def->nom_op);
+{	int i;	
+	printf("0x%08x\t0x%08x\t%s\t%c\t%d\t",def->sign, def->masq, def->nom, def->type, def->nb_op);
+	for(i=0;i<def->nb_op;i++) printf("%s ",def->nom_op[i]);
+	printf("\n");
 }
 
 void del_defs(Liste l)
@@ -104,7 +107,8 @@ Liste read_dico(char* fichier)
 {
 	Liste l = creer_liste();
 	char chaine[MAXSTR];
-	char* token;
+	char* token, token2;
+	int i;
 	FILE* fp = fopen(fichier, "r");
 	if (!fp) return CMD_UNKOWN_RETURN_VALUE;
 
@@ -136,9 +140,25 @@ Liste read_dico(char* fichier)
 		sscanf(token, "%d", &def->nb_op);//Lecture & ecriture du nb d'opérande
 
 		token = strtok(NULL, "\n\0") ;
+		puts(token);
 		
-		strcpy(def->nom_op, token); //Lecture & ecriture de la syntaxe des opérande
+		//strcpy(def->nom_op, token); 
 		//puts(def->nom_op);
+
+		//Lecture & ecriture de la syntaxe des opérandes
+		// pour i < nb_op, token = strtok(token)
+		// def->nom_op[i] = strdup(token);
+
+		token = strtok(token, " \n");
+		
+		//DEBUG_MSG("");
+		for(i=0;i<def->nb_op;i++)
+		{	
+			
+			def->nom_op[i] = strdup(token);//DEBUG_MSG("");
+			token = strtok(NULL, " \n");
+		}
+			
 		
 		l = ajout_tete(def, l);//On ajoute la définition au dictionnaire
 		
@@ -193,23 +213,28 @@ int swap_mot(int mot)
 //Affichage de l'instruction desassemblée
 void print_disasm(definition def, instruc mot)
 {
-	char* token;
+	char* token=NULL;
 	char* delim = " ";
 	int i;
+	char tempo[MAXSTR];
+	tempo[0]='\0';
+	
 	//DEBUG_MSG("");
 	if (def->type == 'R')
-	{	//DEBUG_MSG("");
+	{	DEBUG_MSG("");
 		printf("%s ",def->nom);
-		token = strtok(def->nom_op, delim);
+		strcpy(tempo,def->nom_op);
+		token = strtok(tempo, delim) ;
 		for (i=0;i<def->nb_op;i++)
 		{
 			//DEBUG_MSG("0x%08x", mot.code);
 			//DEBUG_MSG(" 0x%08x 0x%08x 0x%08x ",mot.r.rd, mot.r.rt, mot.r.rs);
 			
 			//DEBUG_MSG("%s",token);
-			if ( !strcmp(token, "rd") ) printf("$%d ",mot.r.rd);
-			if ( !strcmp(token, "rs") ) printf("$%d ",mot.r.rs);
-			if ( !strcmp(token, "rt") ) printf("$%d ",mot.r.rt);
+			if ( !strcmp(def->nom_op[i], "rd") ) printf("$%d ",mot.r.rd);
+			if ( !strcmp(def->nom_op[i], "rt") ) printf("$%d ",mot.r.rt);
+			if ( !strcmp(def->nom_op[i], "rs") ) printf("$%d ",mot.r.rs);
+			//if ( !strcmp(token, "rt") ) printf("$%d ",mot.r.rt);
 			token = strtok(NULL, delim);
 		}
 		
@@ -217,8 +242,21 @@ void print_disasm(definition def, instruc mot)
 	else if (def->type == 'I')
 	{
 		printf("%s ",def->nom);
+		
 		token = strtok(def->nom_op, delim);
-		DEBUG_MSG("%s",token);
+		for (i=0;i<def->nb_op;i++)
+		{
+			//DEBUG_MSG("0x%08x", mot.code);
+			//DEBUG_MSG(" 0x%08x 0x%08x 0x%08x ",mot.r.rd, mot.r.rt, mot.r.rs);
+			
+			//DEBUG_MSG("%s",token);
+			if ( !strcmp(def->nom_op[i], "rt") ) printf("$%d ",mot.i.rt);
+			if ( !strcmp(def->nom_op[i], "rs") ) printf("$%d ",mot.i.rs);
+			if ( !strcmp(def->nom_op[i], "imm") ) printf("%d ",mot.i.imm);
+			token = strtok(NULL, delim);
+		}
+		DEBUG_MSG("");
+		//DEBUG_MSG("%s",token);
 	}
 	printf("\n");
 }
@@ -237,15 +275,15 @@ int main(int argc, char* argv[])
 	//On va trouver l'instruction qui correspond au mot code stocke en memoire
 	definition def = find_def(dico, mot);
 	if (!def) return 1;
-	detail_def(def);
+	//detail_def(def);
 
 	DEBUG_MSG("0x%08x", mot.code);
-	print_disasm(def, mot);
+	//print_disasm(def, mot);
 
 
 	//DEBUG_MSG("swap(0x%08x) = 0x%08x", mot.code,swap_mot(mot.code));
 	
-	//visualiser(dico);
+	visualiser(dico);
 	del_defs(dico);
 	return 0;
 
