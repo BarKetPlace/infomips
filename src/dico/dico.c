@@ -164,10 +164,10 @@ definition find_def(Liste dico, instruc mot)
 	//visualiser(dico);
 	while (dico)
 	{	//visualiser(dico);printf("\n");
-		masque = dico->val->masq;DEBUG_MSG("");
-		signature = dico->val->sign;DEBUG_MSG("");
+		masque = dico->val->masq;//DEBUG_MSG("");
+		signature = dico->val->sign;//DEBUG_MSG("");
 		
-		DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
+		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
 
 		if ( (mot.code&masque) == signature )  {
 			dico = dico_1;	
