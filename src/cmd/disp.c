@@ -111,7 +111,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 			
 		token = get_next_token(inter);
 		if (!token) {WARNING_MSG("Missing arguments"); return CMD_UNKOWN_RETURN_VALUE;}
-		if(strcmp(token,"all")) { //disp reg all
+		if(!strcmp(token,"all")) { //disp reg all
 			print_tab_reg(reg); 
 			return CMD_OK_RETURN_VALUE; 
 		}

@@ -39,6 +39,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 			return CMD_UNKOWN_RETURN_VALUE;
 		}
 		token = get_next_token(inter);
+		DEBUG_MSG("ok");
 		
 		if (token == NULL) //assert reg (null)
 		{
@@ -48,7 +49,9 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 
 		else if ((is_registre(token))!=-1) //assert reg <registre>
 		{	
+			DEBUG_MSG("ok av");
 			sscanf(token, "%s", &r);
+			DEBUG_MSG("ok apr");
 			token = get_next_token(inter);
 
 			if (token == NULL) //assert reg <registre> (null)
@@ -61,6 +64,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 			if (is_valeur(token)) //assert reg registre valeur
 			{
 				//val_f_r=reg.val;
+				DEBUG_MSG("ok");
 				sscanf(token, "%x", &val_t_r);
 				j=transf_reg(reg, r);
 				if (val_t_r==reg[j].val) {return CMD_OK_RETURN_VALUE;}
@@ -88,6 +92,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 			return CMD_UNKOWN_RETURN_VALUE;
 		}
 		token = get_next_token(inter);
+		DEBUG_MSG("ok");
 		
 		if (token == NULL) //assert word or byte (null)
 		{
@@ -97,6 +102,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 
 		else if (is_adresse(token)) //assert word or byte <adresse>
 		{	
+			DEBUG_MSG("ok")
 			sscanf(token, "%x", &adresse);
 			token = get_next_token(inter);
 
@@ -105,6 +111,9 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 				WARNING_MSG("Missing arguments <valeur>");
 				return CMD_UNKOWN_RETURN_VALUE;
 			}
+			
+			DEBUG_MSG("ok");
+
 			token = get_next_token(inter);
 	
 			if (is_valeur(token)) //assert word or byte <adresse> <valeur>

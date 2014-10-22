@@ -9,7 +9,10 @@ set reg v3 200
 set reg $v0 0x45
 set reg $v1 34
 
-
+#trop d'arguments
+#argument en plus
+set reg $v0 34 4
+set mem word 0x5000 0xAAFFBBDD 0xBEE 
 
 #memoire
 #Erreur de syntaxe

@@ -18,6 +18,8 @@ set mem word 5000 0xAAFFBBDD
 set mem word 0x5000 AAFFBBDD
 #correcte
 set mem word 0x5000 0xAAFFBBDD
+#correcte
+set mem byte 0x5000 0xAAFFBBDD
 #case memoire trop elevée
 set mem word 0xffffff00 0xAAFFBBDD
 
