@@ -20,7 +20,7 @@
 int disasm(mem memory, int adrr, int val, Liste dico)
 {	//int val_swapped = swap_mot(val);
 	//printf("swap(0x%08x) = 0x%08x\n",val, val_swapped );
-	
+	DEBUG_MSG(" 0x%08x: 0x%08x ",adrr, val);
 	printf("0x%08x: 0x%08x ",adrr, val);
 	instruc mot;
 	mot.code=val;	
@@ -28,11 +28,9 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 	definition def =NULL;
 	def = find_def(dico, mot);
 	//DEBUG_MSG("");
-	if (!def)  {printf("\n"); return CMD_EXIT_RETURN_VALUE;}//Si def == NULL
+	if (!def)  {ERROR_MSG(" Instruction inconnue "); return CMD_EXIT_RETURN_VALUE;}//Si def == NULL
 	//detail_def(def);
 	print_disasm(def, mot);
-
-	return CMD_OK_RETURN_VALUE;
 }
 
 
@@ -59,7 +57,7 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 	{	val = find_val(memory, i );
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
 		tmp = disasm(memory, i ,val , dico);
-		//DEBUG_MSG(" %d ",tmp);
+		//DEBUG_MSG(" %d %d",tmp,i);
 		if ( tmp != CMD_OK_RETURN_VALUE ){
 			WARNING_MSG("Erreur de desassemblage a l'adresse : 0x%08x",i);
 			return CMD_EXIT_RETURN_VALUE;

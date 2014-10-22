@@ -87,13 +87,6 @@ Liste copie(Liste l)
 	return q;
 }
 
-void del_liste(Liste l)
-{
-	while(l)
-	{
-		
-	}
-}
 
 void detail_def(definition def)
 {	int i;	
@@ -245,7 +238,6 @@ void print_disasm(definition def, instruc mot)
 			//if ( !strcmp(token, "rt") ) printf("$%d ",mot.r.rt);
 			token = strtok(NULL, delim);
 		}
-		
 	}
 	else if (def->type == 'I')
 	{
@@ -265,6 +257,15 @@ void print_disasm(definition def, instruc mot)
 		}
 		DEBUG_MSG("");
 		//DEBUG_MSG("%s",token);
+	}
+	else if (def->type == 'J')
+	{	puts(token);
+		printf("%s ",def->nom);
+		token = strtok(def->nom_op, delim);
+		
+		if ( !strcmp(def->nom_op[i], "target") ) printf("0x%08x ",token);
+		else ERROR_MSG("Erreur dictionnaire: type J -> op=target");
+		
 	}
 	printf("\n");
 }
