@@ -87,6 +87,14 @@ Liste copie(Liste l)
 	return q;
 }
 
+void del_liste(Liste l)
+{
+	while(l)
+	{
+		
+	}
+}
+
 void detail_def(definition def)
 {	int i;	
 	printf("0x%08x\t0x%08x\t%s\t%c\t%d\t",def->sign, def->masq, def->nom, def->type, def->nb_op);
@@ -94,7 +102,7 @@ void detail_def(definition def)
 	printf("\n");
 }
 
-void del_defs(Liste l)
+void del_dico(Liste l)
 {
 	while (l)
 	{	
@@ -251,8 +259,8 @@ void print_disasm(definition def, instruc mot)
 			
 			//DEBUG_MSG("%s",token);
 			if ( !strcmp(def->nom_op[i], "rt") ) printf("$%d ",mot.i.rt);
-			if ( !strcmp(token, "rs") ) printf("$%d ",mot.i.rs);
-			if ( !strcmp(token, "imm") ) printf("%d ",mot.i.imm);
+			if ( !strcmp(def->nom_op[i], "rs") ) printf("$%d ",mot.i.rs);
+			if ( !strcmp(def->nom_op[i], "imm") ) printf("%d ",mot.i.imm);
 			token = strtok(NULL, delim);
 		}
 		DEBUG_MSG("");

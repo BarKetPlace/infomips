@@ -1,0 +1,20 @@
+#-------
+#TEST_RETURN_CODE=FAIL           
+#TEST_COMMENT="Teste fonctionnement standard"
+#-------
+
+load ./elf/boucle.o
+
+diasmsm
+
+disasm
+disasm 23
+disasm 0x12
+disasm 0x12:
+
+disasm 0xffffff00
+
+
+
+
+disasm 0xffffff00

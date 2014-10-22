@@ -54,7 +54,7 @@ Liste copie(Liste l);
 
 int lecture_dico(char* fichier, Liste l);
 void detail_def(definition def);
-void del_defs(Liste l);
+void del_dico(Liste l);
 Liste read_dico(char* fichier);
 
 int swap_mot(int mot);

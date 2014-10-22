@@ -87,6 +87,7 @@ Liste copie(Liste l)
 	return q;
 }
 
+
 void detail_def(definition def)
 {	int i;	
 	printf("0x%08x\t0x%08x\t%s\t%c\t%d\t",def->sign, def->masq, def->nom, def->type, def->nb_op);
@@ -94,7 +95,7 @@ void detail_def(definition def)
 	printf("\n");
 }
 
-void del_defs(Liste l)
+void del_dico(Liste l)
 {
 	while (l)
 	{	
