@@ -120,7 +120,7 @@ int main ( int argc, char *argv[] ) {
 	INFO_MSG("Chargement du dictionnaire d'instructions");
 	Liste dico =  read_dico("./src/dico/dico.txt");
 	INFO_MSG("Dictionnaire d'instructions chargé");
-	//visualiser(dico);
+	visualiser(dico);
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {
 
@@ -141,6 +141,9 @@ int main ( int argc, char *argv[] ) {
                     fclose( fp );
                 }
                 del_inter(inter);
+		del_mem(memory);INFO_MSG("Liberation memoire");	
+		del_reg(reg);INFO_MSG("Liberation des registres");
+		del_dico;INFO_MSG("Liberation du dictionnaire d'instructions");
                 exit(EXIT_SUCCESS);
                 break;
 			case CMD_UNKOWN_RETURN_VALUE:
@@ -151,9 +154,12 @@ int main ( int argc, char *argv[] ) {
                 if (inter->mode == SCRIPT) {
                     fclose( fp );
                     del_inter(inter);
-					
+			del_mem(memory);INFO_MSG("Liberation memoire");	
+			del_reg(reg);INFO_MSG("Liberation des registres");
+			del_dico;INFO_MSG("Liberation du dictionnaire d'instructions");	
                    //macro ERROR_MSG : message d'erreur puis fin de programme ! 
                     ERROR_MSG("ERREUR DETECTEE. Aborts");
+			exit(EXIT_SUCCESS);
                 }
                 break;
             }
@@ -164,8 +170,9 @@ int main ( int argc, char *argv[] ) {
             DEBUG_MSG("FIN DE FICHIER");
             fclose( fp );
             del_inter(inter);
-			del_mem(memory);INFO_MSG("Liberation memoire");
-			del_reg(reg);INFO_MSG("Liberation des registres");
+		del_mem(memory);INFO_MSG("Liberation memoire");
+		del_reg(reg);INFO_MSG("Liberation des registres");
+		del_dico;INFO_MSG("Liberation du dictionnaire d'instructions");
             exit(EXIT_SUCCESS);
         }
     }

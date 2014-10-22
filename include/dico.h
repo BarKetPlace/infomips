@@ -29,7 +29,8 @@ typedef struct {
 	char nom[6];
 	char type;
 	int nb_op;
-	char nom_op[MAXSTR];
+//	char nom_op[MAXSTR];
+	char* nom_op[4]; // MAXOP -> nombre max d'op
 }* definition;
 
 
@@ -53,7 +54,7 @@ Liste copie(Liste l);
 
 int lecture_dico(char* fichier, Liste l);
 void detail_def(definition def);
-void del_defs(Liste l);
+void del_dico(Liste l);
 Liste read_dico(char* fichier);
 
 int swap_mot(int mot);

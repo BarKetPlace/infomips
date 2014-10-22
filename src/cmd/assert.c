@@ -17,8 +17,10 @@
 
 int assertcmd(interpreteur inter, mem memory, registre *reg)
 {
+
 	char *token=get_next_token(inter);
 	char r[128];
+
 	int j, adresse;
 	int val_f_r, val_f_a;
 	int val_t_a, val_t_r=0;
@@ -168,5 +170,6 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 	DEBUG_MSG("ok");
 	return CMD_OK_RETURN_VALUE;
 
+return 0;
 }
 
