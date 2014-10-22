@@ -27,7 +27,6 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 	//DEBUG_MSG("");
 	definition def =NULL;
 	def = find_def(dico, mot);
-	//detail_def(def);
 	//DEBUG_MSG("");
 	if (!def)  {printf("\n"); return CMD_UNKOWN_RETURN_VALUE;}//Si def == NULL
 	//detail_def(def);

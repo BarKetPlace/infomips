@@ -169,17 +169,17 @@ definition find_def(Liste dico, instruc mot)
 		
 		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
 
-		if ( (mot.code&masque) == signature )  {
-			dico = dico_1;	
+		if ( (mot.code&masque) == signature )  {	
 			//detail_def(dico->val);
 			res = dico->val;
-			
 			break;
 		}
 		//DEBUG_MSG("");
 		dico=dico->suiv;
 	}
 	dico = dico_1;
+	//visualiser(dico);
+	//if(res) detail_def(res);
 	return res;
 }
 
@@ -213,6 +213,12 @@ void print_disasm(definition def, instruc mot)
 			token = strtok(NULL, delim);
 		}
 		
+	}
+	else if (def->type == 'I')
+	{
+		printf("%s ",def->nom);
+		token = strtok(def->nom_op, delim);
+		DEBUG_MSG("%s",token);
 	}
 	printf("\n");
 }
