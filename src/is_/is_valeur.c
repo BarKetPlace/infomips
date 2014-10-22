@@ -13,8 +13,8 @@ int is_valeur(char* chaine)
 	}
 	return 1;
 }
-	/*
-int main()
+	
+/*int main()
 {
 	char r[1024];
 	gets(r);

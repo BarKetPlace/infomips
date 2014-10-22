@@ -17,13 +17,15 @@
 
 int assertcmd(interpreteur inter, mem memory, registre *reg)
 {
-/*	char *token=get_next_token(inter);
-	char* r;
+
+	char *token=get_next_token(inter);
+	char r[128];
+
 	int j, adresse;
 	int val_f_r, val_f_a;
-	int val_t_a, val_t_r;
+	int val_t_a, val_t_r=0;
 
-	if (token == NULL) //set (null)
+	if (token == NULL) //assert (null)
 	{
 		WARNING_MSG("Missing arguments");
 		return CMD_UNKOWN_RETURN_VALUE;
@@ -49,26 +51,38 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 
 		else if ((is_registre(token))!=-1) //assert reg <registre>
 		{	
-			DEBUG_MSG("ok av");
-			sscanf(token, "%s", &r);
-			DEBUG_MSG("ok apr");
+			DEBUG_MSG("ok");
+			strcpy(r,token);
 			token = get_next_token(inter);
+			puts(token);
 
 			if (token == NULL) //assert reg <registre> (null)
 			{
 				WARNING_MSG("Missing arguments <registre>");
 				return CMD_UNKOWN_RETURN_VALUE;
 			}
-			token=get_next_token(inter);
-			DEBUG_MSG("ok");
-			if (is_valeur(token)) //assert reg registre valeur
+			
+			
+			else if (is_valeur(token) || is_hexa(token)) //assert reg registre valeur
 			{
-				//val_f_r=reg.val;
-				DEBUG_MSG("ok");
-				sscanf(token, "%x", &val_t_r);
+				
+				DEBUG_MSG("ok");		
 				j=transf_reg(reg, r);
-				if (val_t_r==reg[j].val) {return CMD_OK_RETURN_VALUE;}
-				else {return CMD_UNKOWN_RETURN_VALUE;}
+				DEBUG_MSG("%d",j);
+
+					if (is_valeur(token)) // valeur entiere
+					{
+						sscanf(token, "%d", &val_t_r); 	DEBUG_MSG("%d",val_t_r);
+						if (val_t_r==reg[j].val) {DEBUG_MSG("bon"); return CMD_OK_RETURN_VALUE;}
+						else {DEBUG_MSG("pas bon"); return CMD_UNKOWN_RETURN_VALUE;}
+					}
+					else if (is_hexa(token)) // valeur hexadecimale
+					{
+						sscanf(token, "%x", &val_t_r); 	DEBUG_MSG("%d",val_t_r);
+						if (val_t_r==reg[j].val) {DEBUG_MSG("bon"); return CMD_OK_RETURN_VALUE;}
+						else {DEBUG_MSG("pas bon"); return CMD_UNKOWN_RETURN_VALUE;}
+					}
+					else {return CMD_UNKOWN_RETURN_VALUE;}
 			}
 
 			else 
@@ -102,7 +116,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 
 		else if (is_adresse(token)) //assert word or byte <adresse>
 		{	
-			DEBUG_MSG("ok")
+			DEBUG_MSG("ok");
 			sscanf(token, "%x", &adresse);
 			token = get_next_token(inter);
 
@@ -114,14 +128,25 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 			
 			DEBUG_MSG("ok");
 
-			token = get_next_token(inter);
+			//token = get_next_token(inter);
 	
-			if (is_valeur(token)) //assert word or byte <adresse> <valeur>
+			if (is_valeur(token)|| is_hexa(token)) //assert word or byte <adresse> <valeur>
 			{
 				val_f_a=find_val(memory, adresse);
-				sscanf(token, "%x", &val_t_a);
-				if (val_t_a==val_f_a) {return CMD_OK_RETURN_VALUE;}
-				else {return CMD_UNKOWN_RETURN_VALUE;}
+
+					if (is_valeur(token)) // valeur entiere
+					{
+						sscanf(token, "%d", &val_t_a);
+						if (val_t_a==val_f_a) {DEBUG_MSG("bon"); return CMD_OK_RETURN_VALUE;}
+						else {DEBUG_MSG("pas bon"); return CMD_UNKOWN_RETURN_VALUE;}
+					}
+					else if (is_hexa(token)) // valeur hexadecimale
+					{
+						sscanf(token, "%x", &val_t_a);
+						if (val_t_a==val_f_a) {DEBUG_MSG("bon"); return CMD_OK_RETURN_VALUE;}
+						else {DEBUG_MSG("pas bon"); return CMD_UNKOWN_RETURN_VALUE;}
+					}
+					else {return CMD_UNKOWN_RETURN_VALUE;}
 			}
 
 			else 
@@ -144,7 +169,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 	}
 	DEBUG_MSG("ok");
 	return CMD_OK_RETURN_VALUE;
-*/
+
 return 0;
 }
 
