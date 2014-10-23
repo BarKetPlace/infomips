@@ -21,7 +21,7 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 {	//int val_swapped = swap_mot(val);
 	//printf("swap(0x%08x) = 0x%08x\n",val, val_swapped );
 	//DEBUG_MSG(" 0x%08x: 0x%08x ",adrr, val);
-	
+	printf("0x%08x: 0x%08x ",adrr, val);
 	instruc mot;
 	mot.code=val;	
 	//DEBUG_MSG("");
@@ -34,7 +34,7 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 		}//Si def == NULL
 	//detail_def(def);
 	
-	printf("0x%08x: 0x%08x ",adrr, val);
+	//printf("0x%08x: 0x%08x ",adrr, val);
 	print_disasm(def, mot);
 	return CMD_OK_RETURN_VALUE;
 }
@@ -43,9 +43,11 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 {	int i;
 	char res[MAX_STR];
-	int val = find_val(memory, debut);
+	int val;
+	if ( find_val(memory, debut, &val) == CMD_EXIT_RETURN_VALUE ) return CMD_EXIT_RETURN_VALUE;
+	
 	int tmp=10;
-	//DEBUG_MSG("");
+	//DEBUG_MSG("0x%08x", val);
 	if (fin-debut<4)
 	{	tmp = disasm(memory, debut ,val , dico);
 		if (tmp != CMD_OK_RETURN_VALUE) //Si il y a eu un probleme
@@ -60,10 +62,10 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 
 	
 	for (i=debut;i<fin;i+=4)
-	{	val = find_val(memory, i );
+	{	if ( find_val(memory, i, &val) == CMD_EXIT_RETURN_VALUE ) return CMD_EXIT_RETURN_VALUE;
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
-		tmp = disasm(memory, i ,val , dico);
-		//DEBUG_MSG(" %d %d",tmp,i);
+		tmp = disasm(memory, i , val , dico);
+		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
 		if ( tmp != CMD_OK_RETURN_VALUE ){
 			WARNING_MSG("Erreur de desassemblage a l'adresse : 0x%08x",i);
 			return CMD_EXIT_RETURN_VALUE;
@@ -120,14 +122,15 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 					WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 					return CMD_EXIT_RETURN_VALUE;
 				}
-				//DEBUG_MSG("");
+				DEBUG_MSG("");
 				return disasm_(memory, reg, debut, debut+decalage, dico);
 			}
 			WARNING_MSG(" Usage disasm HEXA+val ");
 		}
-		else { //DEBUG_MSG("");
+		else { DEBUG_MSG("");
 			//printf("0x%08x",debut);
-			if ( disasm(memory,debut , find_val(memory, debut), dico) != CMD_OK_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;
+			if( find_val(memory, debut, &res) == CMD_EXIT_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;
+			if ( disasm(memory,debut , res, dico) != CMD_OK_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;
 			
 			return CMD_OK_RETURN_VALUE ;
 		}

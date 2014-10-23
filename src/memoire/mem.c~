@@ -316,7 +316,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
         vm->seg[nseg].content   = calloc(vm->seg[nseg].size._64,1);
 
 	reg[30].val = vm->seg[nseg].start._32 ;
-	INFO_MSG("Pile chargée avec succès");
+	//INFO_MSG("Pile chargée avec succès");
 	return 1;
 }
 
@@ -362,7 +362,9 @@ void print_segment_raw_content(segment* seg) {
 
 int print_byte_mem(mem memory, uint32_t adr)
 {
-	uint32_t val = find_val(memory, adr);
+	uint32_t val;
+	if(find_val(memory, adr-adr%4, &val) == CMD_EXIT_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;
+	
 	val = swap_mot(val);
 	if (adr%4==0) 		printf(" %02x",val&0x000000ff);
 	else if (adr%4==1) 	printf(" %02x",(val&0x0000ff00)>>8);
@@ -383,27 +385,29 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 	//if (fin_%4!=0) fin = fin_ -(fin_%4);
 
 	//DEBUG_MSG("%x %x",debut,fin);
-	
-	for (i=debut;i<fin;i++)
-	{	if (i%8==0)	printf("\n0x%08x", i);
+	printf("\n0x%08x", debut);
+	for (i=debut;i<fin;)
+	{	if (i%0x10==0 && i != debut ) printf("\n0x%08x", i);
 		print_byte_mem(memory, i);
-
+		i++;	
+		
 		//printf("0x%08x : %02x %02x %02x %02x\n", i, val&0x000000ff,(val&0x0000ff00)>>8, (val&0x00ff0000)>>16, (val&0xff000000)>>24);
 	}
 printf("\n");
 }
 
-uint32_t find_val(mem memory, uint32_t adresse) {	
-	int  faddr = adresse;
+int find_val(mem memory, uint32_t adresse, uint32_t* res) {	
+	DEBUG_MSG("");
 	int i=0;
 	int taille;
-	int word = 0;
+	uint32_t word = 0;
 	int start =0;
 	segment* seg =NULL;
 	//DEBUG_MSG("%d",memory->nseg);
 	
-	if (adresse<START_MEM) return CMD_UNKOWN_RETURN_VALUE;
-	
+	if (adresse<START_MEM) ERROR_MSG("La memoire commence en 0x%08x",START_MEM);
+	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
+
 	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
 	//DEBUG_MSG("nb seg %d",memory->nseg);
 	for ( i=0; i< memory->nseg;) {
@@ -415,24 +419,20 @@ uint32_t find_val(mem memory, uint32_t adresse) {
 		
 		//faddr = faddr - seg->start._32;
 
-
-		if (adresse > start+taille && adresse < memory->seg[i+1].start._32 )  {
-			ERROR_MSG("L'adresse 0x%08x n'est pas non-allouee", adresse);
-			return CMD_EXIT_RETURN_VALUE;
-		}
-		
-		if ( i < memory->nseg-1 && adresse > memory->seg[i+1].start._32 ) {
-			i++;
-		}
-		
-		else {
-			word = *((unsigned int *) (seg->content+adresse-start));
+		if (adresse > start+taille) i++;
+		else if ( adresse < start ) ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse); break;
+		else
+		{
+			word = *((uint32_t *) (seg->content+adresse-start));
 			FLIP_ENDIANNESS(word);
-			return word;
+			*res = word;
+			return CMD_OK_RETURN_VALUE;
 		}
 		
 	}
-	return 0;
+	DEBUG_MSG("");
+	
+	return CMD_EXIT_RETURN_VALUE;
 }	
 
 //Inverse tout les octets d'un entier

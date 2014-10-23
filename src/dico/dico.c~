@@ -141,7 +141,7 @@ Liste read_dico(char* fichier)
 		sscanf(token, "%d", &def->nb_op);//Lecture & ecriture du nb d'opérande
 
 		token = strtok(NULL, "\n\0") ;
-		puts(token);
+		//puts(token);
 		
 		//strcpy(def->nom_op, token); 
 		//puts(def->nom_op);
@@ -215,6 +215,7 @@ void print_disasm(definition def, instruc mot)
 	char tempo[MAXSTR];
 	tempo[0]='\0';
 	
+	//detail_def(def);
 	//DEBUG_MSG("");
 	if (def->type == 'R')
 	{	DEBUG_MSG("");
@@ -238,7 +239,7 @@ void print_disasm(definition def, instruc mot)
 	{
 		printf("%s ",def->nom);
 		
-		token = strtok(def->nom_op, delim);
+		//token = strtok(def->nom_op, delim);
 		for (i=0;i<def->nb_op;i++)
 		{
 			//DEBUG_MSG("0x%08x", mot.code);
@@ -246,20 +247,25 @@ void print_disasm(definition def, instruc mot)
 			
 			//DEBUG_MSG("%s",token);
 			if ( !strcmp(def->nom_op[i], "rt") ) printf("$%d ",mot.i.rt);
-			if ( !strcmp(def->nom_op[i], "rs") ) printf("$%d ",mot.i.rs);
-			if ( !strcmp(def->nom_op[i], "imm") ) printf("%d ",mot.i.imm);
-			token = strtok(NULL, delim);
+			else if ( !strcmp(def->nom_op[i], "rs") ) printf("$%d ",mot.i.rs);
+			else if ( !strcmp(def->nom_op[i], "imm") ) printf("%d ",mot.i.imm);
+			//token = strtok(NULL, delim);
 		}
-		DEBUG_MSG("");
+		//DEBUG_MSG("");
 		//DEBUG_MSG("%s",token);
 	}
 	else if (def->type == 'J')
-	{	puts(token);
+	{	//puts(token);
+		//DEBUG_MSG("");
+		//puts(def->nom);
 		printf("%s ",def->nom);
-		token = strtok(def->nom_op, delim);
-		
-		if ( !strcmp(def->nom_op[i], "target") ) printf("0x%08x ",mot.j.target);
-		else ERROR_MSG("Erreur dictionnaire: type J -> op=target");
+		//DEBUG_MSG("");
+		//token = strtok(def->nom_op, delim);
+		for (i=0;i<def->nb_op;i++)
+		{
+			if ( !strcmp(def->nom_op[i], "target") ) printf("0x%08x ",mot.j.target);
+		}
+		//else ERROR_MSG("Erreur dictionnaire: type J -> op=target");
 		
 	}
 	printf("\n");

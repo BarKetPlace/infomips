@@ -78,7 +78,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				token = get_next_token(inter);
 				if (token && is_valeur(token) ) //disp mem HEXA+val
 				{	sscanf(token, "%x", &decalage);		
-					if (debut+decalage>STOP_MEM) //L'adresse est trop haute (voir mem.h)
+					if (debut+decalage>STOP_MEM) //HEXA+val est trop haute (voir mem.h)
 					{
 						WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 						return CMD_EXIT_RETURN_VALUE;
