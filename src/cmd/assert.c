@@ -132,7 +132,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 	
 			if (is_valeur(token)|| is_hexa(token)) //assert word or byte <adresse> <valeur>
 			{
-				val_f_a=find_val(memory, adresse);
+				if (find_val(memory, adresse, &val_f_a)) return CMD_UNKOWN_RETURN_VALUE;
 
 					if (is_valeur(token)) // valeur entiere
 					{

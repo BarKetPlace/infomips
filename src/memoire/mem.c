@@ -360,40 +360,46 @@ void print_segment_raw_content(segment* seg) {
 	return CMD_OK_RETURN_VALUE;
 }*/
 
-int print_byte_mem(mem memory, uint32_t adr)
+void print_byte_mem(mem memory, uint32_t adr, uint32_t val)
 {
-	uint32_t val;
-	if(find_val(memory, adr-adr%4, &val) == CMD_EXIT_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;
+	/*uint32_t val;
+	
+	if(find_val(memory, adr-adr%4, &val) == CMD_EXIT_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;*/
 	
 	val = swap_mot(val);
 	if (adr%4==0) 		printf(" %02x",val&0x000000ff);
 	else if (adr%4==1) 	printf(" %02x",(val&0x0000ff00)>>8);
 	else if (adr%4==2)	printf(" %02x",(val&0x00ff0000)>>16);
 	else if (adr%4==3)	printf(" %02x",(val&0xff000000)>>24);
-	return CMD_OK_RETURN_VALUE;
+	return;
 }
 
 
 int print_case_mem(mem memory, uint debut_, uint fin_)
 {
-	int i;
+	int i, tmp;
 	uint debut=debut_;
 	uint fin=fin_;
 	uint val=0;
+	uint adr=debut;
 	//DEBUG_MSG("%x %x",debut,fin);
 	//if (debut_%4!=0) debut = debut_ - (debut_%4);
 	//if (fin_%4!=0) fin = fin_ -(fin_%4);
 
 	//DEBUG_MSG("%x %x",debut,fin);
-	printf("\n0x%08x", debut);
-	for (i=debut;i<fin;)
+	
+	printf("0x%08x", debut);
+	for (i=debut;i<fin;i++)
 	{	if (i%0x10==0 && i != debut ) printf("\n0x%08x", i);
-		print_byte_mem(memory, i);
-		i++;	
+		if (i%4==0) adr=i;
 		
-		//printf("0x%08x : %02x %02x %02x %02x\n", i, val&0x000000ff,(val&0x0000ff00)>>8, (val&0x00ff0000)>>16, (val&0xff000000)>>24);
+		tmp = find_val(memory, adr, &val);
+		if (tmp==CMD_UNKOWN_RETURN_VALUE) return tmp;
+		
+		else print_byte_mem(memory, i, val);
 	}
 printf("\n");
+DEBUG_MSG("");
 }
 
 int find_val(mem memory, uint32_t adresse, uint32_t* res) {	
@@ -421,11 +427,11 @@ int find_val(mem memory, uint32_t adresse, uint32_t* res) {
 
 		if (adresse > start+taille) i++;
 		else if ( adresse < start ){
-			ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
+			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 			break;
 		}
 		else
-		{
+		{DEBUG_MSG("");
 			word = *((uint32_t *) (seg->content+adresse-start));
 			FLIP_ENDIANNESS(word);
 			*res = word;
@@ -433,9 +439,10 @@ int find_val(mem memory, uint32_t adresse, uint32_t* res) {
 		}
 		
 	}
-	//DEBUG_MSG("");
+	puts("");
+	WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 	
-	return CMD_EXIT_RETURN_VALUE;
+	return CMD_UNKOWN_RETURN_VALUE;
 }	
 
 //Inverse tout les octets d'un entier

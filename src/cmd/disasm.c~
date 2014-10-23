@@ -30,7 +30,7 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 	//DEBUG_MSG("");
 	if (!def)  {
 		ERROR_MSG(" Instruction inconnue ");
-		return CMD_EXIT_RETURN_VALUE;
+		return CMD_UNKOWN_RETURN_VALUE;
 		}//Si def == NULL
 	//detail_def(def);
 	
@@ -43,11 +43,13 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 {	int i;
 	char res[MAX_STR];
-	int val;
-	if ( find_val(memory, debut, &val) == CMD_EXIT_RETURN_VALUE ) return CMD_EXIT_RETURN_VALUE;
+	int val, tmp;
+	tmp =find_val(memory, debut, &val);
+	uint32_t found_word;
+	if ( tmp == CMD_UNKOWN_RETURN_VALUE ) return tmp;
 	
-	int tmp=10;
-	DEBUG_MSG("0x%08x", val);
+	
+	//DEBUG_MSG("0x%08x", val);
 	if (fin-debut<4)
 	{	tmp = disasm(memory, debut ,val , dico);
 		if (tmp != CMD_OK_RETURN_VALUE) //Si il y a eu un probleme
@@ -62,7 +64,7 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 
 	
 	for (i=debut;i<fin;i+=4)
-	{	if ( find_val(memory, i, &val) == CMD_EXIT_RETURN_VALUE ) return CMD_EXIT_RETURN_VALUE;
+	{	if ( find_val(memory, i, &val) == CMD_UNKOWN_RETURN_VALUE ) return CMD_UNKOWN_RETURN_VALUE;
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
 		tmp = disasm(memory, i , val , dico);
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
@@ -129,8 +131,8 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 		}
 		else { DEBUG_MSG("");
 			//printf("0x%08x",debut);
-			if( find_val(memory, debut, &res) == CMD_EXIT_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;
-			if ( disasm(memory,debut , res, dico) != CMD_OK_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;
+			if( find_val(memory, debut, &found_word) == CMD_UNKOWN_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
+			if ( disasm(memory,debut , found_word, dico) != CMD_OK_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;
 			
 			return CMD_OK_RETURN_VALUE ;
 		}

@@ -97,7 +97,7 @@ void print_segment_raw_content(segment* seg);
 
 int init_tab_mem(mem memory);
 //void print_full_mem(mem memory);
-int print_byte_mem(mem memory, uint32_t adr);
+void print_byte_mem(mem memory, uint32_t adr, uint32_t val);
 int print_case_mem(mem memory,uint debut,uint fin);
 int find_val(mem memory, uint32_t adresse, uint32_t* res);
 uint32_t swap_mot(uint32_t mot);

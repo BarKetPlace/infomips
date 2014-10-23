@@ -12,7 +12,8 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 	char* token, sep, addr_fin;
 	uint debut,fin, decalage,adr;
 	token = get_next_token(inter);
-	
+	int tmp;
+	uint val;
 	if (token == NULL) //disp (null)
 	{
 		WARNING_MSG("Missing arguments");
@@ -73,7 +74,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 						return CMD_EXIT_RETURN_VALUE; 
 						}
 			}		
-			else if ( token && !strcmp(token,"+") )
+			else if ( token && !strcmp(token,"+") )//disp mem HEXA+
 			{	//DEBUG_MSG("sfsg");
 				token = get_next_token(inter);
 				if (token && is_valeur(token) ) //disp mem HEXA+val
@@ -83,31 +84,45 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 						WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 						return CMD_EXIT_RETURN_VALUE;
 					}
-				print_case_mem(memory, debut, debut+decalage);	
-				
-				return CMD_OK_RETURN_VALUE;
+				return print_case_mem(memory, debut, debut+decalage); 	
+
 				}
 			}
 			
 			else if ( token && is_hexa(token) ) //disp mem HEXA HEXA ...
 			{	
-				printf("0x%08x : ",adr);
-				print_byte_mem(memory, adr);
-				printf("\n");
 				do {	
 					sscanf(token, "%x", &adr);
-					printf("0x%08x : ",adr);
-					print_byte_mem(memory, adr);
-					printf("\n");
+					tmp = find_val(memory, adr, &val);
+					if (tmp==CMD_UNKOWN_RETURN_VALUE)
+					{	printf("\n");
+						ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adr);
+						return tmp;
+					}
+					else {
+						printf("0x%08x : ",adr);
+						print_byte_mem(memory, adr, val);
+					}
+	
+					printf("\n");	
+					
 					token = get_next_token(inter);
 				} while (token && is_hexa(token));
 			}
 			else if (!token)
-			{	printf("0x%08x : ",debut);
-				print_byte_mem(memory, debut);
-				printf("\n");
+			{	tmp = find_val(memory, adr, &val);
+					if (tmp==CMD_UNKOWN_RETURN_VALUE)
+					{	printf("\n");
+						ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adr);
+						return tmp;
+					}
+					else {
+						printf("0x%08x : ",adr);
+						print_byte_mem(memory, adr, val);
+					}
 			}
-			else{
+
+			else {
 			WARNING_MSG("USAGE: disp mem \"map\" or <plage>+");
 			return CMD_EXIT_RETURN_VALUE;
 			}

@@ -128,7 +128,7 @@ int main ( int argc, char *argv[] ) {
 	WARNING_MSG("Chargement du dictionnaire d'instructions");
 	Liste dico =  read_dico("./src/dico/dico.txt");
 	INFO_MSG("Dictionnaire d'instructions chargé");
-	visualiser(dico);
+	//visualiser(dico);
 
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {
