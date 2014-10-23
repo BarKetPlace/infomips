@@ -40,6 +40,7 @@ typedef struct {
     vsize       extent;
     uint32_t    nseg;
     segment    *seg;
+	int busy;
 	//word tab[MEMSZ_BYTES];
 } *mem;
 

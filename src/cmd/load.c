@@ -25,6 +25,16 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 //////////////////////////////// Chargement de la mémoire /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+	if (memory->nseg) 
+	{	WARNING_MSG("Un programme est déjà chargé en mémoire");
+		WARNING_MSG("Liberation memoire");
+		del_mem(memory);	
+		
+		INFO_MSG("Memoire liberee");
+
+		memory = alloue_mem();
+	}
+	
 	WARNING_MSG("Chargement de '%s' en mémoire",fichier);
 	FILE* felf;
 	segment* seg=NULL;
