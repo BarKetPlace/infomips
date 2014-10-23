@@ -1,0 +1,8 @@
+#-------
+#TEST_RETURN_CODE=PASS           
+#TEST_COMMENT="Highest adress"
+#-------
+
+
+load ./elf/boucle.o
+
