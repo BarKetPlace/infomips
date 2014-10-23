@@ -171,6 +171,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
 * prints the content of a virtual memory
 * @param a virtual memory
 */
+/*
 int init_tab_mem(mem memory)
 {	int i,k,word;
 	int cpt=0;
@@ -198,7 +199,7 @@ int init_tab_mem(mem memory)
 	}
 	return 1;
 }
-
+*/
 
 
 
@@ -359,6 +360,13 @@ void print_segment_raw_content(segment* seg) {
 	return CMD_OK_RETURN_VALUE;
 }*/
 
+int print_byte_mem(mem memory, uint32_t octet)
+{
+
+	
+	return CMD_OK_RETURN_VALUE;
+}
+
 
 int print_case_mem(mem memory, uint debut_, uint fin_)
 {
@@ -373,7 +381,7 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 	
 	for (i=debut;i<=fin;i+=4)
 	{
-		printf("0x%08x : %08x\n", i, memory->tab[i]);
+		printf("0x%08x : %08x\n", i, find_val(memory, i));
 	}
 
 }

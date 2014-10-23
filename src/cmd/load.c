@@ -78,7 +78,7 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 	        }
 	    }
 	
-	if(!(init_tab_mem(memory))) WARNING_MSG("Problème de recopie de la mémoire");
+	//if(!(init_tab_mem(memory))) WARNING_MSG("Problème de recopie de la mémoire");
 	INFO_MSG("Programme chargé en mémoire avec succés");
 	//print_mem( memory );
 	

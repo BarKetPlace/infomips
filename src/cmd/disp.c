@@ -74,7 +74,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 						}
 			}		
 			else if ( token && !strcmp(token,"+") )
-			{	DEBUG_MSG("sfsg");
+			{	//DEBUG_MSG("sfsg");
 				token = get_next_token(inter);
 				if (token && is_valeur(token) ) //disp mem HEXA+val
 				{	sscanf(token, "%x", &decalage);		
@@ -88,8 +88,8 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				return CMD_OK_RETURN_VALUE;
 				}
 			}
-			print_case_mem(memory, debut, debut);
-			if ( token && is_hexa(token) )
+			
+			else if ( token && is_hexa(token) )
 			{	
 				
 				do {	
@@ -98,6 +98,8 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 					token = get_next_token(inter);
 				} while (token && is_hexa(token));
 			}
+			else if (!token) print_case_mem(memory, debut, debut);
+	
 			else{
 			WARNING_MSG("USAGE: disp mem \"map\" or <plage>+");
 			return CMD_EXIT_RETURN_VALUE;
