@@ -360,10 +360,14 @@ void print_segment_raw_content(segment* seg) {
 	return CMD_OK_RETURN_VALUE;
 }*/
 
-int print_byte_mem(mem memory, uint32_t octet)
+int print_byte_mem(mem memory, uint32_t adr)
 {
-
-	
+	uint32_t val = find_val(memory, adr);
+	val = swap_mot(val);
+	if (adr%4==0) 		printf("0x%08x : %02x\n", adr, val&0x000000ff);
+	else if (adr%4==1) 	printf("0x%08x : %02x\n", adr, val&0x0000ff00);
+	else if (adr%4==2)	printf("0x%08x : %02x\n", adr, val&0x00ff0000);
+	else if (adr%4==3)	printf("0x%08x : %02x\n", adr, val&0xff000000);
 	return CMD_OK_RETURN_VALUE;
 }
 
@@ -373,6 +377,7 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 	int i;
 	uint debut=debut_;
 	uint fin=fin_;
+	uint val=0;
 	//DEBUG_MSG("%x %x",debut,fin);
 	if (debut_%4!=0) debut = debut_ - (debut_%4);
 	if (fin_%4!=0) fin = fin_ -(fin_%4);
@@ -381,7 +386,9 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 	
 	for (i=debut;i<=fin;i+=4)
 	{
-		printf("0x%08x : %08x\n", i, find_val(memory, i));
+		val = find_val(memory, i);
+		val = swap_mot(val);
+		printf("0x%08x : %02x %02x %02x %02x\n", i, val&0x000000ff,(val&0x0000ff00)>>8, (val&0x00ff0000)>>16, (val&0xff000000)>>24);
 	}
 
 }
@@ -427,3 +434,10 @@ int find_val(mem memory, int adresse) {
 	}
 	return 0;
 }	
+
+//Inverse tout les octets d'un entier
+uint32_t swap_mot(uint32_t mot)
+{	int res=0;
+	res = ((mot&0xff000000)>>24) + ((mot&0x00ff0000)>>8) + ((mot&0x0000ff00)<<8) + ((mot&0x000000ff)<<24);
+	return res;
+}

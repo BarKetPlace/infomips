@@ -263,7 +263,7 @@ void print_disasm(definition def, instruc mot)
 		printf("%s ",def->nom);
 		token = strtok(def->nom_op, delim);
 		
-		if ( !strcmp(def->nom_op[i], "target") ) printf("0x%08x ",token);
+		if ( !strcmp(def->nom_op[i], "target") ) printf("0x%08x ",mot.j.target);
 		else ERROR_MSG("Erreur dictionnaire: type J -> op=target");
 		
 	}

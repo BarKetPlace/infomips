@@ -57,7 +57,7 @@ void detail_def(definition def);
 void del_dico(Liste l);
 Liste read_dico(char* fichier);
 
-int swap_mot(int mot);
+
 definition find_def(Liste dico, instruc mot);
 void print_disasm(definition def, instruc mot);
 
