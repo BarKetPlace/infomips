@@ -62,15 +62,15 @@ int init_mem( uint32_t nseg, registre* reg, mem vm ) {
             vm->seg[i].attr      = 0x0;
         }
         vm->nseg = nseg+1;
-	
-	if (!(init_reg(reg) && init_stack(vm, reg, nseg) ) )
-	{	ERROR_MSG("Probleme dans l'initialisation de la pile ou des registres");
-		return 0;
+		WARNING_MSG("Chargement de la pile");
+		if (!init_stack(vm, reg, nseg))
+		{
+			ERROR_MSG("Erreur lors du chargement de la pile");
+    	}
+		INFO_MSG("Pile initialisée");
 	}
-	
-    }
-
     return 1;
+
 }
 
 /**
@@ -316,7 +316,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
         vm->seg[nseg].content   = calloc(vm->seg[nseg].size._64,1);
 
 	reg[30].val = vm->seg[nseg].start._32 ;
-	INFO_MSG("Pile chargée avec succès");
+	//INFO_MSG("Pile chargée avec succès");
 	return 1;
 }
 
@@ -364,10 +364,10 @@ int print_byte_mem(mem memory, uint32_t adr)
 {
 	uint32_t val = find_val(memory, adr);
 	val = swap_mot(val);
-	if (adr%4==0) 		printf("0x%08x : %02x\n", adr, val&0x000000ff);
-	else if (adr%4==1) 	printf("0x%08x : %02x\n", adr, val&0x0000ff00);
-	else if (adr%4==2)	printf("0x%08x : %02x\n", adr, val&0x00ff0000);
-	else if (adr%4==3)	printf("0x%08x : %02x\n", adr, val&0xff000000);
+	if (adr%4==0) 		printf(" %02x",val&0x000000ff);
+	else if (adr%4==1) 	printf(" %02x",(val&0x0000ff00)>>8);
+	else if (adr%4==2)	printf(" %02x",(val&0x00ff0000)>>16);
+	else if (adr%4==3)	printf(" %02x",(val&0xff000000)>>24);
 	return CMD_OK_RETURN_VALUE;
 }
 
@@ -379,21 +379,21 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 	uint fin=fin_;
 	uint val=0;
 	//DEBUG_MSG("%x %x",debut,fin);
-	if (debut_%4!=0) debut = debut_ - (debut_%4);
-	if (fin_%4!=0) fin = fin_ -(fin_%4);
+	//if (debut_%4!=0) debut = debut_ - (debut_%4);
+	//if (fin_%4!=0) fin = fin_ -(fin_%4);
 
 	//DEBUG_MSG("%x %x",debut,fin);
 	
-	for (i=debut;i<=fin;i+=4)
-	{
-		val = find_val(memory, i);
-		val = swap_mot(val);
-		printf("0x%08x : %02x %02x %02x %02x\n", i, val&0x000000ff,(val&0x0000ff00)>>8, (val&0x00ff0000)>>16, (val&0xff000000)>>24);
-	}
+	for (i=debut;i<fin;i++)
+	{	if (i%8==0)	printf("\n0x%08x", i);
+		print_byte_mem(memory, i);
 
+		//printf("0x%08x : %02x %02x %02x %02x\n", i, val&0x000000ff,(val&0x0000ff00)>>8, (val&0x00ff0000)>>16, (val&0xff000000)>>24);
+	}
+printf("\n");
 }
 
-int find_val(mem memory, int adresse) {	
+uint32_t find_val(mem memory, uint32_t adresse) {	
 	int  faddr = adresse;
 	int i=0;
 	int taille;
@@ -417,8 +417,8 @@ int find_val(mem memory, int adresse) {
 
 
 		if (adresse > start+taille && adresse < memory->seg[i+1].start._32 )  {
-			WARNING_MSG("L'adresse 0x%08x n'est pas non-allouee", adresse);
-			return CMD_UNKOWN_RETURN_VALUE;
+			ERROR_MSG("L'adresse 0x%08x n'est pas non-allouee", adresse);
+			return CMD_EXIT_RETURN_VALUE;
 		}
 		
 		if ( i < memory->nseg-1 && adresse > memory->seg[i+1].start._32 ) {

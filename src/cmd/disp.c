@@ -94,12 +94,15 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				
 				do {	
 					sscanf(token, "%x", &adr);
-					print_case_mem(memory, adr, adr);
+					print_byte_mem(memory, adr);
 					token = get_next_token(inter);
 				} while (token && is_hexa(token));
 			}
-			else if (!token) print_case_mem(memory, debut, debut);
-	
+			else if (!token)
+			{	printf("0x%08x : ",debut);
+				print_byte_mem(memory, debut);
+				printf("\n");
+			}
 			else{
 			WARNING_MSG("USAGE: disp mem \"map\" or <plage>+");
 			return CMD_EXIT_RETURN_VALUE;
@@ -122,7 +125,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 		else //disp reg $.. $....
 		{		
 			do {
-				print_reg(reg, is_registre(token));
+				if(!( print_reg(reg, is_registre(token) + 1))) WARNING_MSG("'%s' n'est pas un registre", token);
 				token = get_next_token(inter); //printf("%s\n",token);
 				}
 			while (token != NULL);

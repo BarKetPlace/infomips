@@ -98,7 +98,7 @@ int init_tab_mem(mem memory);
 //void print_full_mem(mem memory);
 int print_byte_mem(mem memory, uint32_t adr);
 int print_case_mem(mem memory,uint debut,uint fin);
-int find_val(mem memory, int adresse);
+uint32_t find_val(mem memory, uint32_t adresse);
 uint32_t swap_mot(uint32_t mot);
 #ifdef __cplusplus
 }

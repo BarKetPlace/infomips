@@ -141,7 +141,7 @@ Liste read_dico(char* fichier)
 		sscanf(token, "%d", &def->nb_op);//Lecture & ecriture du nb d'opérande
 
 		token = strtok(NULL, "\n\0") ;
-		puts(token);
+		//puts(token);
 		
 		//strcpy(def->nom_op, token); 
 		//puts(def->nom_op);

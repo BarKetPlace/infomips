@@ -63,9 +63,9 @@ void print_tab_reg(registre* reg)
 
 }
 
-void print_reg(registre* reg, int i)
+int print_reg(registre* reg, int i)
 {
-	if(i==-1) return;
+	if(i==-1) {return i;}
 	else{
 		printf("%s\t0x%08x\n",reg[i].nom,reg[i].val);
 	}
@@ -83,7 +83,7 @@ int transf_reg(registre *reg, char* nom_reg )
 	for(i=0;i<NBREG;i++)
 	{
 		//puts(reg[i].nom);
-		puts(nom_reg+1);
+		//puts(nom_reg+1);
 		if (!strcmp(reg[i].nom,nom_reg+1) ) {return i;}
 	}	
 	return -1;

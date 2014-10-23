@@ -117,10 +117,19 @@ int main ( int argc, char *argv[] ) {
 	registre* reg=NULL;
 	memory=alloue_mem();
 	reg=alloue_reg();
-	INFO_MSG("Chargement du dictionnaire d'instructions");
+
+	WARNING_MSG("Chargement des registres");
+	if (!(init_reg(reg) ) )
+	{	ERROR_MSG("Probleme dans l'initialisation des registres");
+		return CMD_EXIT_RETURN_VALUE;
+	}
+	INFO_MSG("Registres chargés");
+
+	WARNING_MSG("Chargement du dictionnaire d'instructions");
 	Liste dico =  read_dico("./src/dico/dico.txt");
 	INFO_MSG("Dictionnaire d'instructions chargé");
-	visualiser(dico);
+	//visualiser(dico);
+
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {
 

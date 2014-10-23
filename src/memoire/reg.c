@@ -36,7 +36,7 @@ int init_reg(registre* reg)
 		strcpy(reg[i].nom,reg_str[i]);		
 		reg[i].val=0; 
 	}
-	INFO_MSG("Registres chargés avec succès");
+	//INFO_MSG("Registres chargés avec succès");
 	return 1;
 	
 }
@@ -63,9 +63,9 @@ void print_tab_reg(registre* reg)
 
 }
 
-void print_reg(registre* reg, int i)
+int print_reg(registre* reg, int i)
 {
-	if(i==-1) return;
+	if(i==-1) {return i;}
 	else{
 		printf("%s\t0x%08x\n",reg[i].nom,reg[i].val);
 	}
