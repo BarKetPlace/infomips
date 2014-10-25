@@ -1,5 +1,0 @@
-0x14000000	0xfc000000	BNE	I	3	rs rt imm 
-0x00000000	0xffffffff	NOP	J	0	
-0x08000000	0xfc000000	J	J	1	target 
-0x20000000	0xfc000000	ADDI	I	3	rt rs imm 
-0x00000020	0xfc0007ff	ADD	R	3	rd rs rt 

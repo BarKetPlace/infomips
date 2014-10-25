@@ -66,7 +66,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 						return CMD_EXIT_RETURN_VALUE;
 					}
 					//disp mem HEXA:HEXA			avec 0<= HEXA,HEXA <= 0xfffff000
-					if (!(fin<debut)) print_case_mem(memory, debut, fin);
+					if (fin>=debut) print_case_mem(memory, debut, fin);
 					else print_case_mem(memory,fin,debut);
 					return CMD_OK_RETURN_VALUE;
 				}
@@ -78,7 +78,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 			{	//DEBUG_MSG("sfsg");
 				token = get_next_token(inter);
 				if (token && is_valeur(token) ) //disp mem HEXA+val
-				{	sscanf(token, "%x", &decalage);		
+				{	sscanf(token, "%d", &decalage);		
 					if (debut+decalage>STOP_MEM) //HEXA+val est trop haute (voir mem.h)
 					{
 						WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
@@ -96,7 +96,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 					tmp = find_val(memory, adr, &val);
 					if (tmp==CMD_UNKOWN_RETURN_VALUE)
 					{	printf("\n");
-						WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adr);
+						ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adr);
 						return tmp;
 					}
 					else {
@@ -109,7 +109,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 					token = get_next_token(inter);
 				} while (token && is_hexa(token));
 			}
-			else if (!token)
+			else if (!token)//disp mem HEXA
 			{	tmp = find_val(memory, adr, &val);
 					if (tmp==CMD_UNKOWN_RETURN_VALUE)
 					{	printf("\n");
@@ -118,7 +118,8 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 					}
 					else {
 						printf("0x%08x : ",adr);
-						print_byte_mem(memory, adr, val);
+						DEBUG_MSG(" %08x ", val);
+						print_byte_mem(memory, adr, val);printf("\n));
 					}
 			}
 

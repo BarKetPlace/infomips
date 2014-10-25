@@ -362,15 +362,17 @@ void print_segment_raw_content(segment* seg) {
 
 void print_byte_mem(mem memory, uint32_t adr, uint32_t val)
 {
-	/*uint32_t val;
+	uint32_t vals;
 	
-	if(find_val(memory, adr-adr%4, &val) == CMD_EXIT_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;*/
+	/*if(find_val(memory, adr-adr%4, &val) == CMD_EXIT_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;*/
 	
-	val = swap_mot(val);
-	if (adr%4==0) 		printf(" %02x",val&0x000000ff);
-	else if (adr%4==1) 	printf(" %02x",(val&0x0000ff00)>>8);
-	else if (adr%4==2)	printf(" %02x",(val&0x00ff0000)>>16);
-	else if (adr%4==3)	printf(" %02x",(val&0xff000000)>>24);
+	vals = swap_mot(val);
+	//DEBUG_MSG("%08x", vals);
+	
+	if (adr%4==0) 		printf(" %02x",vals&0x000000ff);
+	else if (adr%4==1) 	printf(" %02x",(vals&0x0000ff00)>>8);
+	else if (adr%4==2)	printf(" %02x",(vals&0x00ff0000)>>16);
+	else if (adr%4==3)	printf(" %02x",(vals&0xff000000)>>24);
 	return;
 }
 
@@ -399,7 +401,7 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 		else print_byte_mem(memory, i, val);
 	}
 printf("\n");
-DEBUG_MSG("");
+//DEBUG_MSG("");
 }
 
 int find_val(mem memory, uint32_t adresse, uint32_t* res) {	
@@ -431,7 +433,7 @@ int find_val(mem memory, uint32_t adresse, uint32_t* res) {
 			break;
 		}
 		else
-		{
+		{//DEBUG_MSG("");
 			word = *((uint32_t *) (seg->content+adresse-start));
 			FLIP_ENDIANNESS(word);
 			*res = word;
