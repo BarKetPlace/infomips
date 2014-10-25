@@ -14,6 +14,8 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 	token = get_next_token(inter);
 	int tmp;
 	uint val;
+	int num_reg; //résultat de is_registre
+
 	if (token == NULL) //disp (null)
 	{
 		WARNING_MSG("Missing arguments");
@@ -119,7 +121,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 					else {
 						printf("0x%08x : ",adr);
 						DEBUG_MSG(" %08x ", val);
-						print_byte_mem(memory, adr, val);printf("\n));
+						print_byte_mem(memory, adr, val);printf("\n");
 					}
 			}
 
@@ -136,28 +138,40 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 		if (reg == NULL) WARNING_MSG("Registres non-chargés");
 			
 		token = get_next_token(inter);
-		if (!token) {WARNING_MSG("Missing arguments"); return CMD_EXIT_RETURN_VALUE;}
+		if (!token) {WARNING_MSG("Missing arguments"); return CMD_UNkOWN_RETURN_VALUE;}
 		if(!strcmp(token,"all")) { //disp reg all
 
 			print_tab_reg(reg); 
 			return CMD_OK_RETURN_VALUE; 
 		}
-		else //disp reg $.. $....
+		else if (token)//disp reg $.. $....
 		{		
-			do {
-				if(!( print_reg(reg, is_registre(token) + 1))) WARNING_MSG("'%s' n'est pas un registre", token);
+			while (token) {
+				num_reg = is_registre(token);
+				if( !(num_reg + 1) ) {
+					WARNING_MSG("'%s' n'est pas un registre", token);
+				}
+
+				print_reg(reg,num_reg);
+
 				token = get_next_token(inter); //printf("%s\n",token);
 				}
-			while (token != NULL);
+			
 					
 		}
 	
+	
+		else
+		{
+			WARNING_MSG("Usage: disp \"reg\" \" all\"| $.. $..$..");
+		}
 	}
+
 	else //disp "autre chose que reg ou mem"  
 	{
 		WARNING_MSG("Usage: disp \"mem\" | disp \"reg\"");
 		return CMD_EXIT_RETURN_VALUE;
 	}
 	return CMD_OK_RETURN_VALUE;
-	}
+}
 
