@@ -20,19 +20,22 @@
 int disasm(mem memory, int adrr, int val, Liste dico)
 {	//int val_swapped = swap_mot(val);
 	//printf("swap(0x%08x) = 0x%08x\n",val, val_swapped );
-	
+	//DEBUG_MSG(" 0x%08x: 0x%08x ",adrr, val);
 	printf("0x%08x: 0x%08x ",adrr, val);
 	instruc mot;
 	mot.code=val;	
 	//DEBUG_MSG("");
 	definition def =NULL;
 	def = find_def(dico, mot);
-	//detail_def(def);
 	//DEBUG_MSG("");
-	if (!def)  {printf("\n"); return CMD_UNKOWN_RETURN_VALUE;}//Si def == NULL
+	if (!def)  {
+		ERROR_MSG(" Instruction inconnue ");
+		return CMD_UNKOWN_RETURN_VALUE;
+		}//Si def == NULL
 	//detail_def(def);
+	
+	//printf("0x%08x: 0x%08x ",adrr, val);
 	print_disasm(def, mot);
-
 	return CMD_OK_RETURN_VALUE;
 }
 
@@ -40,15 +43,19 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 {	int i;
 	char res[MAX_STR];
-	int val = find_val(memory, debut);
-	int tmp=10;
-	//DEBUG_MSG("");
+	int val, tmp;
+	tmp =find_val(memory, debut, &val);
+	uint32_t found_word;
+	if ( tmp == CMD_UNKOWN_RETURN_VALUE ) return tmp;
+	
+	
+	//DEBUG_MSG("0x%08x", val);
 	if (fin-debut<4)
-	{	tmp = disasm(memory, i ,val , dico);
+	{	tmp = disasm(memory, debut ,val , dico);
 		if (tmp != CMD_OK_RETURN_VALUE) //Si il y a eu un probleme
 		{ 	
 			WARNING_MSG("Erreur de desassemblage à l'adresse : 0x%08x",debut);
-			return CMD_UNKOWN_RETURN_VALUE;
+			return CMD_EXIT_RETURN_VALUE;
 		}
 			
 		//printf("0x%08x: 0x%08x %s\n",debut, val, res);
@@ -57,15 +64,15 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 
 	
 	for (i=debut;i<fin;i+=4)
-	{	val = find_val(memory, i );
-		DEBUG_MSG("0x%08x: 0x%08x",i, val);
-		tmp = disasm(memory, i ,val , dico);
-		DEBUG_MSG(" %d ",tmp);
+	{	if ( find_val(memory, i, &val) == CMD_UNKOWN_RETURN_VALUE ) return CMD_UNKOWN_RETURN_VALUE;
+		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
+		tmp = disasm(memory, i , val , dico);
+		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
 		if ( tmp != CMD_OK_RETURN_VALUE ){
 			WARNING_MSG("Erreur de desassemblage a l'adresse : 0x%08x",i);
-			return CMD_UNKOWN_RETURN_VALUE;
+			return CMD_EXIT_RETURN_VALUE;
 		}
-		DEBUG_MSG(" ");
+		//DEBUG_MSG(" ");
 		//printf("0x%08x: 0x%08x %s\n",i, val, res);
 	}
 	
@@ -79,13 +86,15 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 	char* res[MAX_STR];
 	uint32_t debut,fin,decalage;
 	token = get_next_token(inter);
+	uint32_t found_word;
+
 	if (token && is_hexa(token)){ //disasm HEXA
 		sscanf(token, "%x", &debut); //DEBUG_MSG(" sfsg ");
 		if (debut%4 != 0) debut = debut - (debut%4);
 		if (debut>STOP_MEM) //L'adresse est trop haute (voir mem.h)
 			{
 				WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
-				return CMD_UNKOWN_RETURN_VALUE;
+				return CMD_EXIT_RETURN_VALUE;
 			}
 		token = get_next_token(inter);
 			
@@ -98,7 +107,7 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 				if (debut>STOP_MEM) //L'adresse est trop haute (voir mem.h)
 				{
 					WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
-					return CMD_UNKOWN_RETURN_VALUE;
+					return CMD_EXIT_RETURN_VALUE;
 				}
 				return disasm_(memory, reg, debut, fin, dico);
 			}
@@ -114,16 +123,17 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 				if (debut+decalage>STOP_MEM) //L'adresse est trop haute (voir mem.h)
 				{
 					WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
-					return CMD_UNKOWN_RETURN_VALUE;
+					return CMD_EXIT_RETURN_VALUE;
 				}
 				DEBUG_MSG("");
 				return disasm_(memory, reg, debut, debut+decalage, dico);
 			}
 			WARNING_MSG(" Usage disasm HEXA+val ");
 		}
-		else { //DEBUG_MSG("");
+		else { DEBUG_MSG("");
 			//printf("0x%08x",debut);
-			if (!disasm(memory,debut , find_val(memory, debut), dico)) return CMD_UNKOWN_RETURN_VALUE;
+			if( find_val(memory, debut, &found_word) == CMD_UNKOWN_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
+			if ( disasm(memory,debut , found_word, dico) != CMD_OK_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;
 			
 			return CMD_OK_RETURN_VALUE ;
 		}
@@ -135,5 +145,5 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 		WARNING_MSG(" Usage disasm <plage>+ ");
 	}
 	
-	return CMD_UNKOWN_RETURN_VALUE;
+	return CMD_EXIT_RETURN_VALUE;
 }

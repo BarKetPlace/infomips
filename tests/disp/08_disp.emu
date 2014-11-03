@@ -1,0 +1,8 @@
+#-------
+#TEST_RETURN_CODE=FAIL           
+#TEST_COMMENT="Highest adress"
+#-------
+
+
+load ./elf/boucle.o
+disp mem 0xffffff00:0xffffff0

@@ -25,6 +25,17 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 //////////////////////////////// Chargement de la mémoire /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+	if (memory->nseg) 
+	{	WARNING_MSG("Un programme est déjà chargé en mémoire");
+		WARNING_MSG("Liberation memoire");
+		del_mem(memory);	
+		
+		INFO_MSG("Memoire liberee");
+
+		memory = alloue_mem();
+	}
+	
+	WARNING_MSG("Chargement de '%s' en mémoire",fichier);
 	FILE* felf;
 	segment* seg=NULL;
 	 unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
@@ -78,7 +89,7 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 	        }
 	    }
 	
-	if(!(init_tab_mem(memory))) WARNING_MSG("Problème de recopie de la mémoire");
+	//if(!(init_tab_mem(memory))) WARNING_MSG("Problème de recopie de la mémoire");
 	INFO_MSG("Programme chargé en mémoire avec succés");
 	//print_mem( memory );
 	

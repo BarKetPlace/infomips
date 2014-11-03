@@ -10,7 +10,7 @@
 
 //Selon son type, un bit d'un code ne signifie pas la même chose
 struct R {unsigned int func:6, si:5, rd:5, rt:5, rs:5, op:6;};
-struct I {unsigned int imm:16, rt:5, rs:5, func:6;};
+struct I {int imm:16, rt:5, rs:5, func:6;};
 struct J {unsigned int target:26, func:6;};
 
 //Un code 32 bits peut être vu soit comme un simple usigned int, soit comme un code de type R, J ou I
@@ -29,7 +29,8 @@ typedef struct {
 	char nom[6];
 	char type;
 	int nb_op;
-	char nom_op[MAXSTR];
+//	char nom_op[MAXSTR];
+	char* nom_op[4]; // MAXOP -> nombre max d'op
 }* definition;
 
 
@@ -53,10 +54,10 @@ Liste copie(Liste l);
 
 int lecture_dico(char* fichier, Liste l);
 void detail_def(definition def);
-void del_defs(Liste l);
+void del_dico(Liste l);
 Liste read_dico(char* fichier);
 
-int swap_mot(int mot);
+
 definition find_def(Liste dico, instruc mot);
 void print_disasm(definition def, instruc mot);
 

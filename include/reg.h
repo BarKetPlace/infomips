@@ -21,7 +21,7 @@ registre* alloue_reg(void);
 int init_reg(registre* reg);
 int del_reg (registre* reg);
 void print_tab_reg(registre* reg);
-void print_reg(registre* reg, int i);
+int print_reg(registre* reg, int i);
 int is_registre(char* chaine);
 int transf_reg(registre *reg, char* nom_reg );
 

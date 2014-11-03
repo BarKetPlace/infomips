@@ -117,10 +117,19 @@ int main ( int argc, char *argv[] ) {
 	registre* reg=NULL;
 	memory=alloue_mem();
 	reg=alloue_reg();
-	INFO_MSG("Chargement du dictionnaire d'instructions");
+
+	WARNING_MSG("Chargement des registres");
+	if (!(init_reg(reg) ) )
+	{	ERROR_MSG("Probleme dans l'initialisation des registres");
+		return CMD_EXIT_RETURN_VALUE;
+	}
+	INFO_MSG("Registres chargés");
+
+	WARNING_MSG("Chargement du dictionnaire d'instructions");
 	Liste dico =  read_dico("./src/dico/dico.txt");
 	INFO_MSG("Dictionnaire d'instructions chargé");
-	//visualiser(dico);
+	visualiser(dico);
+
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {
 
@@ -141,6 +150,9 @@ int main ( int argc, char *argv[] ) {
                     fclose( fp );
                 }
                 del_inter(inter);
+				del_mem(memory);INFO_MSG("Liberation memoire");	
+				del_reg(reg);INFO_MSG("Liberation des registres");
+				del_dico(dico);INFO_MSG("Liberation du dictionnaire d'instructions");
                 exit(EXIT_SUCCESS);
                 break;
 			case CMD_UNKOWN_RETURN_VALUE:
@@ -151,9 +163,12 @@ int main ( int argc, char *argv[] ) {
                 if (inter->mode == SCRIPT) {
                     fclose( fp );
                     del_inter(inter);
-					
+					del_mem(memory);INFO_MSG("Liberation memoire");	
+					del_reg(reg);INFO_MSG("Liberation des registres");
+					del_dico(dico);INFO_MSG("Liberation du dictionnaire d'instructions");	
                    //macro ERROR_MSG : message d'erreur puis fin de programme ! 
                     ERROR_MSG("ERREUR DETECTEE. Aborts");
+			exit(EXIT_SUCCESS);
                 }
                 break;
             }
@@ -164,8 +179,9 @@ int main ( int argc, char *argv[] ) {
             DEBUG_MSG("FIN DE FICHIER");
             fclose( fp );
             del_inter(inter);
-			del_mem(memory);INFO_MSG("Liberation memoire");
-			del_reg(reg);INFO_MSG("Liberation des registres");
+		del_mem(memory);INFO_MSG("Liberation memoire");
+		del_reg(reg);INFO_MSG("Liberation des registres");
+		del_dico;INFO_MSG("Liberation du dictionnaire d'instructions");
             exit(EXIT_SUCCESS);
         }
     }

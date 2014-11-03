@@ -1,7 +1,8 @@
 signature	masque		nom	  type nb_arg syntaxe
 
-00000020	fc0007ff	ADD		R	3	rd, rs, rt
-20000000	fc000000	ADDI	I	3	rt, rs, imm
+00000020	fc0007ff	ADD		R	3	rd rs rt
+20000000	fc000000	ADDI	I	3	rt rs imm
 08000000	fc000000	J		J	1	target
 11111111	ffffffff	NOP		J	0	none
-
+14000000	fc000000	BNE		I	3	rs rt imm
+00000000	ffffffff	rien	J	0	

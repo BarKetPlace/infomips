@@ -62,15 +62,15 @@ int init_mem( uint32_t nseg, registre* reg, mem vm ) {
             vm->seg[i].attr      = 0x0;
         }
         vm->nseg = nseg+1;
-	
-	if (!(init_reg(reg) && init_stack(vm, reg, nseg) ) )
-	{	ERROR_MSG("Probleme dans l'initialisation de la pile ou des registres");
-		return 0;
+		WARNING_MSG("Chargement de la pile");
+		if (!init_stack(vm, reg, nseg))
+		{
+			ERROR_MSG("Erreur lors du chargement de la pile");
+    	}
+		INFO_MSG("Pile initialisée");
 	}
-	
-    }
-
     return 1;
+
 }
 
 /**
@@ -171,6 +171,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
 * prints the content of a virtual memory
 * @param a virtual memory
 */
+/*
 int init_tab_mem(mem memory)
 {	int i,k,word;
 	int cpt=0;
@@ -198,7 +199,7 @@ int init_tab_mem(mem memory)
 	}
 	return 1;
 }
-
+*/
 
 
 
@@ -315,7 +316,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
         vm->seg[nseg].content   = calloc(vm->seg[nseg].size._64,1);
 
 	reg[30].val = vm->seg[nseg].start._32 ;
-	INFO_MSG("Pile chargée avec succès");
+	//INFO_MSG("Pile chargée avec succès");
 	return 1;
 }
 
@@ -359,36 +360,62 @@ void print_segment_raw_content(segment* seg) {
 	return CMD_OK_RETURN_VALUE;
 }*/
 
+void print_byte_mem(mem memory, uint32_t adr, uint32_t val)
+{
+	uint32_t vals;
+	
+	/*if(find_val(memory, adr-adr%4, &val) == CMD_EXIT_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;*/
+	
+	vals = swap_mot(val);
+	//DEBUG_MSG("%08x", vals);
+	
+	if (adr%4==0) 		printf(" %02x",vals&0x000000ff);
+	else if (adr%4==1) 	printf(" %02x",(vals&0x0000ff00)>>8);
+	else if (adr%4==2)	printf(" %02x",(vals&0x00ff0000)>>16);
+	else if (adr%4==3)	printf(" %02x",(vals&0xff000000)>>24);
+	return;
+}
+
 
 int print_case_mem(mem memory, uint debut_, uint fin_)
 {
-	int i;
+	int i, tmp;
 	uint debut=debut_;
 	uint fin=fin_;
+	uint val=0;
+	uint adr=debut;
 	//DEBUG_MSG("%x %x",debut,fin);
-	if (debut_%4!=0) debut = debut_ - (debut_%4);
-	if (fin_%4!=0) fin = fin_ -(fin_%4);
+	//if (debut_%4!=0) debut = debut_ - (debut_%4);
+	//if (fin_%4!=0) fin = fin_ -(fin_%4);
 
 	//DEBUG_MSG("%x %x",debut,fin);
 	
-	for (i=debut;i<=fin;i+=4)
-	{
-		printf("0x%08x : %08x\n", i, memory->tab[i]);
+	printf("0x%08x", debut);
+	for (i=debut;i<fin;i++)
+	{	if (i%0x10==0 && i != debut ) printf("\n0x%08x", i);
+		if (i%4==0) adr=i;
+		
+		tmp = find_val(memory, adr, &val);
+		if (tmp==CMD_UNKOWN_RETURN_VALUE) return tmp;
+		
+		else print_byte_mem(memory, i, val);
 	}
-
+printf("\n");
+//DEBUG_MSG("");
 }
 
-int find_val(mem memory, int adresse) {	
-	int  faddr = adresse;
+int find_val(mem memory, uint32_t adresse, uint32_t* res) {	
+	//DEBUG_MSG("");
 	int i=0;
 	int taille;
-	int word = 0;
+	uint32_t word = 0;
 	int start =0;
 	segment* seg =NULL;
 	//DEBUG_MSG("%d",memory->nseg);
 	
-	if (adresse<START_MEM) return CMD_UNKOWN_RETURN_VALUE;
-	
+	if (adresse<START_MEM) ERROR_MSG("La memoire commence en 0x%08x",START_MEM);
+	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
+
 	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
 	//DEBUG_MSG("nb seg %d",memory->nseg);
 	for ( i=0; i< memory->nseg;) {
@@ -400,22 +427,29 @@ int find_val(mem memory, int adresse) {
 		
 		//faddr = faddr - seg->start._32;
 
-
-		if (adresse > start+taille && adresse < memory->seg[i+1].start._32 )  {
-			WARNING_MSG("L'adresse 0x%08x n'est pas non-allouee", adresse);
-			return CMD_UNKOWN_RETURN_VALUE;
+		if (adresse > start+taille) i++;
+		else if ( adresse < start ){
+			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
+			break;
 		}
-		
-		if ( i < memory->nseg-1 && adresse > memory->seg[i+1].start._32 ) {
-			i++;
-		}
-		
-		else {
-			word = *((unsigned int *) (seg->content+adresse-start));
+		else
+		{//DEBUG_MSG("");
+			word = *((uint32_t *) (seg->content+adresse-start));
 			FLIP_ENDIANNESS(word);
-			return word;
+			*res = word;
+			return CMD_OK_RETURN_VALUE;
 		}
 		
 	}
-	return 0;
+	puts("");
+	WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
+	
+	return CMD_UNKOWN_RETURN_VALUE;
 }	
+
+//Inverse tout les octets d'un entier
+uint32_t swap_mot(uint32_t mot)
+{	int res=0;
+	res = ((mot&0xff000000)>>24) + ((mot&0x00ff0000)>>8) + ((mot&0x0000ff00)<<8) + ((mot&0x000000ff)<<24);
+	return res;
+}
