@@ -3,7 +3,7 @@ TARGET = projet
 CFLAGS = -g -std=c99 -I$(INCDIR)/ -Wall -Wextra -DDEBUG -DVERBOSE
 LFLAGS=-lreadline -lm -lcurses
 INCDIR=./include
-SRCDIR= src/memoire src/cmd src/emul src/is_
+SRCDIR= src/memoire src/cmd src/emul src/is_ src/dico
 
 
 SRC=$(foreach nom, $(SRCDIR), $(wildcard $(nom)/*.c))
