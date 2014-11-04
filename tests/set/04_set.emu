@@ -1,8 +1,7 @@
 #-------
-#TEST_RETURN_CODE=PASS          
-#TEST_COMMENT="ok"
+#TEST_RETURN_CODE=FAIL         
+#TEST_COMMENT="Erreur"
 #-------
 
 
-load ./elf/boucle.o
-set reg $v1 34
+load ./elf/boucle.

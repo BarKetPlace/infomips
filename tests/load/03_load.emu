@@ -1,0 +1,7 @@
+#-------
+#TEST_RETURN_CODE=FAIL           
+#TEST_COMMENT="fichier objet inexistant"
+#-------
+
+
+load ./elf/b.o

@@ -5,6 +5,5 @@
 
 
 load ./elf/boucle.o
-set reg $v1 34
-set reg $v0 0x45
-set mem word 0x5000 0xAAFFBBDD
+assert reg $v0 -2
+assert byte 0x500c 0xc
