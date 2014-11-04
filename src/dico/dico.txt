@@ -28,15 +28,15 @@ signature	masque		nom	  	type 	nb_arg 	syntaxe
 00000012	ffff07ff	MFLO		R	1	rd
 00000025	fc0007ff	OR		R	3	rd rs rt
 34000000	fc000000	ORI		I	3	rt rs imm
-a0000000	fc000000	SB		I	3	rt imm
+a0000000	fc000000	SB		I	2	rt imm
 7c000420	ffe007ff	SEB		R	2	rd rt
-00000000	ffe0003f	SLL		J	3	rd rt sa
+00000000	ffe0003f	SLL		I	3	rd rt imm
 0000002a	fc0007ff	SLT		R	3	rd rs rt
 28000000	fc000000	SLTI		I	3	rd rs imm
 2c000000	fc000000	SLTIU		I	3	rt rs imm
 0000002b	fc0007ff	SLTU		R	3	rd rs rt
-00000003	ffe0003f	SRA		J	3	rd rt sa
-00000002	ffe0003f	SRL		J	3	rd rt sa
+00000003	ffe0003f	SRA		I	3	rd rt imm
+00000002	ffe0003f	SRL		I	3	rd rt imm
 00000022	fc0007ff	SUR		R	3	rd rs rt
 00000023	fc0007ff	SUBU		R	3	rd rs rt
 ac000000	fc000000	SW		I	2	rt imm
