@@ -1,0 +1,8 @@
+#-------
+#TEST_RETURN_CODE=FAIL           
+#TEST_COMMENT="Synthaxe"
+#-------
+
+
+load ./elf/boucle.o
+assert reg $v0 p

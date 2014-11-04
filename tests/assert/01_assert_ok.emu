@@ -1,0 +1,9 @@
+#-------
+#TEST_RETURN_CODE=PASS           
+#TEST_COMMENT="ok"
+#-------
+
+
+load ./elf/boucle.o
+assert reg $v0 -2
+assert byte 0x500c 0xc
