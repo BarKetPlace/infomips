@@ -1,7 +1,8 @@
 #-------
-#TEST_RETURN_CODE=FAIL           
-#TEST_COMMENT="Highest adress"
+#TEST_RETURN_CODE=PASS          
+#TEST_COMMENT="ok"
 #-------
 
 
 load ./elf/boucle.o
+set reg $v1 34

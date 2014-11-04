@@ -1,7 +1,8 @@
 #-------
 #TEST_RETURN_CODE=FAIL           
-#TEST_COMMENT="Highest adress"
+#TEST_COMMENT="Registre inexistant"
 #-------
 
 
 load ./elf/boucle.o
+set reg v3 200

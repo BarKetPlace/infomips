@@ -1,7 +1,8 @@
 #-------
 #TEST_RETURN_CODE=FAIL           
-#TEST_COMMENT="Highest adress"
+#TEST_COMMENT="case memoire trop elevee"
 #-------
 
 
 load ./elf/boucle.o
+set mem word 0xffffff00 0xAAFFBBDD
