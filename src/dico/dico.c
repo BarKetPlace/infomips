@@ -116,7 +116,7 @@ Liste read_dico(char* fichier)
 	fgets(chaine, MAXSTR, fp);
 	
 	while(fgets(chaine, MAXSTR, fp))
-	{	DEBUG_MSG("%s",chaine);
+	{	//DEBUG_MSG("%s",chaine);
 		if (chaine[0] != '\n' && chaine[0] != '\0' && chaine[0] != '\t' && chaine[0] != ' ')
 		{
 		definition def = calloc(1, sizeof(*def));//On alloue une nouvelle définition
