@@ -1,8 +1,47 @@
-signature	masque		nom	  type nb_arg syntaxe
+signature	masque		nom	  	type 	nb_arg 	syntaxe
 
 00000020	fc0007ff	ADD		R	3	rd rs rt
-20000000	fc000000	ADDI	I	3	rt rs imm
+02000000	fc000000	ADDI		I	3	rt rs imm
 08000000	fc000000	J		J	1	target
 11111111	ffffffff	NOP		J	0	none
+24000000	fc000000	ADDIU		I	3	rt rs imm
+00000021	fc0007ff	ADDU		R	3	rd rs rt
+00000024	fc0007ff	AND		R	3	rd rs rt
+03000000	fc000000	ANDI		I	3	rs rt imm
+10000000	fc000000	BEQ		I	3	rs rt imm
+04010000	fc1f0000	BGEZ		I	2	rs imm	
+1c000000	fc1f0000	BGTZ		I	2	rs imm
+18000000	fc1f0000	BLEZ		I	2	rs imm
+04000000	fc1f0000	BLTZ		I	2	rs imm
 14000000	fc000000	BNE		I	3	rs rt imm
-00000000	ffffffff	rien	J	0	
+0000000d	fc00003f	BREAK		J	0	none
+0000001a	fc00ffff	DIV		R	2	rs rt
+0c000000	fc000000	JAL		J	1	target
+00000009	fc1f003f	JALR		R	2	rd rs
+00000008	fc1ff83f	JR		R	1	rs
+80000000	fc000000	LB		I	2	rt imm
+90000000	fc000000	LBU		I	2	rt imm
+3c000000	ffe00000	LUI		I	2	rt imm
+8c000000	fc000000	LW		I	2	rt imm
+00000010	ffff07ff	MFHI		R	1	rd
+00000018	fc00ffff	MULT		R	2	rs rt
+00000012	ffff07ff	MFLO		R	1	rd
+00000025	fc0007ff	OR		R	3	rd rs rt
+34000000	fc000000	ORI		I	3	rt rs imm
+a0000000	fc000000	SB		I	2	rt imm
+7c000420	ffe007ff	SEB		R	2	rd rt
+00000000	ffe0003f	SLL		J	3	rd rt imm
+0000002a	fc0007ff	SLT		R	3	rd rs rt
+28000000	fc000000	SLTI		I	3	rd rs imm
+2c000000	fc000000	SLTIU		I	3	rt rs imm
+0000002b	fc0007ff	SLTU		R	3	rd rs rt
+00000003	ffe0003f	SRA		J	3	rd rt sa
+00000002	ffe0003f	SRL		J	3	rd rt sa
+00000022	fc0007ff	SUR		R	3	rd rs rt
+00000023	fc0007ff	SUBU		R	3	rd rs rt
+ac000000	fc000000	SW		I	2	rt imm
+0000000c	fc00003f	SYSCALL		J	0	none
+00000026	fc0007ff	XOR		R	3	rd rs rt
+
+
+	
