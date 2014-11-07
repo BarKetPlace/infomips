@@ -177,21 +177,21 @@ definition find_def(Liste dico, instruc mot)
 {	definition res =NULL;
 	Liste dico_1 = NULL;
 	dico_1 = dico;
-	//visualiser(dico_1);
+	//visualiser(dico);
 	
 	int masque;
 	int signature;
 	//DEBUG_MSG("%08x", mot.code);
-	if (!dico_1) DEBUG_MSG("");
+	//if (!dico_1) DEBUG_MSG("");
 	//visualiser(dico);
 	while (dico)
-	{	//visualiser(dico);printf("\n");
+	{	//DEBUG_MSG("");visualiser(dico);printf("\n");
 		masque = dico->val->masq;//DEBUG_MSG("");
 		signature = dico->val->sign;//DEBUG_MSG("");
 		
 		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
 
-		if ( (mot.code&masque) == signature )  {	
+		if ( (mot.code&masque) == signature )  {	//DEBUG_MSG("");
 			//detail_def(dico->val);
 			res = dico->val;
 			break;

@@ -23,12 +23,6 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 	}
 	
 	if (!strcmp(token,"mem")) { //disp mem
-		 // La mémoire
-		if (memory == NULL) //Probleme avec le chargement de la mémoire
-		{
-			WARNING_MSG("Memoire non-chargée");
-			return CMD_EXIT_RETURN_VALUE;
-		}
 		token = get_next_token(inter);
 			
 		if (token == NULL) //disp mem (null)
@@ -112,16 +106,16 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				} while (token && is_hexa(token));
 			}
 			else if (!token)//disp mem HEXA
-			{	tmp = find_val(memory, adr, &val);
+			{	tmp = find_val(memory, debut, &val);
 					if (tmp==CMD_UNKOWN_RETURN_VALUE)
 					{	printf("\n");
-						ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adr);
+						//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", debut);
 						return tmp;
 					}
 					else {
-						printf("0x%08x : ",adr);
-						DEBUG_MSG(" %08x ", val);
-						print_byte_mem(memory, adr, val);printf("\n");
+						printf("0x%08x : ",debut);
+					//	DEBUG_MSG(" %08x ", val);
+						print_byte_mem(memory, debut, val);printf("\n");
 					}
 			}
 

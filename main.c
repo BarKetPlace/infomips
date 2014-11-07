@@ -49,7 +49,7 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico) {
 
     if(strcmp(token, "exit") == 0) {
 	
-        return exitcmd(inter, memory, reg);
+        return exitcmd(inter, memory, reg, dico);
     }
     if(strcmp(token, "test") == 0) {
         return testcmd(inter);
@@ -148,12 +148,14 @@ int main ( int argc, char *argv[] ) {
                 //sortie propre du programme 
                 if ( fp != stdin ) {
                     fclose( fp );
-                }
+                
+				
                 del_inter(inter);
 				del_mem(memory);INFO_MSG("Liberation memoire");	
 				del_reg(reg);INFO_MSG("Liberation des registres");
 				del_dico(dico);INFO_MSG("Liberation du dictionnaire d'instructions");
                 exit(EXIT_SUCCESS);
+				}
                 break;
 			case CMD_UNKOWN_RETURN_VALUE:
 				break;

@@ -427,7 +427,7 @@ int find_val(mem memory, uint32_t adresse, uint32_t* res) {
 		
 		//faddr = faddr - seg->start._32;
 
-		if (adresse > start+taille) i++;
+		if (adresse > start+taille) i++; 
 		else if ( adresse < start ){
 			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 			break;

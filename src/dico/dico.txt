@@ -1,9 +1,8 @@
 signature	masque		nom	  	type 	nb_arg 	syntaxe
 
 00000020	fc0007ff	ADD		R	3	rd rs rt
-02000000	fc000000	ADDI		I	3	rt rs imm
+20000000	fc000000	ADDI		I	3	rt rs imm
 08000000	fc000000	J		J	1	target
-11111111	ffffffff	NOP		J	0	none
 24000000	fc000000	ADDIU		I	3	rt rs imm
 00000021	fc0007ff	ADDU		R	3	rd rs rt
 00000024	fc0007ff	AND		R	3	rd rs rt
@@ -31,6 +30,7 @@ signature	masque		nom	  	type 	nb_arg 	syntaxe
 a0000000	fc000000	SB		I	2	rt imm
 7c000420	ffe007ff	SEB		R	2	rd rt
 00000000	ffe0003f	SLL		I	3	rd rt imm
+00000000	ffffffff	NOP		J	0	none
 0000002a	fc0007ff	SLT		R	3	rd rs rt
 28000000	fc000000	SLTI		I	3	rd rs imm
 2c000000	fc000000	SLTIU		I	3	rt rs imm
