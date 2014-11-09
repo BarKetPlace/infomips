@@ -111,7 +111,7 @@ Liste read_dico(char* fichier)
 	char* token, token2;
 	int i;
 	FILE* fp = fopen(fichier, "r");
-	if (!fp) return CMD_UNKOWN_RETURN_VALUE;
+	if (!fp) return cmd_unknown;
 
 	fgets(chaine, MAXSTR, fp);
 	
@@ -173,7 +173,7 @@ Liste read_dico(char* fichier)
 }
 //On va trouver l'instruction qui correspond au mot code stocke en memoire
 //Cette fonction repose sur la comparaison entre le code masqué et la signature
-definition find_def(Liste dico, instruc mot)
+definition find_def(Liste dico, union inst_poly mot)
 {	definition res =NULL;
 	Liste dico_1 = NULL;
 	dico_1 = dico;
@@ -191,7 +191,7 @@ definition find_def(Liste dico, instruc mot)
 		
 		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
 
-		if ( (mot.code&masque) == signature )  {	DEBUG_MSG("");
+		if ( (mot.code&masque) == signature )  {	//DEBUG_MSG("");
 			//detail_def(dico->val);
 			res = dico->val;
 			break;

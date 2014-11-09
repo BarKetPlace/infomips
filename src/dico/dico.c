@@ -173,7 +173,7 @@ Liste read_dico(char* fichier)
 }
 //On va trouver l'instruction qui correspond au mot code stocke en memoire
 //Cette fonction repose sur la comparaison entre le code masqué et la signature
-definition find_def(Liste dico, instruc mot)
+definition find_def(Liste dico, union inst_poly mot)
 {	definition res =NULL;
 	Liste dico_1 = NULL;
 	dico_1 = dico;
@@ -208,7 +208,7 @@ definition find_def(Liste dico, instruc mot)
 
 
 //Affichage de l'instruction desassemblée
-void print_disasm(definition def, instruc mot)
+void print_disasm(definition def, union inst_poly mot)
 {
 	char* token=NULL;
 	char* delim = " ";
@@ -280,7 +280,7 @@ int main(int argc, char* argv[])
 
 	char* token;
 	char* delim = " ";
-	instruc mot;
+	union inst_poly mot;
 	int i;
 	mot.code = 0x00641020;
 	//On va trouver l'instruction qui correspond au mot code stocke en memoire

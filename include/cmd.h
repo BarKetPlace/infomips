@@ -12,7 +12,6 @@
 int testcmd(interpreteur inter);
 int exitcmd(interpreteur inter, mem memory, registre* reg, Liste dico);
 
-
 int loadcmd(char* fichier, mem memory, registre* reg);
 int dispcmd(interpreteur inter, mem memory, registre* reg);
 
@@ -24,4 +23,5 @@ int assertcmd(interpreteur inter, mem memory, registre *reg);
 int setcmd(interpreteur inter, mem memory, registre *reg);
 
 int runcmd(interpreteur inter,mem memory, registre* reg, Liste dico);
+int adresse_to_instruc(mem memory, int adrr, Liste dico, definition res);
 #endif

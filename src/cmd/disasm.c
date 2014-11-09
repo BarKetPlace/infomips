@@ -22,7 +22,7 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 	//printf("swap(0x%08x) = 0x%08x\n",val, val_swapped );
 	//DEBUG_MSG(" 0x%08x: 0x%08x ",adrr, val);
 	printf("0x%08x: 0x%08x ",adrr, val);
-	instruc mot;
+	union inst_poly mot;
 	mot.code=val;	
 	//DEBUG_MSG("");
 	definition def =NULL;

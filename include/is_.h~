@@ -14,6 +14,7 @@ int is_adresse(char *chaine);
 int is_hexa(char* chaine);
 int is_valeur(char* chaine);
 int is_type(char *chaine);
-
+int is_registre(char* chaine);
+int is_text_adresse(mem memory, uint32_t adresse, uint32_t* text_start);
 
 #endif

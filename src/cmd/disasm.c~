@@ -31,13 +31,13 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 	if (!def)  {//Si def == NULL
 		printf("\n");
 		WARNING_MSG(" Instruction inconnue ");
-		return CMD_EXIT_RETURN_VALUE;
+		return cmd_exit;
 		}
 	//detail_def(def);
 	
 	//printf("0x%08x: 0x%08x ",adrr, val);
 	print_disasm(def, mot);
-	return CMD_OK_RETURN_VALUE;
+	return cmd_ok;
 }
 
 
@@ -47,38 +47,38 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 	int val, tmp;
 	tmp =find_val(memory, debut, &val);
 	uint32_t found_word;
-	if ( tmp == CMD_UNKOWN_RETURN_VALUE ) return tmp;
+	if ( tmp == cmd_unknown ) return tmp;
 	
 	
 	//DEBUG_MSG("0x%08x", val);
 	if (fin-debut<4)
 	{	tmp = disasm(memory, debut ,val , dico);
-		if (tmp != CMD_OK_RETURN_VALUE) //Si il y a eu un probleme
+		if (tmp != cmd_ok) //Si il y a eu un probleme
 		{ 	
 			WARNING_MSG("Erreur de desassemblage à l'adresse : 0x%08x",debut);
-			return CMD_EXIT_RETURN_VALUE;
+			return cmd_exit;
 		}
 			
 		//printf("0x%08x: 0x%08x %s\n",debut, val, res);
-		return CMD_OK_RETURN_VALUE;
+		return cmd_ok;
 	}
 
 	
 	for (i=debut;i<fin;i+=4)
-	{	if ( find_val(memory, i, &val) == CMD_UNKOWN_RETURN_VALUE ) return CMD_UNKOWN_RETURN_VALUE;
+	{	if ( find_val(memory, i, &val) == cmd_unknown ) return cmd_unknown;
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
 		tmp = disasm(memory, i , val , dico);
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
-		if ( tmp != CMD_OK_RETURN_VALUE ){
+		if ( tmp != cmd_ok ){
 			WARNING_MSG("Erreur de desassemblage a l'adresse : 0x%08x",i);
-			return CMD_EXIT_RETURN_VALUE;
+			return cmd_exit;
 		}
 		//DEBUG_MSG(" ");
 		//printf("0x%08x: 0x%08x %s\n",i, val, res);
 	}
 	
 	
-	return CMD_OK_RETURN_VALUE;
+	return cmd_ok;
 }
 
 int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
@@ -95,7 +95,7 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 		if (debut>STOP_MEM) //L'adresse est trop haute (voir mem.h)
 			{
 				WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
-				return CMD_EXIT_RETURN_VALUE;
+				return cmd_exit;
 			}
 		token = get_next_token(inter);
 			
@@ -108,7 +108,7 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 				if (debut>STOP_MEM) //L'adresse est trop haute (voir mem.h)
 				{
 					WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
-					return CMD_EXIT_RETURN_VALUE;
+					return cmd_exit;
 				}
 				return disasm_(memory, reg, debut, fin, dico);
 			}
@@ -124,7 +124,7 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 				if (debut+decalage>STOP_MEM) //L'adresse est trop haute (voir mem.h)
 				{
 					WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
-					return CMD_EXIT_RETURN_VALUE;
+					return cmd_exit;
 				}
 				//DEBUG_MSG("");
 				return disasm_(memory, reg, debut, debut+decalage, dico);
@@ -133,21 +133,17 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 		}
 		else { //disasm HEXA (HEXA HEXA HEXA ...)
 			
-			if( find_val(memory, debut, &found_word) == CMD_UNKOWN_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
+			if( find_val(memory, debut, &found_word) == cmd_unknown) return cmd_unknown;
 			else disasm(memory,debut , found_word, dico);
 
 			while(token && is_hexa(token))
 			{	sscanf(token, "%x", &courant);
-				if( find_val(memory, courant, &found_word) == CMD_UNKOWN_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
+				if( find_val(memory, courant, &found_word) == cmd_unknown) return cmd_unknown;
 				else disasm(memory,courant , found_word, dico);
 				token = get_next_token(inter);
 			}
-/*
-			//printf("0x%08x",debut);
-			if( find_val(memory, debut, &found_word) == CMD_UNKOWN_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
-			if ( disasm(memory,debut , found_word, dico) != CMD_OK_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;*/
-			
-			return CMD_OK_RETURN_VALUE ;
+
+			return cmd_ok ;
 		}
 		
 	
@@ -157,5 +153,5 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 		WARNING_MSG(" Usage disasm <plage>+ ");
 	}
 	
-	return CMD_EXIT_RETURN_VALUE;
+	return cmd_exit;
 }
