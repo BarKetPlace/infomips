@@ -23,5 +23,5 @@ int disasmcmd(interpreteur, mem memory, registre* reg, Liste dico);
 int assertcmd(interpreteur inter, mem memory, registre *reg);
 int setcmd(interpreteur inter, mem memory, registre *reg);
 
-
+int runcmd(interpreteur inter,mem memory, registre* reg, Liste dico);
 #endif

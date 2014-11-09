@@ -10,8 +10,8 @@ int is_elf(char* fichier, FILE* felf)
 {	
 	if (!assert_elf_file(felf)) //Le fichier est il un fichier elf
 	{
-		ERROR_MSG("file %s is not an ELF file\n", fichier);
-		return 0;
+		WARNING_MSG("file '%s' is not an ELF file", fichier);
+		return cmd_exit;
 	}
-	return 1;
+	return cmd_ok;
 }

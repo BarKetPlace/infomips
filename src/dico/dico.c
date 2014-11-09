@@ -111,7 +111,7 @@ Liste read_dico(char* fichier)
 	char* token, token2;
 	int i;
 	FILE* fp = fopen(fichier, "r");
-	if (!fp) return CMD_UNKOWN_RETURN_VALUE;
+	if (!fp) return cmd_unknown;
 
 	fgets(chaine, MAXSTR, fp);
 	

@@ -23,9 +23,9 @@
 *
 * @brief parse la chaine courante de l'interpreteur à la recherche d'une commande, et execute cette commande.
 * @param inter l'interpreteur qui demande l'analyse
-* @return CMD_OK_RETURN_VALUE si la commande s'est exécutée avec succès (0)
-* @return CMD_EXIT_RETURN_VALUE si c'est la commande exit. Dans ce cas, le programme doit se terminer. (-1)
-* @return CMD_UNKOWN_RETURN_VALUE si la commande n'est pas reconnue. (-2)
+* @return cmd_ok si la commande s'est exécutée avec succès (0)
+* @return cmd_exit si c'est la commande exit. Dans ce cas, le programme doit se terminer. (-1)
+* @return cmd_unknown si la commande n'est pas reconnue. (-2)
 * @return tout autre nombre (eg tout nombre positif) si erreur d'execution de la commande
 */
 
@@ -39,17 +39,18 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico) {
             || sscanf(inter->input, "%s", cmdStr) == 0
             || strlen(cmdStr) == 0
             || cmdStr[0] == '#') { /* ligne commence par # => commentaire*/
-        return CMD_OK_RETURN_VALUE;
+        return cmd_ok;
     }
 	
-	//if (is_conform_line(inter) != CMD_OK_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
+	//if (is_conform_line(inter) != cmd_ok) return cmd_unknown;
     /*on identifie la commande avec un premier appel à get_next_token*/
 	//DEBUG_MSG("ok");
     char * token = get_next_token(inter);
 
     if(strcmp(token, "exit") == 0) {
 	
-        return exitcmd(inter, memory, reg, dico);
+        exitcmd(inter, memory, reg, dico);
+		exit(EXIT_SUCCESS);
     }
     if(strcmp(token, "test") == 0) {
         return testcmd(inter);
@@ -73,9 +74,12 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico) {
 	if(strcmp(token, "disasm") == 0){
 		return disasmcmd(inter, memory, reg, dico);
 	}
+	if(strcmp(token, "run") == 0){
+		return runcmd(inter, memory, reg, dico);
+	}
 	
-		WARNING_MSG("Unknown Command : '%s'\n", cmdStr);
-    return CMD_UNKOWN_RETURN_VALUE;
+		WARNING_MSG("Unknown Command : '%s'", cmdStr);
+    return cmd_unknown;
 }
 
 
@@ -121,14 +125,14 @@ int main ( int argc, char *argv[] ) {
 	WARNING_MSG("Chargement des registres");
 	if (!(init_reg(reg) ) )
 	{	ERROR_MSG("Probleme dans l'initialisation des registres");
-		return CMD_EXIT_RETURN_VALUE;
+		return cmd_exit;
 	}
 	INFO_MSG("Registres chargés");
 
 	WARNING_MSG("Chargement du dictionnaire d'instructions");
 	Liste dico =  read_dico("./src/dico/dico.txt");
 	INFO_MSG("Dictionnaire d'instructions chargé");
-	visualiser(dico);
+	//visualiser(dico);
 
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {
@@ -142,13 +146,12 @@ int main ( int argc, char *argv[] ) {
 			
             // traitement des erreurs
             switch(res) {
-            case CMD_OK_RETURN_VALUE:
+            case cmd_ok:
                 break;
-            case CMD_EXIT_RETURN_VALUE:
+            case cmd_exit:
                 //sortie propre du programme 
                 if ( fp != stdin ) {
-                    fclose( fp );
-                
+                fclose( fp );               
 				
                 del_inter(inter);
 				del_mem(memory);INFO_MSG("Liberation memoire");	
@@ -157,17 +160,21 @@ int main ( int argc, char *argv[] ) {
                 exit(EXIT_SUCCESS);
 				}
                 break;
-			case CMD_UNKOWN_RETURN_VALUE:
+			case cmd_unknown:
+				if ( fp != stdin ) {
+                    fclose( fp );
+                
+				
+                exitcmd(inter, memory, reg, dico);
+                exit(EXIT_SUCCESS);
+				}
 				break;
             default:
                 // erreur durant l'execution de la commande 
                 // En mode "fichier" toute erreur implique la fin du programme ! 
                 if (inter->mode == SCRIPT) {
                     fclose( fp );
-                    del_inter(inter);
-					del_mem(memory);INFO_MSG("Liberation memoire");	
-					del_reg(reg);INFO_MSG("Liberation des registres");
-					del_dico(dico);INFO_MSG("Liberation du dictionnaire d'instructions");	
+                    exitcmd(inter, memory, reg, dico);
                    //macro ERROR_MSG : message d'erreur puis fin de programme ! 
                     ERROR_MSG("ERREUR DETECTEE. Aborts");
 			exit(EXIT_SUCCESS);
@@ -180,10 +187,7 @@ int main ( int argc, char *argv[] ) {
              //mode fichier, fin de fichier => sortie propre du programme 
             DEBUG_MSG("FIN DE FICHIER");
             fclose( fp );
-            del_inter(inter);
-		del_mem(memory);INFO_MSG("Liberation memoire");
-		del_reg(reg);INFO_MSG("Liberation des registres");
-		del_dico;INFO_MSG("Liberation du dictionnaire d'instructions");
+           exitcmd(inter, memory, reg, dico);
             exit(EXIT_SUCCESS);
         }
     }

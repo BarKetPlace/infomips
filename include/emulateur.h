@@ -16,10 +16,10 @@ Valeur de retour speciales lorsqu'on pour la fonction
 	int parse_and_execute_cmd_string(char *input) ;
 Toute autre valeur signifie qu'une erreur est survenue
  \*************************************************************/
-#define CMD_OK_RETURN_VALUE 0
-#define CMD_EXIT_RETURN_VALUE -1
-#define CMD_UNKOWN_RETURN_VALUE -2
-//#define CMD_UNKOWN_RETURN_VALUE CMD_UNKNOWN_RETURN_VALUE
+#define cmd_ok 0
+#define cmd_exit -1
+#define cmd_unknown -2
+//#define cmd_unknown CMD_UNKNOWN_RETURN_VALUE
 
 /* type de token (exemple) */
 enum {HEXA,UNKNOWN};

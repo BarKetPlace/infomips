@@ -23,7 +23,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 	if (token == NULL) //set (null)
 	{
 		WARNING_MSG("Missing arguments");
-		return CMD_UNKOWN_RETURN_VALUE;
+		return cmd_unknown;
 	}
 	
 	if (!strcmp(token,"mem"))  //set mem
@@ -32,7 +32,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 		if (memory == NULL) //Probleme avec le chargement de la mémoire
 		{
 			WARNING_MSG("Memoire non-chargée");
-			return CMD_UNKOWN_RETURN_VALUE;
+			return cmd_unknown;
 		}
 		
 		token = get_next_token(inter);
@@ -41,7 +41,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 		if (token == NULL) //set mem (null)
 		{
 			WARNING_MSG("Missing arguments <type> <adresse> <valeur>");
-			return CMD_UNKOWN_RETURN_VALUE;
+			return cmd_unknown;
 		}
 
 		else if ((is_type(token))) //set mem <type>
@@ -53,7 +53,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 			if (token == NULL) //set mem <type> (null)
 			{
 				WARNING_MSG("Missing arguments <adresse> <valeur>");
-				return CMD_UNKOWN_RETURN_VALUE;
+				return cmd_unknown;
 			}
 		
 			DEBUG_MSG("ok");
@@ -66,7 +66,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 				if (token == NULL) //set mem <type> <adresse> (null)
 				{
 					WARNING_MSG("Missing argument <valeur>");
-					return CMD_UNKOWN_RETURN_VALUE;
+					return cmd_unknown;
 				}
 			
 				//probleme is_valeur pour les hexas
@@ -78,32 +78,32 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 					if (is_valeur(token)) // valeur entiere
 					{
 						sscanf(token, "%d", &adresse);
-						return CMD_OK_RETURN_VALUE;
+						return cmd_ok;
 					}
 					else if (is_hexa(token)) // valeur hexadecimale
 					{
 						sscanf(token, "%x", &adresse);
-						return CMD_OK_RETURN_VALUE;
+						return cmd_ok;
 					}
-					else {return CMD_UNKOWN_RETURN_VALUE;}
+					else {return cmd_unknown;}
 				}
 
 				else
 				{	
 					WARNING_MSG("Wrong argument: must be <valeur>");
-					return CMD_UNKOWN_RETURN_VALUE;
+					return cmd_unknown;
 				}
 			}
 			else 
 			{	
 				WARNING_MSG("Wrong argument: must be <adresse>");
-				return CMD_UNKOWN_RETURN_VALUE;
+				return cmd_unknown;
 			}
 		}
 		else
 		{
 			WARNING_MSG("Wrong argument: must be <type>");
-			return CMD_UNKOWN_RETURN_VALUE;
+			return cmd_unknown;
 		}
 		
 	}
@@ -113,7 +113,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 		if (memory == NULL) //Probleme avec le chargement de la mémoire
 		{
 			WARNING_MSG("Memoire non-chargée");
-			return CMD_UNKOWN_RETURN_VALUE;
+			return cmd_unknown;
 		}
 		token = get_next_token(inter);
 		DEBUG_MSG("ok");
@@ -121,7 +121,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 		if (token == NULL) //set reg (null)
 		{
 			WARNING_MSG("Missing argument <registre>");
-			return CMD_UNKOWN_RETURN_VALUE;
+			return cmd_unknown;
 		}
 
 		else if ((is_registre(token))!=-1) //set reg <registre>
@@ -135,7 +135,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 			if (token == NULL) //set reg <registre> (null)
 			{
 				WARNING_MSG("Missing argument <valeur>");
-				return CMD_UNKOWN_RETURN_VALUE;
+				return cmd_unknown;
 			}
 		
 
@@ -147,34 +147,34 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 				if (is_valeur(token)) // valeur entiere
 				{
 					sscanf(token, "%d", &reg[j].val);
-					return CMD_OK_RETURN_VALUE;
+					return cmd_ok;
 				}
 				else if (is_hexa(token)) // valeur hexadecimale
 				{
 					sscanf(token, "%x", &reg[j].val);
-					return CMD_OK_RETURN_VALUE;
+					return cmd_ok;
 				}
-				else {return CMD_UNKOWN_RETURN_VALUE;}
+				else {return cmd_unknown;}
 			}
 
 			else 
 			{	
 				WARNING_MSG("Wrong argument: must be <valeur>");
-				return CMD_UNKOWN_RETURN_VALUE;
+				return cmd_unknown;
 			}
 		}
 		else
 		{
 			WARNING_MSG("Wrong argument: must be <registre>");
-			return CMD_UNKOWN_RETURN_VALUE;
+			return cmd_unknown;
 		}
 	}
 	else //set "autre chose que reg ou mem"  
 	{
 		WARNING_MSG("Usage: set \"mem\" | set \"reg\"");
-		return CMD_UNKOWN_RETURN_VALUE;
+		return cmd_unknown;
 	}
-	return CMD_OK_RETURN_VALUE;
+	return cmd_ok;
 
 }
 		

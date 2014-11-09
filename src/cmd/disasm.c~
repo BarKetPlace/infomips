@@ -132,9 +132,9 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 			WARNING_MSG(" Usage disasm HEXA+val ");
 		}
 		else { //disasm HEXA (HEXA HEXA HEXA ...)
-			sscanf(token, "%x", &debut);
-			if( find_val(memory, courant, &found_word) == CMD_UNKOWN_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
-			else disasm(memory,courant , found_word, dico);
+			
+			if( find_val(memory, debut, &found_word) == CMD_UNKOWN_RETURN_VALUE) return CMD_UNKOWN_RETURN_VALUE;
+			else disasm(memory,debut , found_word, dico);
 
 			while(token && is_hexa(token))
 			{	sscanf(token, "%x", &courant);

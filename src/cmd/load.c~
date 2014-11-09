@@ -28,7 +28,8 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 	if (memory->nseg) 
 	{	WARNING_MSG("Un programme est déjà chargé en mémoire");
 		WARNING_MSG("Liberation memoire");
-		del_mem(memory);
+		del_mem(memory);	
+		
 		INFO_MSG("Memoire liberee");
 
 		memory = alloue_mem();
@@ -57,8 +58,8 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 		return NULL;
 	}
 	//On vérifie que le nombre d'argument est correct et que le fichier est bien un fichier elf
-	if ( !(is_elf(fichier,  felf)) ) 
-	{	ERROR_MSG("Attention, le fichier n'est pas un fichier elf");
+	if ( (is_elf(fichier,  felf)) != CMD_OK_RETURN_VALUE ) 
+	{	WARNING_MSG("Attention, le fichier n'est pas un fichier elf");
 		return CMD_UNKOWN_RETURN_VALUE;
 	}
 	//DEBUG_MSG("ok");

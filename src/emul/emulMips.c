@@ -115,7 +115,7 @@ int _testcmd(int hexValue) {
     }
     fprintf(stdout, "CMD TEST RESULT 0x%x\n", hexValue + 1);
 
-    return CMD_OK_RETURN_VALUE;
+    return cmd_ok;
 }
 
 
@@ -228,7 +228,7 @@ int  acquire_line(FILE *fp, interpreteur inter) {
 
 	//On n'affiche pas les commentaires et les lignes vides
 	if (inter->input[1] != '#' && inter->input[1] != '\0' )
-    DEBUG_MSG("Ligne acquise '%s'", inter->input); /* macro DEBUG_MSG : uniquement si compil en mode DEBUG_MSG */
+    //DEBUG_MSG("Ligne acquise '%s'", inter->input); /* macro DEBUG_MSG : uniquement si compil en mode DEBUG_MSG */
     return 0;
 }
 

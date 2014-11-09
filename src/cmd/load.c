@@ -58,9 +58,9 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 		return NULL;
 	}
 	//On vérifie que le nombre d'argument est correct et que le fichier est bien un fichier elf
-	if ( !(is_elf(fichier,  felf)) ) 
-	{	ERROR_MSG("Attention, le fichier n'est pas un fichier elf");
-		return CMD_UNKOWN_RETURN_VALUE;
+	if ( (is_elf(fichier,  felf)) != cmd_ok ) 
+	{	
+		return cmd_unknown;
 	}
 	//DEBUG_MSG("ok");
 	//On récupère les informations sur la machine
@@ -95,5 +95,5 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 	
 	//printf("\n\n");
 
-	return CMD_OK_RETURN_VALUE;
+	return cmd_ok;
 }

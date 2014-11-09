@@ -342,12 +342,12 @@ void print_segment_raw_content(segment* seg) {
 	if (debut<START_MEM) 
 	{
 		WARNING_MSG("La memoire commence en 0x%08x",START_MEM);
-		return CMD_UNKOWN_RETURN_VALUE;
+		return cmd_unknown;
 	}
 	uint fin_memory = 0xff7ff000;
 	if (fin>fin_memory)
 	{	WARNING_MSG("La memoire termine en 0x%08x",fin_memory);
-		return CMD_UNKOWN_RETURN_VALUE;
+		return cmd_unknown;
 	}
 	//Si les adresses demandées sont correctes
 	
@@ -357,14 +357,14 @@ void print_segment_raw_content(segment* seg) {
 
 	
 
-	return CMD_OK_RETURN_VALUE;
+	return cmd_ok;
 }*/
 
 void print_byte_mem(mem memory, uint32_t adr, uint32_t val)
 {
 	uint32_t vals;
 	
-	/*if(find_val(memory, adr-adr%4, &val) == CMD_EXIT_RETURN_VALUE) return CMD_EXIT_RETURN_VALUE;*/
+	/*if(find_val(memory, adr-adr%4, &val) == cmd_exit) return cmd_exit;*/
 	
 	vals = swap_mot(val);
 	//DEBUG_MSG("%08x", vals);
@@ -396,7 +396,7 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 		if (i%4==0) adr=i;
 		
 		tmp = find_val(memory, adr, &val);
-		if (tmp==CMD_UNKOWN_RETURN_VALUE) return tmp;
+		if (tmp==cmd_unknown) return tmp;
 		
 		else print_byte_mem(memory, i, val);
 	}
@@ -437,14 +437,14 @@ int find_val(mem memory, uint32_t adresse, uint32_t* res) {
 			word = *((uint32_t *) (seg->content+adresse-start));
 			FLIP_ENDIANNESS(word);
 			*res = word;
-			return CMD_OK_RETURN_VALUE;
+			return cmd_ok;
 		}
 		
 	}
 	puts("");
 	WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 	
-	return CMD_UNKOWN_RETURN_VALUE;
+	return cmd_unknown;
 }	
 
 //Inverse tout les octets d'un entier
