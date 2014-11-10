@@ -23,5 +23,5 @@ int assertcmd(interpreteur inter, mem memory, registre *reg);
 int setcmd(interpreteur inter, mem memory, registre *reg);
 
 int runcmd(interpreteur inter,mem memory, registre* reg, Liste dico);
-int adresse_to_instruc(mem memory, int adrr, Liste dico, definition res);
+int adresse_to_instruc(mem memory, int adrr, Liste dico, instruction res);
 #endif

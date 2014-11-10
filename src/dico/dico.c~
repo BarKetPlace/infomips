@@ -174,8 +174,8 @@ Liste read_dico(char* fichier)
 
 int affectation_fct(definition def)
 {
-	if (!strcmp(def->nom, "add") ) def->f = fct_add;
-	else if (!strcmp(def->nom, "addi") ) def->f = fct_addi;
+	//if (!strcmp(def->nom, "add") ) def->f = fct_add;
+	//else if (!strcmp(def->nom, "addi") ) def->f = fct_addi;
 	return cmd_ok;
 }
 

@@ -23,7 +23,6 @@ union inst_poly {
 //typedef union inst_poly instruc;
 
 
-
 //représente une instruction type, sortie du dictionnaire
 typedef struct {
 	uint32_t sign;
@@ -36,11 +35,6 @@ typedef struct {
 	int (*f) (int,int);
 }* definition;
 
-typedef struct {
-	union inst_poly inst;
-	definition def;
-	//int (*f) (int,int);
-}* instruction;
 
 //Définition des listes
 typedef struct _liste {
@@ -67,6 +61,6 @@ Liste read_dico(char* fichier);
 int affectation_fct(definition def);
 
 definition find_def(Liste dico, union inst_poly mot);
-void print_disasm(definition def, union inst_poly mot);
+
 
 #endif

@@ -18,10 +18,11 @@ int dispcmd(interpreteur inter, mem memory, registre* reg);
 int disasm(mem memory, int adrr, int val, Liste dico);
 int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico);
 int disasmcmd(interpreteur, mem memory, registre* reg, Liste dico);
+void print_disasm(definition def, union inst_poly mot);
 
 int assertcmd(interpreteur inter, mem memory, registre *reg);
 int setcmd(interpreteur inter, mem memory, registre *reg);
 
 int runcmd(interpreteur inter,mem memory, registre* reg, Liste dico);
-int adresse_to_instruc(mem memory, int adrr, Liste dico, instruction res);
+//int adresse_to_instruc(mem memory, int adrr, Liste dico, instruction res);
 #endif
