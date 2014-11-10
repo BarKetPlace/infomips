@@ -71,13 +71,6 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 		//def->f();
 		
 
-		//res = calloc(1,sizeof(*res));
-		//tmp = adresse_to_instruc(memory, reg[pc].val, dico, res);
-		if (tmp != cmd_ok) {
-			free(res);
-			return cmd_unknown;
-		}
-DEBUG_MSG("");
 		print_disasm(def, mot);
 	
 		reg[pc].val+=4;
