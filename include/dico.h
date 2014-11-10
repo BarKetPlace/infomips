@@ -22,10 +22,7 @@ union inst_poly {
 };
 //typedef union inst_poly instruc;
 
-typedef struct {
-	union inst_poly inst;
-	int (*f) (int,int);
-}* instruction;
+
 
 //représente une instruction type, sortie du dictionnaire
 typedef struct {
@@ -36,9 +33,14 @@ typedef struct {
 	int nb_op;
 //	char nom_op[MAXSTR];
 	char* nom_op[4]; // MAXOP -> nombre max d'op
-
+	int (*f) (int,int);
 }* definition;
 
+typedef struct {
+	union inst_poly inst;
+	definition def;
+	//int (*f) (int,int);
+}* instruction;
 
 //Définition des listes
 typedef struct _liste {
@@ -62,7 +64,7 @@ int lecture_dico(char* fichier, Liste l);
 void detail_def(definition def);
 void del_dico(Liste l);
 Liste read_dico(char* fichier);
-
+int affectation_fct(definition def);
 
 definition find_def(Liste dico, union inst_poly mot);
 void print_disasm(definition def, union inst_poly mot);
