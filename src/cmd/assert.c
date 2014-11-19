@@ -51,10 +51,10 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 
 		else if ((is_registre(token))!=-1) //assert reg <registre>
 		{	
-			DEBUG_MSG("ok");
+		  //DEBUG_MSG("ok");
 			strcpy(r,token);
 			token = get_next_token(inter);
-			puts(token);
+			//puts(token);
 
 			if (token == NULL) //assert reg <registre> (null)
 			{
@@ -66,23 +66,23 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 			else if (is_valeur(token) || is_hexa(token)) //assert reg registre valeur
 			{
 				
-				DEBUG_MSG("ok");		
+			  //	DEBUG_MSG("ok");		
 				j=transf_reg(reg, r);
-				DEBUG_MSG("%d",j);
+			  //	DEBUG_MSG("%d",j);
 
 					if (is_valeur(token)) // valeur entiere
 					{
 						sscanf(token, "%d", &val_t_r); 	DEBUG_MSG("%d",val_t_r);
-						if (val_t_r==reg[j].val) {DEBUG_MSG("bon"); return cmd_ok;}
-						else {DEBUG_MSG("pas bon"); return cmd_unknown;}
+						if (val_t_r==reg[j].val) {INFO_MSG("OK"); return cmd_ok;}
+						else {INFO_MSG("ERREUR"); return cmd_unknown;}
 					}
 					else if (is_hexa(token)) // valeur hexadecimale
 					{
 						sscanf(token, "%x", &val_t_r); 	DEBUG_MSG("%d",val_t_r);
-						if (val_t_r==reg[j].val) {DEBUG_MSG("bon"); return cmd_ok;}
-						else {DEBUG_MSG("pas bon"); return cmd_unknown;}
+						if (val_t_r==reg[j].val){INFO_MSG("OK"); return cmd_ok;}
+						else {INFO_MSG("ERREUR"); return cmd_unknown;}
 					}
-					else {return cmd_unknown;}
+					else {WARNING_MSG("la valeur decimale ou hexadecimale");return cmd_unknown;}
 			}
 
 			else 
