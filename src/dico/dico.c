@@ -15,7 +15,7 @@ int est_vide(Liste l){ return (!l);}
 void visualiser(Liste l)
 {	if (!l) printf("Liste Vide	\n");
 	while ( !est_vide(l) ) 
-	{	//DEBUG_MSG("");
+	{
 		detail_def(l->val);
 		l=l->suiv;
 	}
@@ -120,21 +120,16 @@ Liste read_dico(char* fichier)
 		if (chaine[0] != '\n' && chaine[0] != '\0' && chaine[0] != '\t' && chaine[0] != ' ')
 		{
 		definition def = calloc(1, sizeof(*def));//On alloue une nouvelle définition
-		//puts(chaine);
 		token = strtok(strdup( chaine ), " \t\n");
-		//puts(token);
 		sscanf(token, "%x", &def->sign);//Lecture & ecriture de la signature
 		
 		token = strtok(NULL, " \t\n") ;
-		//puts(token);
 		sscanf(token, "%x", &def->masq);//Lecture & ecriture du masque
 	
 		token = strtok(NULL, " \t\n") ;
-		//puts(token);
 		strcpy(def->nom, token); //Lecture & ecriture du nom
 		
 		token = strtok(NULL, " \t\n") ;
-		//puts(token);
 		sscanf(token, "%c", &def->type);//Lecture & ecriture du type
 
 		token = strtok(NULL, " \t\n") ;
@@ -152,19 +147,18 @@ Liste read_dico(char* fichier)
 		// def->nom_op[i] = strdup(token);
 
 		token = strtok(token, " \n");
-		
-		//DEBUG_MSG("");
+
 		for(i=0;i<def->nb_op;i++)
 		{	
 			
-			def->nom_op[i] = strdup(token);//DEBUG_MSG("");
+			def->nom_op[i] = strdup(token);
 			token = strtok(NULL, " \n");
 		}
 			
 		
 		l = ajout_tete(def, l);//On ajoute la définition au dictionnaire
 		
-		//DEBUG_MSG("");
+
 		
 		}
 	}
@@ -186,8 +180,8 @@ definition find_def(Liste dico, instruc mot)
 	//visualiser(dico);
 	while (dico)
 	{	//visualiser(dico);printf("\n");
-		masque = dico->val->masq;//DEBUG_MSG("");
-		signature = dico->val->sign;//DEBUG_MSG("");
+		masque = dico->val->masq;
+		signature = dico->val->sign;
 		
 		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
 
@@ -196,7 +190,7 @@ definition find_def(Liste dico, instruc mot)
 			res = dico->val;
 			break;
 		}
-		//DEBUG_MSG("");
+
 		dico=dico->suiv;
 	}
 	dico = dico_1;
@@ -217,9 +211,9 @@ void print_disasm(definition def, instruc mot)
 	tempo[0]='\0';
 	
 	//detail_def(def);
-	//DEBUG_MSG("");
+
 	if (def->type == 'R')
-	{	//DEBUG_MSG("");
+	{	
 		printf("%s ",def->nom);
 		strcpy(tempo,def->nom_op);
 		token = strtok(tempo, delim) ;
