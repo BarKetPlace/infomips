@@ -12,7 +12,7 @@
 
 int fct_subu(inst k, registre regs)
 {
-	execute_next_inst(PC);
+	 
 	long long temp=regs[k.r.rs]-regs[k.r.rt];
 	regs[reg.r.rd]=temp; 
 	return CMD_OK_RETURN_VALUE;

@@ -12,7 +12,7 @@
 
 int fct_lui(inst k, registre regs)
 {
-	execute_next_inst(PC);
+	 
 	long long r=(regs[k.i.imm])<<16;
 	reg.i.rt=r&0xffff0000;
 	return CMD_OK_RETURN_VALUE;

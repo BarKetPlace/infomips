@@ -13,7 +13,7 @@
 
 int fct_sra(inst k, registre regs)
 {
-	execute_next_inst(PC);
+	 
 	long long z = (regs[k.i.rt]&0x80000000)>>31;
 	long long t = (regs[k.i.rt])>>regs[k.i.imm]; 
 	reg.r.rd = (regs[k.i.imm]*z)

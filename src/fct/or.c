@@ -13,7 +13,7 @@
 
 int fct_or(inst k, registre regs)
 {
-	execute_next_inst(PC);
+	 
 	long long temp=regs[k.r.rs]ORregs[k.r.rt];
 	reg.r.rd=temp; 
 	return CMD_OK_RETURN_VALUE;

@@ -12,7 +12,7 @@
 
 int fct_lw(inst k, registre regs)
 {
-	execute_next_inst(PC);
+	 
 	reg.i.rt=mem[regs[k.i.rs]+regs[k.i.imm]];
 	return CMD_OK_RETURN_VALUE;
 }
