@@ -10,7 +10,7 @@
 // Fonction MFHI
 
 
-int mfhi(inst i, registre regs)
+int fct_mfhi(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	reg.i.rd=regs[HI];

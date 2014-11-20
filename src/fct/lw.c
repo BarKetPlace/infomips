@@ -8,9 +8,9 @@
 #include "emulateur.h"
 
 // Fonction LW
+// Mettre erreur adresse ...
 
-
-int lw(inst i, registre regs)
+int fct_lw(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	reg.i.rt=mem[regs[inst.i.rs]+regs[inst.i.imm]];
