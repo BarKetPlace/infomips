@@ -15,7 +15,7 @@ int est_vide(Liste l){ return (!l);}
 void visualiser(Liste l)
 {	if (!l) printf("Liste Vide	\n");
 	while ( !est_vide(l) ) 
-	{	//DEBUG_MSG("");
+	{
 		detail_def(l->val);
 		l=l->suiv;
 	}
@@ -120,21 +120,16 @@ Liste read_dico(char* fichier)
 		if (chaine[0] != '\n' && chaine[0] != '\0' && chaine[0] != '\t' && chaine[0] != ' ')
 		{
 		definition def = calloc(1, sizeof(*def));//On alloue une nouvelle définition
-		//puts(chaine);
 		token = strtok(strdup( chaine ), " \t\n");
-		//puts(token);
 		sscanf(token, "%x", &def->sign);//Lecture & ecriture de la signature
 		
 		token = strtok(NULL, " \t\n") ;
-		//puts(token);
 		sscanf(token, "%x", &def->masq);//Lecture & ecriture du masque
 	
 		token = strtok(NULL, " \t\n") ;
-		//puts(token);
 		strcpy(def->nom, token); //Lecture & ecriture du nom
 		
 		token = strtok(NULL, " \t\n") ;
-		//puts(token);
 		sscanf(token, "%c", &def->type);//Lecture & ecriture du type
 
 		token = strtok(NULL, " \t\n") ;
@@ -152,11 +147,13 @@ Liste read_dico(char* fichier)
 		// def->nom_op[i] = strdup(token);
 
 		token = strtok(token, " \n");
-		
-		//DEBUG_MSG("");
+
 		for(i=0;i<def->nb_op;i++)
 		{	
-			def->nom_op[i] = strdup(token);//DEBUG_MSG("");
+
+			
+			def->nom_op[i] = strdup(token);
+
 			token = strtok(NULL, " \n");
 		}
 		if ( affectation_fct(def) != cmd_ok) ERROR_MSG("Problème d'affectation du nom de la fonction -> sortie du programme");
@@ -164,7 +161,7 @@ Liste read_dico(char* fichier)
 		
 		l = ajout_tete(def, l);//On ajoute la définition au dictionnaire
 		
-		//DEBUG_MSG("");
+
 		
 		}
 	}
@@ -194,9 +191,11 @@ definition find_def(Liste dico, union inst_poly mot)
 	//if (!dico_1) DEBUG_MSG("");
 	//visualiser(dico);
 	while (dico)
+
 	{	//DEBUG_MSG("");visualiser(dico);printf("\n");
 		masque = dico->val->masq;//DEBUG_MSG("");
 		signature = dico->val->sign;//DEBUG_MSG("");
+
 		
 		//DEBUG_MSG("0x%08x 0x%08x 0x%08x", signature, masque, mot.code&masque);
 
@@ -205,7 +204,7 @@ definition find_def(Liste dico, union inst_poly mot)
 			res = dico->val;
 			break;
 		}
-		//DEBUG_MSG("");
+
 		dico=dico->suiv;
 	}
 	dico = dico_1;
@@ -216,70 +215,7 @@ definition find_def(Liste dico, union inst_poly mot)
 
 
 
-//Affichage de l'instruction desassemblée
-void print_disasm(definition def, union inst_poly mot)
-{
-	char* token=NULL;
-	char* delim = " ";
-	int i;
-	char tempo[MAXSTR];
-	tempo[0]='\0';
-	
-	//detail_def(def);
-	//DEBUG_MSG("");
-	if (def->type == 'R')
-	{	//DEBUG_MSG("");
-		printf("%s ",def->nom);
-		strcpy(tempo,def->nom_op);
-		token = strtok(tempo, delim) ;
-		for (i=0;i<def->nb_op;i++)
-		{
-			//DEBUG_MSG("0x%08x", mot.code);
-			//DEBUG_MSG(" 0x%08x 0x%08x 0x%08x ",mot.r.rd, mot.r.rt, mot.r.rs);
-			
-			//DEBUG_MSG("%s",token);
-			if ( !strcmp(def->nom_op[i], "rd") ) printf("$%d ",mot.r.rd);
-			if ( !strcmp(def->nom_op[i], "rt") ) printf("$%d ",mot.r.rt);
-			if ( !strcmp(def->nom_op[i], "rs") ) printf("$%d ",mot.r.rs);
-			//if ( !strcmp(token, "rt") ) printf("$%d ",mot.r.rt);
-			token = strtok(NULL, delim);
-		}
-	}
-	else if (def->type == 'I')
-	{
-		printf("%s ",def->nom);
-		
-		//token = strtok(def->nom_op, delim);
-		for (i=0;i<def->nb_op;i++)
-		{
-			//DEBUG_MSG("0x%08x", mot.code);
-			//DEBUG_MSG(" 0x%08x 0x%08x 0x%08x ",mot.r.rd, mot.r.rt, mot.r.rs);
-			
-			//DEBUG_MSG("%s",token);
-			if ( !strcmp(def->nom_op[i], "rt") ) printf("$%d ",mot.i.rt);
-			else if ( !strcmp(def->nom_op[i], "rs") ) printf("$%d ",mot.i.rs);
-			else if ( !strcmp(def->nom_op[i], "imm") ) printf("%d ",mot.i.imm);
-			//token = strtok(NULL, delim);
-		}
-		//DEBUG_MSG("");
-		//DEBUG_MSG("%s",token);
-	}
-	else if (def->type == 'J')
-	{	//puts(token);
-		//DEBUG_MSG("");
-		//puts(def->nom);
-		printf("%s ",def->nom);
-		//DEBUG_MSG("");
-		//token = strtok(def->nom_op, delim);
-		for (i=0;i<def->nb_op;i++)
-		{
-			if ( !strcmp(def->nom_op[i], "target") ) printf("0x%08x ",mot.j.target);
-		}
-		//else ERROR_MSG("Erreur dictionnaire: type J -> op=target");
-		
-	}
-	printf("\n");
-}
+
 /*
 int main(int argc, char* argv[])
 {	

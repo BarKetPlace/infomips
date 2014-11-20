@@ -7,6 +7,7 @@
 #include "notify.h"
 #include "emulateur.h"
 
+
 //Fonctions de base sur les listes
 Liste creer_liste(void){return NULL;}
 

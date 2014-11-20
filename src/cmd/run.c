@@ -47,23 +47,23 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 
 	//Si tout est bon, on initialise le pc au début de la zone text
 	
-	reg[pc].val = start;
+	reg[PC].val = start;
 	
 
-	while(! (reg[pc].val>text_start+text_taille)) {	
+	while(! (reg[PC].val>text_start+text_taille)) {	
 
-		//tmp = disasm_(memory, reg, reg[pc].val, reg[pc].val, dico);
+		//tmp = disasm_(memory, reg, reg[PC].val, reg[PC].val, dico);
 		//if (tmp != cmd_ok) return cmd_unknown;
 		
 		//On va chercher le mot de l'instruction à l'adresse indiquée par le pc
-		if ( find_val(memory, reg[pc].val, &(mot.code)) != cmd_ok ) { 
-			WARNING_MSG("Impossible de trouver un mot en 0x%08x", reg[pc].val);	
+		if ( find_val(memory, reg[PC].val, &(mot.code)) != cmd_ok ) { 
+			WARNING_MSG("Impossible de trouver un mot en 0x%08x", reg[PC].val);	
 			return cmd_unknown;
 		}
 		
 		//On va ensuite chercher la definition correspondante
 		if ( !(def = find_def(dico, mot) ) ){ 
-			WARNING_MSG("Impossible de trouver une definition pour le mot 0x%08x en 0x%08x", mot.code ,reg[pc].val);	
+			WARNING_MSG("Impossible de trouver une definition pour le mot 0x%08x en 0x%08x", mot.code ,reg[PC].val);	
 			return cmd_unknown;
 		}
 		
@@ -73,7 +73,7 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 
 		print_disasm(def, mot);
 	
-		reg[pc].val+=4;
+		reg[PC].val+=4;
 	}
 	printf("******Fin du programme******\n");
 	return cmd_ok;
