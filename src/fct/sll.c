@@ -10,7 +10,7 @@
 // Fonction SLL
 
 
-int sll(inst i, registre regs)
+int fct_sll(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	regs[reg.r.rd]=(regs[inst.r.rt])<<regs[inst.i.imm]; 

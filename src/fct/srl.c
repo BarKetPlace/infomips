@@ -10,7 +10,7 @@
 // Fonction SRL
 
 
-int srl(inst i, registre regs)
+int fct_srl(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	reg.r.rd=(regs[inst.i.rt])>>regs[inst.i.imm]; 

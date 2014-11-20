@@ -10,7 +10,7 @@
 // Fonction SW
 
 
-int sw(inst i, registre regs)
+int fct_sw(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	mem[reg.i.rs+regs[inst.i.imm]]=regs[inst.i.rt];

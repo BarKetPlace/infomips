@@ -11,7 +11,7 @@
 // Fonction SUB
 // Definir max_inst
 
-int sub(inst i, registre regs)
+int fct_sub(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	long long temp=regs[inst.r.rs]-regs[inst.r.rt];
