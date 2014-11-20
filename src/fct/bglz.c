@@ -10,7 +10,7 @@
 // Fonction BGLZ
 
 
-int bglz(inst i, registre regs)
+int fct_bglz(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	int off=((short)inst.i.imm)<<2;

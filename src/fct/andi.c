@@ -10,7 +10,7 @@
 // Fonction ANDI
 
 
-int andi(inst i, registre regs)
+int fct_andi(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	long long temp=regs[inst.i.rs]+regs[inst.i.imm];

@@ -10,7 +10,7 @@
 // Fonction LUI
 
 
-int lui(inst i, registre regs)
+int fct_lui(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	reg.i.rt=(regs[inst.i.imm])<<16;

@@ -10,7 +10,7 @@
 // Fonction ADDU
 // Definir max_inst
 
-int addu(inst i, registre regs)
+int fct_addu(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	long long temp=regs[inst.r.rs]+regs[inst.r.rt];

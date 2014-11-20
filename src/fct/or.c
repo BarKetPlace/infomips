@@ -11,7 +11,7 @@
 // Attention mettre les barres
 
 
-int or(inst i, registre regs)
+int fct_or(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	long long temp=regs[inst.r.rs]ORregs[inst.r.rt];
