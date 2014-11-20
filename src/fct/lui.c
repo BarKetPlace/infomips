@@ -10,7 +10,7 @@
 // Fonction LUI
 
 
-int fct_lui(inst k, registre regs)
+int fct_lui(inst k, registre* regs)
 {
 	 
 	long long r=(regs[k.i.imm])<<16;

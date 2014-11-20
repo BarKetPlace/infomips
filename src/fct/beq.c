@@ -10,7 +10,7 @@
 // Fonction beq
 
 
-int fct_beq(inst k, registre regs)
+int fct_beq(inst k, registre* regs)
 {
 	int off=((short)k.i.imm)<<2;
 	int c=regs[k.i.rs]==regs[k.i.rt];

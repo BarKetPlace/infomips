@@ -10,7 +10,7 @@
 // Fonction BGEZ
 
 
-int fct_bgez(inst k, registre regs)
+int fct_bgez(inst k, registre* regs)
 {
 	int off=((short)k.i.imm)<<2;
 	if (regs[k.i.rs]>=0)

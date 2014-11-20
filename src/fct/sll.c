@@ -10,7 +10,7 @@
 // Fonction SLL
 
 
-int fct_sll(inst k, registre regs)
+int fct_sll(inst k, registre* regs)
 {
 	 
 	regs[reg.r.rd]=(regs[k.r.rt])<<regs[k.i.imm]; 

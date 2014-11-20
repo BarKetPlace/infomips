@@ -11,7 +11,7 @@
 // Demander comment copier le 1er bit
 
 
-int fct_sra(inst k, registre regs)
+int fct_sra(inst k, registre* regs)
 {
 	 
 	long long z = (regs[k.i.rt]&0x80000000)>>31;

@@ -10,7 +10,7 @@
 // Fonction SLTU
 // def condtion
 
-int fct_sltu(inst k, registre regs)
+int fct_sltu(inst k, registre* regs)
 {
 	 
 	if (regs[k.r.rs]<regs[k.r.rt]) {reg.r.rd=1;}

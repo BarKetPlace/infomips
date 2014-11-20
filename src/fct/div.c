@@ -10,7 +10,7 @@
 // Fonction DIV
 // Attention definition de LO et HI
 
-int fct_div(inst k, registre regs)
+int fct_div(inst k, registre* regs)
 {
 	long long q=regs[k.r.rs]/regs[k.r.rt];
 	regs[LO]=q;

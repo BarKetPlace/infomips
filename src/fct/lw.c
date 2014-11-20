@@ -10,7 +10,7 @@
 // Fonction LW
 // Mettre erreur adresse ...
 
-int fct_lw(inst k, registre regs)
+int fct_lw(inst k, registre* regs)
 {
 	 
 	reg.i.rt=mem[regs[k.i.rs]+regs[k.i.imm]];

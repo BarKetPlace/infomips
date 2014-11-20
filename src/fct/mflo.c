@@ -10,7 +10,7 @@
 // Fonction MFLO
 
 
-int fct_mflo(inst k, registre regs)
+int fct_mflo(inst k, registre* regs)
 {
 	 
 	regs[LO]=regs[k.i.rs];

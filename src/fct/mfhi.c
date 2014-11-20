@@ -10,7 +10,7 @@
 // Fonction MFHI
 
 
-int fct_mfhi(inst k, registre regs)
+int fct_mfhi(inst k, registre* regs)
 {
 	 
 	regs[HI]=regs[k.i.rs];

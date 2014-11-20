@@ -11,7 +11,7 @@
 // Attention mettre les barres
 
 
-int fct_or(inst k, registre regs)
+int fct_or(inst k, registre* regs)
 {
 	 
 	long long temp=regs[k.r.rs]ORregs[k.r.rt];

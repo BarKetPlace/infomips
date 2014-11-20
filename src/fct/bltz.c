@@ -10,7 +10,7 @@
 // Fonction BLTZ
 
 
-int fct_bltz(inst k, registre regs)
+int fct_bltz(inst k, registre* regs)
 {
 	int off=((short)k.i.imm)<<2;
 	if (regs[k.i.rs]<0)

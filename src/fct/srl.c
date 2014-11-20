@@ -10,7 +10,7 @@
 // Fonction SRL
 
 
-int fct_srl(inst k, registre regs)
+int fct_srl(inst k, registre* regs)
 {
 	 
 	reg.r.rd=(regs[k.i.rt])>>regs[k.i.imm]; 

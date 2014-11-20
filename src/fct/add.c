@@ -11,7 +11,7 @@
 // Fonction add
 // Definir max_inst
 
-int fct_add(inst k, registre regs)
+int fct_add(inst k, registre* regs)
 {
 	 
 	long long temp=regs[k.r.rs]+regs[k.r.rt];

@@ -10,7 +10,7 @@
 // Fonction SUBU
 // Definir max_inst
 
-int fct_subu(inst k, registre regs)
+int fct_subu(inst k, registre* regs)
 {
 	 
 	long long temp=regs[k.r.rs]-regs[k.r.rt];
