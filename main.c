@@ -77,7 +77,17 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico) {
 	if(strcmp(token, "run") == 0){
 		return runcmd(inter, memory, reg, dico);
 	}
-	
+	if(!strcmp(token, "step")){
+		token = get_next_token(inter);
+		if(token && !strcmp(token,"into")){
+			return step_intocmd(memory,reg,dico);
+			
+		}
+		else if (!token){
+			return cmd_ok;
+		}
+
+	}
 		WARNING_MSG("Unknown Command : '%s'", cmdStr);
     return cmd_unknown;
 }

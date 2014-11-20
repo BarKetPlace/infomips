@@ -2,7 +2,7 @@
 #define REG_H_
 
 #define NBREG 35
-#define pc 32
+#define PC 32
 
 #include "notify.h"
 #include "types.h"

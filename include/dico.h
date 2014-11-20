@@ -20,7 +20,7 @@ union inst_poly {
 	struct I i;
 	struct J j;
 };
-//typedef union inst_poly instruc;
+typedef union inst_poly inst;
 
 
 //représente une instruction type, sortie du dictionnaire
