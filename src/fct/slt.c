@@ -10,7 +10,7 @@
 // Fonction SLT
 
 
-int slt(inst i, registre regs)
+int fct_slt(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	if (regs[inst.r.rs]<regs[inst.r.rt]) {reg.r.rd=1;}

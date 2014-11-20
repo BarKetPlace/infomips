@@ -10,7 +10,7 @@
 // Fonction SLTI
 
 
-int slti(inst i, registre regs)
+int fct_slti(inst i, registre regs)
 {
 	execute_next_inst(PC);
 	if (regs[inst.i.rs]<regs[inst.i.imm]) {reg.r.rd=1;}
