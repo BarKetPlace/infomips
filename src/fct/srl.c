@@ -10,10 +10,10 @@
 // Fonction SRL
 
 
-int fct_srl(inst i, registre regs)
+int fct_srl(inst k, registre regs)
 {
 	execute_next_inst(PC);
-	reg.r.rd=(regs[inst.i.rt])>>regs[inst.i.imm]; 
+	reg.r.rd=(regs[k.i.rt])>>regs[k.i.imm]; 
 	return CMD_OK_RETURN_VALUE;
 }
 

@@ -10,10 +10,10 @@
 // Fonction MFLO
 
 
-int fct_mflo(inst i, registre regs)
+int fct_mflo(inst k, registre regs)
 {
 	execute_next_inst(PC);
-	reg.i.rd=regs[LO];
+	regs[LO]=regs[k.i.rs];
 	return CMD_OK_RETURN_VALUE;
 }
 

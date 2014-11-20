@@ -11,16 +11,15 @@
 // Similaire a BEQ
 
 
-int fct_bne(inst i, registre regs)
+int fct_bne(inst k, registre regs)
 {
-	execute_next_inst(PC);
-	int off=((short)inst.i.imm)<<2;
-	int c=regs[inst.i.rs]==regs[inst.i.rt];
+	int off=((short)k.i.imm)<<2;
+	int c=regs[k.i.rs]==regs[k.i.rt];
 	if (!c)
 		{
 		PC=PC+off;
-		return CMD_OK_RETURN_VALUE;
+		return cmd_ok;
 		}
-	else {return CMD_UNKOWN_RETURN_VALUE;}
+	else {return cmd_ok;}
 }
 

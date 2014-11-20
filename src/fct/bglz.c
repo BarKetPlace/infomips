@@ -10,14 +10,13 @@
 // Fonction BGLZ
 
 
-int fct_bglz(inst i, registre regs)
+int fct_bglz(inst k, registre regs)
 {
-	execute_next_inst(PC);
-	int off=((short)inst.i.imm)<<2;
-	if (regs[inst.i.rs]<=0)
+	int off=((short)k.i.imm)<<2;
+	if (regs[k.i.rs]<=0)
 		{
 		PC=PC+off;
-		return CMD_OK_RETURN_VALUE;
+		return cmd_ok;
 		}
-	else {return CMD_UNKOWN_RETURN_VALUE;}
+	else {return cmd_ok;}
 }

@@ -10,10 +10,11 @@
 // Fonction LUI
 
 
-int fct_lui(inst i, registre regs)
+int fct_lui(inst k, registre regs)
 {
 	execute_next_inst(PC);
-	reg.i.rt=(regs[inst.i.imm])<<16;
+	long long r=(regs[k.i.imm])<<16;
+	reg.i.rt=r&0xffff0000;
 	return CMD_OK_RETURN_VALUE;
 }
 

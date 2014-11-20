@@ -10,10 +10,10 @@
 // Fonction SLT
 
 
-int fct_slt(inst i, registre regs)
+int fct_slt(inst k, registre regs)
 {
 	execute_next_inst(PC);
-	if (regs[inst.r.rs]<regs[inst.r.rt]) {reg.r.rd=1;}
+	if (regs[k.r.rs]<regs[k.r.rt]) {reg.r.rd=1;}
 	else {reg.r.rd=0;}
 	return CMD_OK_RETURN_VALUE;
 }

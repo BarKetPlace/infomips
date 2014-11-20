@@ -10,12 +10,11 @@
 // Fonction DIV
 // Attention definition de LO et HI
 
-int fct_div(inst i, registre regs)
+int fct_div(inst k, registre regs)
 {
-	execute_next_inst(PC);
-	long long q=regs[inst.r.rs]/regs[inst.r.rt];
+	long long q=regs[k.r.rs]/regs[k.r.rt];
 	regs[LO]=q;
-	long long r=regs[inst.r.rs]%regs[inst.r.rt];
+	long long r=regs[k.r.rs]%regs[k.r.rt];
 	regs[HI]=r;
-	return OK_CMD_RETURN_VALUE;
+	return cmd_ok;
 }

@@ -10,10 +10,10 @@
 // Fonction SLL
 
 
-int fct_sll(inst i, registre regs)
+int fct_sll(inst k, registre regs)
 {
 	execute_next_inst(PC);
-	regs[reg.r.rd]=(regs[inst.r.rt])<<regs[inst.i.imm]; 
+	regs[reg.r.rd]=(regs[k.r.rt])<<regs[k.i.imm]; 
 	return CMD_OK_RETURN_VALUE;
 }
 

@@ -10,11 +10,10 @@
 // Fonction AND
 
 
-int fct_and(inst i, registre regs)
+int fct_and(inst k, registre regs)
 {
-	execute_next_inst(PC);
-	long long temp=regs[inst.r.rs]&regs[inst.r.rt];
+	long long temp=regs[k.r.rs]&regs[k.r.rt];
 	reg.r.rd=temp; 
-	return CMD_OK_RETURN_VALUE;
+	return cmd_ok;
 }
 

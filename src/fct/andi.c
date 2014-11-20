@@ -10,11 +10,10 @@
 // Fonction ANDI
 
 
-int fct_andi(inst i, registre regs)
+int fct_andi(inst k, registre regs)
 {
-	execute_next_inst(PC);
-	long long temp=regs[inst.i.rs]+regs[inst.i.imm];
+	long long temp=regs[k.i.rs]+regs[k.i.imm];
 	reg.i.rt=temp; 
-	return CMD_OK_RETURN_VALUE;
+	return cmd_ok;
 }
 

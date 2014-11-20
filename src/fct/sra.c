@@ -8,12 +8,15 @@
 #include "emulateur.h"
 
 // Fonction SRA
+// Demander comment copier le 1er bit
 
 
-int fct_sra(inst i, registre regs)
+int fct_sra(inst k, registre regs)
 {
 	execute_next_inst(PC);
-	reg.r.rd=(regs[inst.i.rt])>>regs[inst.i.imm]; 
+	long long z = (regs[k.i.rt]&0x80000000)>>31;
+	long long t = (regs[k.i.rt])>>regs[k.i.imm]; 
+	reg.r.rd = (regs[k.i.imm]*z)
 	return CMD_OK_RETURN_VALUE;
 }
 

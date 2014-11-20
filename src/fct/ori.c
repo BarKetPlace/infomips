@@ -11,10 +11,10 @@
 // Attention mettre les barres
 
 
-int fct_ori(inst i, registre regs)
+int fct_ori(inst k, registre regs)
 {
 	execute_next_inst(PC);
-	long long temp=regs[inst.i.rs]ORregs[inst.i.imm];
-	regs[reg.i.rt]=temp; 
+	long long temp=regs[k.i.rs]ORregs[k.i.imm];
+	reg.i.rt=temp; 
 	return CMD_OK_RETURN_VALUE;
 }

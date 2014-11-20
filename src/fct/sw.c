@@ -10,10 +10,9 @@
 // Fonction SW
 
 
-int fct_sw(inst i, registre regs)
+int fct_sw(inst k, registre regs)
 {
-	execute_next_inst(PC);
-	mem[reg.i.rs+regs[inst.i.imm]]=regs[inst.i.rt];
-	return CMD_OK_RETURN_VALUE;
+	mem[reg.i.rs+regs[k.i.imm]]=regs[k.i.rt];
+	return cmd_ok;
 }
 
