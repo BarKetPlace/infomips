@@ -8,18 +8,18 @@
 #include "dico.h"
 
 int fct_add(inst i, registre regs);
-int fct_sw(inst i, registre regs)
-int fct_fct_subu(inst i, registre regs)
-int fct_sub(inst i, registre regs)
-int fct_srl(inst i, registre regs)
-int fct_sra(inst i, registre regs)
-int fct_sltu(inst i, registre regs)
-int fct_add(inst i, registre regs)
-int fct_slti(inst i, registre regs)
-int fct_slt(inst i, registre regs)
-int fct_sll(inst i, registre regs)
-int fct_ori(inst i, registre regs)
-int fct_or(inst i, registre regs)
+int fct_sw(inst i, registre regs);
+int fct_fct_subu(inst i, registre regs);
+int fct_sub(inst i, registre regs);
+int fct_srl(inst i, registre regs);
+int fct_sra(inst i, registre regs);
+int fct_sltu(inst i, registre regs);
+int fct_add(inst i, registre regs);
+int fct_slti(inst i, registre regs);
+int fct_slt(inst i, registre regs);
+int fct_sll(inst i, registre regs);
+int fct_ori(inst i, registre regs);
+int fct_or(inst i, registre regs);
 int fct_mflo(inst i, registre regs);
 int fct_mfhi(inst i, registre regs);
 int fct_lw(inst i, registre regs);
