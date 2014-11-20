@@ -17,6 +17,6 @@ int fct_sra(inst k, registre* regs)
 	long long z = (regs[k.i.rt]&0x80000000)>>31;
 	long long t = (regs[k.i.rt])>>regs[k.i.imm]; 
 	reg.r.rd = (regs[k.i.imm]*z)
-	return CMD_OK_RETURN_VALUE;
+	return cmd_ok;
 }
 

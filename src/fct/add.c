@@ -14,9 +14,9 @@
 int fct_add(inst k, registre* regs)
 {
 	 
-	long long temp=regs[k.r.rs]+regs[k.r.rt];
-	if (temp<=max_inst) {regs[reg.r.rd]=temp; return cmd_ok;}
-	else {return cmd_ok;}
+	long long temp=regs[k.r.rs].val+regs[k.r.rt].val;
+	if (temp<=max_inst) {regs[k.r.rd].val=temp; return cmd_ok;}
+	else {return cmd_unknown;}
 }
 
 

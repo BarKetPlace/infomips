@@ -3,6 +3,8 @@
 
 #define NBREG 35
 #define PC 32
+#define HI 33
+#define LO 34
 
 #include "notify.h"
 #include "types.h"
