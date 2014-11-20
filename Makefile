@@ -44,7 +44,7 @@ clean:
 
 
 archive : 
-	make clean 
+	#make clean 
 	tar -czvf ../$(notdir $(PWD) )-pichat_honore-`date +%d-%m-%H-%M`.tgz .
 	echo "Fichier archive ../emulMips-`pichat_honore`-`date +%d-%m-%H-%M`.tgz genere"
 	

@@ -7,14 +7,18 @@
 #include "mem.h"
 #include "reg.h"
 #include "is_.h"
-
+#include "dico.h"
 
 /**
  * commande exit qui ne necessite pas d'analyse syntaxique
  * @param inter l'interpreteur qui demande l'analyse
  * @return 0 en case de succes, un nombre positif sinon
  */
-int exitcmd(interpreteur inter, mem memory, registre* reg) {
-	return CMD_EXIT_RETURN_VALUE;
+int exitcmd(interpreteur inter, mem memory, registre* reg, Liste dico) {
+	del_inter(inter);
+	del_mem(memory);INFO_MSG("Liberation memoire");	
+	del_reg(reg);INFO_MSG("Liberation des registres");
+	del_dico(dico);INFO_MSG("Liberation du dictionnaire d'instructions");
+	return cmd_exit;
 }
 

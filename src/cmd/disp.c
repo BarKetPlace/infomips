@@ -19,28 +19,22 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 	if (token == NULL) //disp (null)
 	{
 		WARNING_MSG("Missing arguments");
-		return CMD_EXIT_RETURN_VALUE;
+		return cmd_exit;
 	}
 	
 	if (!strcmp(token,"mem")) { //disp mem
-		 // La mémoire
-		if (memory == NULL) //Probleme avec le chargement de la mémoire
-		{
-			WARNING_MSG("Memoire non-chargée");
-			return CMD_EXIT_RETURN_VALUE;
-		}
 		token = get_next_token(inter);
 			
 		if (token == NULL) //disp mem (null)
 		{
 			WARNING_MSG("Missing argument \"map\" or <plage>+");
-			return CMD_EXIT_RETURN_VALUE;
+			return cmd_exit;
 		}
 		
 		else if (strcmp(token,"map")==0)//disp mem map
 		{
 			print_mem(memory);
-			return CMD_OK_RETURN_VALUE;
+			return cmd_ok;
 		}
 			
 			
@@ -51,7 +45,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 			if (debut>STOP_MEM) //L'adresse est trop haute (voir mem.h)
 			{
 				WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
-				return CMD_EXIT_RETURN_VALUE;
+				return cmd_exit;
 			}
 			//DEBUG_MSG("sfsg token : %s", token);	
 
@@ -65,15 +59,15 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 					if (fin>STOP_MEM) //L'adresse est trop haute (voir mem.h)
 					{
 						WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
-						return CMD_EXIT_RETURN_VALUE;
+						return cmd_exit;
 					}
 					//disp mem HEXA:HEXA			avec 0<= HEXA,HEXA <= 0xfffff000
 					if (fin>=debut) print_case_mem(memory, debut, fin);
 					else print_case_mem(memory,fin,debut);
-					return CMD_OK_RETURN_VALUE;
+					return cmd_ok;
 				}
 				else { WARNING_MSG("Usage : disp mem HEXA:HEXA ");
-						return CMD_EXIT_RETURN_VALUE; 
+						return cmd_exit; 
 						}
 			}		
 			else if ( token && !strcmp(token,"+") )//disp mem HEXA+
@@ -84,7 +78,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 					if (debut+decalage>STOP_MEM) //HEXA+val est trop haute (voir mem.h)
 					{
 						WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
-						return CMD_EXIT_RETURN_VALUE;
+						return cmd_exit;
 					}
 				return print_case_mem(memory, debut, debut+decalage); 	
 
@@ -96,7 +90,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				do {	
 					sscanf(token, "%x", &adr);
 					tmp = find_val(memory, adr, &val);
-					if (tmp==CMD_UNKOWN_RETURN_VALUE)
+					if (tmp==cmd_unknown)
 					{	printf("\n");
 						ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adr);
 						return tmp;
@@ -112,24 +106,24 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				} while (token && is_hexa(token));
 			}
 			else if (!token)//disp mem HEXA
-			{	tmp = find_val(memory, adr, &val);
-					if (tmp==CMD_UNKOWN_RETURN_VALUE)
+			{	tmp = find_val(memory, debut, &val);
+					if (tmp==cmd_unknown)
 					{	printf("\n");
-						ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adr);
+						//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", debut);
 						return tmp;
 					}
 					else {
-						printf("0x%08x : ",adr);
-						DEBUG_MSG(" %08x ", val);
-						print_byte_mem(memory, adr, val);printf("\n");
+						printf("0x%08x : ",debut);
+					//	DEBUG_MSG(" %08x ", val);
+						print_byte_mem(memory, debut, val);printf("\n");
 					}
 			}
 
 			else {
 			WARNING_MSG("USAGE: disp mem \"map\" or <plage>+");
-			return CMD_EXIT_RETURN_VALUE;
+			return cmd_exit;
 			}
-			return CMD_OK_RETURN_VALUE;
+			return cmd_ok;
 		}
 	}
 
@@ -138,11 +132,11 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 		if (reg == NULL) WARNING_MSG("Registres non-chargés");
 			
 		token = get_next_token(inter);
-		if (!token) {WARNING_MSG("Missing arguments"); return CMD_UNKOWN_RETURN_VALUE;}
+		if (!token) {WARNING_MSG("Missing arguments"); return cmd_unknown;}
 		if(!strcmp(token,"all")) { //disp reg all
 
 			print_tab_reg(reg); 
-			return CMD_OK_RETURN_VALUE; 
+			return cmd_ok; 
 		}
 		else if (token)//disp reg $.. $....
 		{		
@@ -170,8 +164,8 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 	else //disp "autre chose que reg ou mem"  
 	{
 		WARNING_MSG("Usage: disp \"mem\" | disp \"reg\"");
-		return CMD_EXIT_RETURN_VALUE;
+		return cmd_exit;
 	}
-	return CMD_OK_RETURN_VALUE;
+	return cmd_ok;
 }
 

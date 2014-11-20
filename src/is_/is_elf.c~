@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "notify.h"
 #include "is_.h"
@@ -9,8 +10,8 @@ int is_elf(char* fichier, FILE* felf)
 {	
 	if (!assert_elf_file(felf)) //Le fichier est il un fichier elf
 	{
-		ERROR_MSG("file %s is not an ELF file\n", fichier);
-		return 0;
+		WARNING_MSG("file %s is not an ELF file", fichier);
+		return CMD_EXIT_RETURN_VALUE;
 	}
-	return 1;
+	return CMD_OK_RETURN_VALUE;
 }

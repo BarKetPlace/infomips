@@ -15,12 +15,13 @@ struct J {unsigned int target:26, func:6;};
 
 //Un code 32 bits peut être vu soit comme un simple usigned int, soit comme un code de type R, J ou I
 union inst_poly {
-	unsigned int code;
+	uint32_t code;
 	struct R r;
 	struct I i;
 	struct J j;
 };
-typedef union inst_poly instruc;
+//typedef union inst_poly instruc;
+
 
 //représente une instruction type, sortie du dictionnaire
 typedef struct {
@@ -31,6 +32,7 @@ typedef struct {
 	int nb_op;
 //	char nom_op[MAXSTR];
 	char* nom_op[4]; // MAXOP -> nombre max d'op
+	int (*f) (int,int);
 }* definition;
 
 
@@ -56,9 +58,9 @@ int lecture_dico(char* fichier, Liste l);
 void detail_def(definition def);
 void del_dico(Liste l);
 Liste read_dico(char* fichier);
+int affectation_fct(definition def);
 
+definition find_def(Liste dico, union inst_poly mot);
 
-definition find_def(Liste dico, instruc mot);
-void print_disasm(definition def, instruc mot);
 
 #endif

@@ -14,8 +14,8 @@ int is_conform_line(interpreteur inter)
 			token = get_next_token(inter);
 			
 			if (token[strlen(token)-2] == '.' && token[strlen(token)-1] == 'o') 
-				{DEBUG_MSG("ok"); return CMD_OK_RETURN_VALUE;}
-			else {return CMD_UNKOWN_RETURN_VALUE;}
+				{DEBUG_MSG("ok"); return cmd_ok;}
+			else {return cmd_unknown;}
 		break;
 	}DEBUG_MSG("ok");
 	switch (strcmp(token, "set"))
@@ -32,7 +32,7 @@ int is_conform_line(interpreteur inter)
 						if (is_adresse(token)==0) 
 							{
 							token = get_next_token(inter);
-							if (is_valeur(token)==0) {return CMD_OK_RETURN_VALUE;}
+							if (is_valeur(token)==0) {return cmd_ok;}
 							else {return 0;}
 							}
 						else {return 0;}
@@ -47,7 +47,7 @@ int is_conform_line(interpreteur inter)
 					if (is_registre(token)==0) 
 						{
 						token = get_next_token(inter);
-						if (is_valeur(token)==0) {return CMD_OK_RETURN_VALUE;}
+						if (is_valeur(token)==0) {return cmd_ok;}
 						else {return 0;}
 						}
 					else {return 0;}
@@ -66,7 +66,7 @@ int is_conform_line(interpreteur inter)
 					if (is_registre(token)==0) 
 						{
 						token = get_next_token(inter);
-						if (is_valeur(token)==0) {return CMD_OK_RETURN_VALUE;}
+						if (is_valeur(token)==0) {return cmd_ok;}
 						else {return 0;}
 						}
 					else {return 0;}
@@ -79,7 +79,7 @@ int is_conform_line(interpreteur inter)
 					if (is_adresse(token)==0) 
 						{
 						token = get_next_token(inter);
-						if (is_valeur(token)==0) {return CMD_OK_RETURN_VALUE;}
+						if (is_valeur(token)==0) {return cmd_ok;}
 						else {return 0;}
 						}
 					else {return 0;}
@@ -89,7 +89,7 @@ int is_conform_line(interpreteur inter)
 	}DEBUG_MSG("ok");
 	switch (strcmp(token, "test"))
 	{
-		case 0: return CMD_OK_RETURN_VALUE;
+		case 0: return cmd_ok;
 		break;
 	}DEBUG_MSG("ok");
 	switch (strcmp(token, "disp"))
@@ -102,13 +102,13 @@ int is_conform_line(interpreteur inter)
 			if (token && !strcmp(token, "mem"))				
 			{
 				token = get_next_token(inter);
-				if (token && (is_plage(token)==0)) {return CMD_OK_RETURN_VALUE;}
-				else if (token && (strcmp(token,"map")==0) ) {return CMD_OK_RETURN_VALUE;}
+				if (token && (is_plage(token)==0)) {return cmd_ok;}
+				else if (token && (strcmp(token,"map")==0) ) {return cmd_ok;}
 				else {return 0;}  
 			}
 			else if (token && strcmp(token,"reg"))
 			{
-				if (token && is_registre(token)==0) {return CMD_OK_RETURN_VALUE;}
+				if (token && is_registre(token)==0) {return cmd_ok;}
 				else {return 0;}
 			}
 			else {return 0;} 
@@ -117,17 +117,17 @@ int is_conform_line(interpreteur inter)
 	}
 	switch (strcmp(token, "resume"))
 	{
-		case 0: return CMD_OK_RETURN_VALUE;
+		case 0: return cmd_ok;
 		break;
 	}
 	switch (strcmp(token, "debug"))
 	{
-		case 0: return CMD_OK_RETURN_VALUE;
+		case 0: return cmd_ok;
 		break;
 	}
 	switch (strcmp(token, "exit"))
 	{
-		case 0: return CMD_OK_RETURN_VALUE;
+		case 0: return cmd_ok;
 		break;
 	}
 	return 0;
