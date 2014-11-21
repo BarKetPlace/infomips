@@ -53,8 +53,7 @@ Liste ajout_queue(definition c, Liste l)
 
 Liste supprimen(int n, Liste l)
 {	if (n==0) return (supp(l));
-	else
-	{
+	else {
 	int i;
 	Liste q = l;
 	for (i=1;i<n-1;i++) 
