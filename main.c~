@@ -29,7 +29,7 @@
 * @return tout autre nombre (eg tout nombre positif) si erreur d'execution de la commande
 */
 
-int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int breaklist) {
+int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int* pbreaklist) {
     //DEBUG_MSG("input '%s'", inter->input);
     char cmdStr[MAX_STR];
     memset( cmdStr, '\0', MAX_STR );
@@ -89,10 +89,10 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
 
 	}
 	if(!strcmp(token, "break")){
-		return breakcmd(inter,memory, breaklist);
+		return breakcmd(inter,memory, pbreaklist);
 	}
 
-	WARNING_MSG("Unknown Command : '%s'", cmdStr);
+	WARNING_MSG("breakUnknown Command : '%s'", cmdStr);
     return cmd_unknown;
 }
 
@@ -148,7 +148,7 @@ int main ( int argc, char *argv[] ) {
 	INFO_MSG("Dictionnaire d'instructions chargé");
 	//visualiser(dico);
 	
-	Liste_int breaklist= (Liste_int) calloc(1, sizeof(*breaklist));
+	Liste_int* pbreaklist=NULL;
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {
 
@@ -157,7 +157,7 @@ int main ( int argc, char *argv[] ) {
             /* Une nouvelle ligne a ete acquise dans le flux fp*/
 	//printf("%d\n", known_cmd(inter->input));
 	
-            int res = execute_cmd(inter, memory, reg, dico, breaklist); /* execution de la commande */
+            int res = execute_cmd(inter, memory, reg, dico, pbreaklist); /* execution de la commande */
 			
             // traitement des erreurs
             switch(res) {
