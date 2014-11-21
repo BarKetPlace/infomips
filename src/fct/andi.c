@@ -12,8 +12,8 @@
 
 int fct_andi(inst k, registre* regs)
 {
-	long long temp=regs[k.i.rs]+regs[k.i.imm];
-	reg.i.rt=temp; 
+	long long temp=regs[k.i.rs].val+regs[k.i.imm].val;
+	regs[k.i.rt].val=temp; 
 	return cmd_ok;
 }
 

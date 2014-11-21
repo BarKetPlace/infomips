@@ -15,7 +15,7 @@ int fct_sub(inst k, registre* regs)
 {
 	 
 	long long temp=regs[k.r.rs].val-regs[k.r.rt].val;
-	if (temp<=max_inst) {k.r.rd=temp; return cmd_ok;}
+	if (temp<=max_inst) {regs[k.r.rd].val=temp; return cmd_ok;}
 	else {return cmd_ok;}
 }
 

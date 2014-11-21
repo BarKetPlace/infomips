@@ -12,7 +12,7 @@
 
 int fct_sw(inst k, registre* regs)
 {
-	mem[k.i.rs+regs[k.i.imm].val]=regs[k.i.rt];
+	mem[regs[k.i.rs].val+regs[k.i.imm].val]=regs[k.i.rt];
 	return cmd_ok;
 }
 

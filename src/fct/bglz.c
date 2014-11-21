@@ -12,11 +12,11 @@
 
 int fct_bglz(inst k, registre* regs)
 {
-	int off=((short)k.i.imm)<<2;
-	if (regs[k.i.rs]<=0)
+	int off=((short)regs[k.i.imm].val)<<2;
+	if (regs[k.i.rs].val<=0)
 		{
 		PC=PC+off;
 		return cmd_ok;
 		}
-	else {return cmd_ok;}
+	else {return cmd_unknown;}
 }

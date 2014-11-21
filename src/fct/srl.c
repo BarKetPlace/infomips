@@ -13,7 +13,7 @@
 int fct_srl(inst k, registre* regs)
 {
 	 
-	reg.r.rd=(regs[k.i.rt])>>regs[k.i.imm]; 
+	regs[k.i.rd].val=(regs[k.i.rt].val)>>regs[k.i.imm]; 
 	return CMD_OK_RETURN_VALUE;
 }
 

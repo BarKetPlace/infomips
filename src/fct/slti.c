@@ -13,8 +13,8 @@
 int fct_slti(inst k, registre* regs)
 {
 	 
-	if (regs[k.i.rs]<regs[k.i.imm]) {reg.r.rd=1;}
-	else {reg.r.rd=0;}
-	return CMD_OK_RETURN_VALUE;
+	if (regs[k.i.rs].val<regs[k.i.imm].val) {regs[k.i.rd].val=1;}
+	else {regs[k.i.rd].val=0;}
+	return cmd_ok;
 }
 

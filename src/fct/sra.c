@@ -14,9 +14,9 @@
 int fct_sra(inst k, registre* regs)
 {
 	 
-	long long z = (regs[k.i.rt]&0x80000000)>>31;
-	long long t = (regs[k.i.rt])>>regs[k.i.imm]; 
-	reg.r.rd = (regs[k.i.imm]*z)
+	long long z = ((regs[k.i.rt].val)&0x80000000)>>31;
+	long long t = (regs[k.i.rt].val)>>(regs[k.i.imm].val); 
+	regs[k.i.rd].val = ((regs[k.i.imm].val)*z)
 	return cmd_ok;
 }
 

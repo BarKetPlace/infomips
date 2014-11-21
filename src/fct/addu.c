@@ -12,8 +12,8 @@
 
 int fct_addu(inst k, registre* regs)
 {
-	long long temp=regs[k.r.rs]+regs[k.r.rt];
-	regs[reg.r.rd]=temp; 
+	long long temp=regs[k.r.rs].val+regs[k.r.rt].val;
+	regs[reg.r.rd].val=temp; 
 	return cmd_ok;
 }
 
