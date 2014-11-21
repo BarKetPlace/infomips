@@ -89,7 +89,7 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
 
 	}
 	if(!strcmp(token, "break")){
-		return breakcmd(inter,memory, pbreaklist);
+		return breakcmd(inter, memory, pbreaklist);
 	}
 
 	WARNING_MSG("breakUnknown Command : '%s'", cmdStr);
@@ -148,7 +148,7 @@ int main ( int argc, char *argv[] ) {
 	INFO_MSG("Dictionnaire d'instructions chargé");
 	//visualiser(dico);
 	
-	Liste_int* pbreaklist;
+	Liste_int* pbreaklist = calloc(1, sizeof(*pbreaklist));
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {
 

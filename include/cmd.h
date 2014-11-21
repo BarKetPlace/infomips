@@ -35,9 +35,7 @@ int runcmd(interpreteur inter,mem memory, registre* reg, Liste dico);
 Liste_int ajout_tete_int(uint32_t c, Liste_int l);
 Liste_int supp_int(Liste_int l);
 void visualiser_int(Liste_int l);
-
-
-
+Liste_int supp_elt(uint32_t elt, Liste_int l);
 
 int breakcmd(interpreteur inter,mem memory, Liste_int* pbreaklist);
 int break_addcmd(interpreteur inter, mem memory , Liste_int* pbreaklist);
