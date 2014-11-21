@@ -10,10 +10,10 @@
 // Fonction ADDIU
 // Definir max_inst
 
-int fct_addiu(inst k, registre* regs)
+int fct_addiu(inst k, mem memory, registre* regs)
 {
-	long long temp=regs[k.i.rs]+regs[k.i.imm];
-	reg.i.rt=temp; 
+	long long temp=regs[k.i.rs].val+regs[k.i.imm].val;
+	regs[k.i.rt]=temp; 
 	return cmd_ok;
 }
 

@@ -10,10 +10,10 @@
 // Fonction SLL
 
 
-int fct_sll(inst k, registre* regs)
+int fct_sll(inst k, mem memory, registre* regs)
 {
 	 
-	regs[reg.r.rd]=(regs[k.r.rt])<<regs[k.i.imm]; 
-	return CMD_OK_RETURN_VALUE;
+	regs[reg.i.rd].val=((long)regs[k.i.rt].val)<<regs[k.i.imm].val; 
+	return cmd_ok;
 }
 

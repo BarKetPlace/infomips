@@ -16,9 +16,9 @@
 
 // Definition des pointeurs de fonctions
 
-typedef struct {
+/*typedef struct {
 	int (*fonction)(interpreteur inter,inst,memory mem,registre* reg)
-		}
+		} */
 
 
 

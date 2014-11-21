@@ -11,11 +11,11 @@
 // Attention mettre les barres
 
 
-int fct_or(inst k, registre* regs)
+int fct_or(inst k, mem memory, registre* regs)
 {
 	 
-	long long temp=regs[k.r.rs]ORregs[k.r.rt];
-	reg.r.rd=temp; 
-	return CMD_OK_RETURN_VALUE;
+	long long temp=(regs[k.r.rs].val)¦(Rregs[k.r.rt]);
+	regs[k.r.rs].val=temp; 
+	return cmd_ok;
 }
 

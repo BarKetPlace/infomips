@@ -10,11 +10,11 @@
 // Fonction LUI
 
 
-int fct_lui(inst k, registre* regs)
+int fct_lui(inst k, mem memory, registre* regs)
 {
 	 
-	long long r=(regs[k.i.imm])<<16;
-	reg.i.rt=r&0xffff0000;
-	return CMD_OK_RETURN_VALUE;
+	long long r=(regs[k.i.imm].val)<<16;
+	regs[k.i.rt].val=r&0xffff0000;
+	return cmd_ok;
 }
 
