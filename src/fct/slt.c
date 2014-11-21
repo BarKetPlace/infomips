@@ -10,7 +10,7 @@
 // Fonction SLT
 
 
-int fct_slt(inst k, registre* regs)
+int fct_slt(inst k, mem memory, registre* regs)
 {
 	 
 	if (regs[k.r.rs].val<regs[k.r.rt].val) {regs[k.i.rd].val=1;}

@@ -8,13 +8,14 @@
 #include "emulateur.h"
 
 // Fonction LW
-// Mettre erreur adresse ...
 
-int fct_lw(inst k, registre* regs)
+
+int fct_lw(inst k, mem memory, registre* regs)
 {
 	int tmp;
+	uint32_t m;
 	int l=regs[k.i.rs]+regs[k.i.imm];
-	tmp = find_val(memory, l, &regs[k.i.rt].val);
+	tmp = find_val(memory, l, &m);
 
 	if (l<START_MEM) ERROR_MSG("La memoire commence en 0x%08x",START_MEM);
 	if (l>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);
@@ -25,6 +26,7 @@ int fct_lw(inst k, registre* regs)
 		return cmd_unknown;
 	}
 	else {
+		regs[k.i.rt]=m;
 		return cmd_ok;
 	}
 }

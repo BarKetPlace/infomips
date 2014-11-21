@@ -10,7 +10,7 @@
 // Fonction DIV
 
 
-int fct_div(inst k, registre* regs)
+int fct_div(inst k, mem memory, registre* regs)
 {
 	long long q=regs[k.r.rs].val/regs[k.r.rt].val;
 	regs[LO].val=q;

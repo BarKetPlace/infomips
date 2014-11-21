@@ -11,7 +11,7 @@
 // Attention mettre les barres
 
 
-int fct_ori(inst k, registre* regs)
+int fct_ori(inst k, mem memory, registre* regs)
 {
 	 
 	long long temp=(regs[k.i.rs].val)¦(regs[k.i.imm].val);

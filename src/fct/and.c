@@ -10,7 +10,7 @@
 // Fonction AND
 
 
-int fct_and(inst k, registre* regs)
+int fct_and(inst k, mem memory, registre* regs)
 {
 	long long temp=(regs[k.r.rs].val)&(regs[k.r.rt].val);
 	regs[k.r.rd].val=temp; 
