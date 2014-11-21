@@ -138,13 +138,13 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 					{
 						sscanf(token, "%d", &val_t_a);
 						if (val_t_a==val_f_a) { return cmd_ok;}
-						else { return cmd_unknown;}
+						else { WARNING_MSG("Erreur"); return cmd_unknown;}
 					}
 					else if (is_hexa(token)) // valeur hexadecimale
 					{
 						sscanf(token, "%x", &val_t_a);
 						if (val_t_a==val_f_a) { return cmd_ok;}
-						else { return cmd_unknown;}
+						else { WARNING_MSG("Erreur"); return cmd_unknown;}
 					}
 					else {return cmd_unknown;}
 			}
