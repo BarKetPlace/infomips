@@ -14,7 +14,7 @@ int fct_lw(inst k, mem memory, registre* regs)
 {
 	int tmp;
 	uint32_t m;
-	int l=regs[k.i.rs]+regs[k.i.imm];
+	signed int l=regs[k.i.rs]+(signed long)regs[k.i.imm];
 	tmp = find_val(memory, l, &m);
 
 	if (l<START_MEM) ERROR_MSG("La memoire commence en 0x%08x",START_MEM);

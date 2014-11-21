@@ -13,7 +13,7 @@
 int fct_slti(inst k, mem memory, registre* regs)
 {
 	 
-	if (regs[k.i.rs].val<regs[k.i.imm].val) {regs[k.i.rd].val=1;}
+	if ((signed int)regs[k.i.rs].val<(signed int)regs[k.i.imm].val) {regs[k.i.rd].val=1;}
 	else {regs[k.i.rd].val=0;}
 	return cmd_ok;
 }

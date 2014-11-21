@@ -13,7 +13,7 @@
 int fct_lui(inst k, mem memory, registre* regs)
 {
 	 
-	long long r=(regs[k.i.imm].val)<<16;
+	long long r=((long long)regs[k.i.imm].val)<<16;
 	regs[k.i.rt].val=r&0xffff0000;
 	return cmd_ok;
 }

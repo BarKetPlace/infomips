@@ -32,7 +32,7 @@ typedef struct {
 	int nb_op;
 //	char nom_op[MAXSTR];
 	char* nom_op[4]; // MAXOP -> nombre max d'op
-	int (*f) (int,int);
+	int (*f) (inst, mem, registre);
 }* definition;
 
 
