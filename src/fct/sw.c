@@ -10,7 +10,7 @@
 // Fonction SW
 
 
-int fct_sw(inst k, mem memory, registre* regs)
+int fct_sw(inst k, virtualmem vm)
 {
 	uint32_t vale=regs[k.i.rt].val;
 	int tmp, 

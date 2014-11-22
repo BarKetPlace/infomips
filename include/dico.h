@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-
+#include "reg.h"
+#include "mem.h"
 #define MAXSTR 256
 /* TYPES POUR DISASM */
 
@@ -21,7 +22,6 @@ union inst_poly {
 	struct J j;
 };
 typedef union inst_poly inst;
-
 
 //représente une instruction type, sortie du dictionnaire
 typedef struct {

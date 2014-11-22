@@ -11,7 +11,7 @@
 // Fonction LB
 
 
-int fct_lb(inst k, mem memory, registre* regs)
+int fct_lb(inst k, virtualmem vm)
 {
 	int tmp;
 	vale=regs[k.i.rt].val;

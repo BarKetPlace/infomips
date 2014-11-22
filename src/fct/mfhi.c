@@ -10,7 +10,7 @@
 // Fonction MFHI
 
 
-int fct_mfhi(inst k, mem memory, registre* regs)
+int fct_mfhi(inst k, virtualmem vm)
 {
 	 
 	regs[HI].val=regs[k.i.rs].val;

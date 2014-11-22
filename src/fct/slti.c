@@ -10,7 +10,7 @@
 // Fonction SLTI
 
 
-int fct_slti(inst k, mem memory, registre* regs)
+int fct_slti(inst k, virtualmem vm)
 {
 	 
 	if ((signed int)regs[k.i.rs].val<(signed int)regs[k.i.imm].val) {regs[k.i.rd].val=1;}

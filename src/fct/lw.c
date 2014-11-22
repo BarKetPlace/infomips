@@ -10,7 +10,7 @@
 // Fonction LW
 
 
-int fct_lw(inst k, mem memory, registre* regs)
+int fct_lw(inst k, virtualmem vm)
 {
 	int tmp;
 	uint32_t m;

@@ -10,7 +10,7 @@
 // Fonction SLT
 
 
-int fct_slt(inst k, mem memory, registre* regs)
+int fct_slt(inst k, virtualmem vm)
 {
 	 
 	if ((signed int)regs[k.r.rs].val<(signed int)regs[k.r.rt].val) 

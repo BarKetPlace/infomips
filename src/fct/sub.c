@@ -11,7 +11,7 @@
 // Fonction SUB
 // Definir max_inst
 
-int fct_sub(inst k, mem memory, registre* regs)
+int fct_sub(inst k, virtualmem vm)
 {
 	 
 	long long temp=regs[k.r.rs].val-regs[k.r.rt].val;

@@ -11,7 +11,7 @@
 // Fonction add
 // Definir max_inst
 
-int fct_add(inst k, mem memory, registre* regs)
+int fct_add(inst k, virtualmem vm)
 {
 	 
 	long long temp=regs[k.r.rs].val+regs[k.r.rt].val;

@@ -10,7 +10,7 @@
 // Fonction LUI
 
 
-int fct_lui(inst k, mem memory, registre* regs)
+int fct_lui(inst k, virtualmem vm)
 {
 	 
 	long long r=((long long)regs[k.i.imm].val)<<16;

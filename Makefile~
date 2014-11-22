@@ -3,7 +3,7 @@ TARGET = projet
 CFLAGS = -g -std=c99 -I$(INCDIR)/ -Wall -Wextra -DDEBUG -DVERBOSE
 LFLAGS=-lreadline -lm -lcurses
 INCDIR=./include
-SRCDIR= src/memoire src/cmd src/emul src/is_ src/dico
+SRCDIR= src/memoire src/cmd src/emul src/is_ src/dico src/fct
 
 
 SRC=$(foreach nom, $(SRCDIR), $(wildcard $(nom)/*.c))
@@ -19,7 +19,11 @@ OBJ_DBG=$(SRC:.c=.o)
 	#gcc $^ -o $@
 
 #./src/is_/is_sym.o ./src/is_/is_elf.o ./src/is_/is_hexa.o ./src/is_/is_conform_line.o
-main: main.o $(OBJ_DBG) 
+fct: fct_jal.o $(OBJ_DBG)
+	gcc $^ $(LFLAGS) -g -o $@
+	clear
+
+main: main.o $(OBJ_DBG) fct_exec.o
 	gcc $^ $(LFLAGS) -g -o $@
 	clear
 

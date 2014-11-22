@@ -10,7 +10,7 @@
 // Fonction MULT
 // Attention definition de LO et HI
 
-int fct_mult(inst k, mem memory, registre regs)
+int fct_mult(inst k, virtualmem vm)
 {
 	long long q=regs[k.r.rs].val*regs[k.r.rt].val;
 	regs[HI].val=q&Ox0000ffff;

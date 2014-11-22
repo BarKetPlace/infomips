@@ -10,7 +10,7 @@
 // Fonction ADDU
 // Definir max_inst
 
-int fct_addu(inst k, mem memory, registre* regs)
+int fct_addu(inst k, virtualmem vm)
 {
 	long long temp=regs[k.r.rs].val+regs[k.r.rt].val;
 	regs[reg.r.rd].val=temp; 

@@ -10,7 +10,7 @@
 // Fonction SLTU
 // def condtion
 
-int fct_sltu(inst k, mem memory, registre* regs)
+int fct_sltu(inst k, virtualmem vm)
 {
 	 
 	if ((unsigned int)regs[k.r.rs].val<(unsigned int)regs[k.r.rt].val) {regs[k.r.rd].val=1;}

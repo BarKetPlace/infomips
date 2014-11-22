@@ -10,7 +10,7 @@
 // Fonction ADDI
 // Definir max_inst
 
-int fct_addi(inst k, mem memory, registre* regs)
+int fct_addi(inst k, virtualmem vm)
 {
 	long long temp=regs[k.i.rs].val+regs[k.i.imm].val;
 	if (temp<=max_inst) {regs[k.i.rt].val=temp; return cmd_ok;}

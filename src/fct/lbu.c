@@ -11,7 +11,7 @@
 // Fonction LBU
 
 
-int fct_lbu(inst k, mem memory, registre* regs)
+int fct_lbu(inst k, virtualmem vm)
 {
 	regs[k.i.rt].val=(regs[k.i.imm].val)<<16;
 	return cmd_ok;

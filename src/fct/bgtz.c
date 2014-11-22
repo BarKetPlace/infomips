@@ -10,7 +10,7 @@
 // Fonction BGTZ
 
 
-int fct_bgtz(inst k, mem memory, registre* regs)
+int fct_bgtz(inst k, virtualmem vm)
 {
 	int off=((short)regs[k.i.imm].val)<<2;
 	if (regs[k.i.rs].val>0)

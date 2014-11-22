@@ -11,7 +11,7 @@
 // Demander comment copier le 1er bit
 
 
-int fct_sra(inst k, mem memory, registre* regs)
+int fct_sra(inst k, virtualmem vm)
 {
 	 
 	long long z = ((regs[k.i.rt].val)&0x80000000)>>31;

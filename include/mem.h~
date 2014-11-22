@@ -19,7 +19,7 @@ extern "C" {
 
 #include "types.h"
 #include "reg.h"
-
+#include "typemem.h"
 #define MEMSZ		  4  //Mo
 #define MEMSZ_BYTES  (long) (MEMSZ*1024*1024)
 
@@ -43,6 +43,8 @@ typedef struct {
 	int busy;
 	//word tab[MEMSZ_BYTES];
 } *mem;
+
+
 
 
 #define R__   1

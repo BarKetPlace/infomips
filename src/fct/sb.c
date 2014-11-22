@@ -10,7 +10,7 @@
 // Fonction SB
 
 
-int fct_sb(inst k, mem memory, registre* regs)
+int fct_sb(inst k, virtualmem vm)
 {
 	uint32_t vale=regs[k.i.rt].val;
 	int tmp;
