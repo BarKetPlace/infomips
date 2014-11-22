@@ -5,17 +5,24 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction SLT
 
 
-int fct_slt(inst k, virtualmem vm)
+int fct_slt(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	if ((signed int)regs[k.r.rs].val<(signed int)regs[k.r.rt].val) 
-		{regs[k.i.rd].val=1;}
-	else {regs[k.i.rd].val=0;}
+	if ((signed int)reg[k.r.rs].val<(signed int)reg[k.r.rt].val) 
+		{reg[k.r.rd].val=1;}
+	else {reg[k.r.rd].val=0;}
 	return cmd_ok;
 }
 

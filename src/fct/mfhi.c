@@ -5,15 +5,22 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction MFHI
 
 
-int fct_mfhi(inst k, virtualmem vm)
+int fct_mfhi(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	regs[HI].val=regs[k.i.rs].val;
+	reg[HI].val=reg[k.i.rs].val;
 	return cmd_ok;
 }
 

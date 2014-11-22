@@ -5,15 +5,22 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction ADDU
 // Definir max_inst
 
-int fct_addu(inst k, virtualmem vm)
+int fct_addu(inst k, mem memory, registre* reg, Liste dico)
 {
-	long long temp=regs[k.r.rs].val+regs[k.r.rt].val;
-	regs[reg.r.rd].val=temp; 
+	long long temp=reg[k.r.rs].val+reg[k.r.rt].val;
+	reg[k.r.rd].val=temp; 
 	return cmd_ok;
 }
 

@@ -7,6 +7,8 @@
 #include "reg.h"
 #include "dico.h"
 
+
+
 //Définition des listes de nombres
 typedef struct _liste_int {
 uint32_t val; 

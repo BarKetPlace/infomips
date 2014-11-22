@@ -6,16 +6,23 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction SUB
 // Definir max_inst
 
-int fct_sub(inst k, virtualmem vm)
+int fct_sub(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	long long temp=regs[k.r.rs].val-regs[k.r.rt].val;
-	if (temp<=max_inst) {regs[k.r.rd].val=temp; return cmd_ok;}
+	long long temp=reg[k.r.rs].val-reg[k.r.rt].val;
+	if (temp<=max_inst) {reg[k.r.rd].val=temp; return cmd_ok;}
 	else {return cmd_ok;}
 }
 

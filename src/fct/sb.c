@@ -5,19 +5,26 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction SB
 
 
-int fct_sb(inst k, virtualmem vm)
+int fct_sb(inst k, mem memory, registre* reg, Liste dico)
 {
-	uint32_t vale=regs[k.i.rt].val;
+	uint32_t vale=reg[k.i.rt].val;
 	int tmp;
 	uint32_t m;
-	unint32_t vale, vals;
-	vale=regs[k.i.rt].val;
-	signed int l=regs[k.i.rs]+(signed long)regs[k.i.imm];
+	uint32_t vals;
+	vale=reg[k.i.rt].val;
+	signed int l=reg[k.i.rs].val+(signed long)reg[k.i.imm].val;
 	tmp = find_val(memory, l, &m);
 
 	if (l<START_MEM) ERROR_MSG("La memoire commence en 0x%08x",START_MEM);
@@ -31,10 +38,10 @@ int fct_sb(inst k, virtualmem vm)
 	else {
 		m=vale;
 		vals = swap_mot(vale);
-		if (l%4==0) 		regs[k.i.rt].val=vals&0x000000ff;
-		else if (l%4==1) 	regs[k.i.rt].val=(vals&0x0000ff00)>>8;
-		else if (l%4==2)	regs[k.i.rt].val=(vals&0x00ff0000)>>16;
-		else if (l%4==3)	regs[k.i.rt].val=(vals&0xff000000)>>24;
+		if (l%4==0) 		reg[k.i.rt].val=vals&0x000000ff;
+		else if (l%4==1) 	reg[k.i.rt].val=(vals&0x0000ff00)>>8;
+		else if (l%4==2)	reg[k.i.rt].val=(vals&0x00ff0000)>>16;
+		else if (l%4==3)	reg[k.i.rt].val=(vals&0xff000000)>>24;
 
 		return cmd_ok;
 	}

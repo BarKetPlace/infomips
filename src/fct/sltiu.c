@@ -5,15 +5,22 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction SLTIU
 // def condition
 
-int fct_sltiu(inst k, registre* regs)
+int fct_sltiu(inst k, registre* reg)
 {
-	if ((unsigned int)regs[k.i.rs].val<(unsigned int)regs[k.i.imm].val) {regs[k.i.rd].val=1;}
-	else {regs[k.i.rd].val=0;}
+	if ((unsigned int)reg[k.r.rs].val<(unsigned int)reg[k.i.imm].val) {reg[k.r.rd].val=1;}
+	else {reg[k.r.rd].val=0;}
 	return cmd_ok;
 }
 

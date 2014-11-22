@@ -6,54 +6,54 @@
 #include "emulateur.h"
 #include "reg.h"
 #include "dico.h"
-
+#include "typesmem.h"
 #define max_inst 0xffffffff
 
-int fct_add(inst k, virtualmem vm);
-int fct_sw(inst k, virtualmem vm);
-int fct_subu(inst k, virtualmem vm);
-int fct_sub(inst k, virtualmem vm);
-int fct_srl(inst k, virtualmem vm);
-int fct_sra(inst k, virtualmem vm);
-int fct_sltu(inst k, virtualmem vm);
-int fct_slti(inst k, virtualmem vm);
-int fct_slt(inst k, virtualmem vm);
-int fct_sll(inst k, virtualmem vm);
-int fct_ori(inst k, virtualmem vm);
-int fct_or(inst k, virtualmem vm);
-int fct_mflo(inst k, virtualmem vm);
-int fct_mfhi(inst k, virtualmem vm);
-int fct_lw(inst k, virtualmem vm);
-int fct_lui(inst k, virtualmem vm);
-int fct_div(inst k, virtualmem vm);
-int fct_bne(inst k, virtualmem vm);
-int fct_bltz(inst k, virtualmem vm);
-int fct_bgtz(inst k, virtualmem vm);
-int fct_bglz(inst k, virtualmem vm);
-int fct_bgez(inst k, virtualmem vm);
-int fct_beq(inst k, virtualmem vm);
-int fct_andi(inst k, virtualmem vm);
-int fct_and(inst k, virtualmem vm);
-int fct_addu(inst k, virtualmem vm);
-int fct_addiu(inst k, virtualmem vm);
-int fct_addi(inst k, virtualmem vm);
-int fct_mult(inst k, virtualmem vm);
-int fct_syscall(inst k, virtualmem vm);
-int fct_j(inst k, virtualmem vm);
-int fct_jal(inst k, virtualmem vm);
-int fct_jalr(inst k, virtualmem vm);
-int fct_jr(inst k, virtualmem vm);
-int fct_break(inst k, virtualmem vm);
-int fct_lbu(inst k, virtualmem vm);
-int fct_sb(inst k, virtualmem vm);
+int fct_add(inst k, mem memory, registre* reg, Liste dico);
+int fct_sw(inst k, mem memory, registre* reg, Liste dico);
+int fct_subu(inst k, mem memory, registre* reg, Liste dico);
+int fct_sub(inst k, mem memory, registre* reg, Liste dico);
+int fct_srl(inst k, mem memory, registre* reg, Liste dico);
+int fct_sra(inst k, mem memory, registre* reg, Liste dico);
+int fct_sltu(inst k, mem memory, registre* reg, Liste dico);
+int fct_slti(inst k, mem memory, registre* reg, Liste dico);
+int fct_slt(inst k, mem memory, registre* reg, Liste dico);
+int fct_sll(inst k, mem memory, registre* reg, Liste dico);
+int fct_ori(inst k, mem memory, registre* reg, Liste dico);
+int fct_or(inst k, mem memory, registre* reg, Liste dico);
+int fct_mflo(inst k, mem memory, registre* reg, Liste dico);
+int fct_mfhi(inst k, mem memory, registre* reg, Liste dico);
+int fct_lw(inst k, mem memory, registre* reg, Liste dico);
+int fct_lui(inst k, mem memory, registre* reg, Liste dico);
+int fct_div(inst k, mem memory, registre* reg, Liste dico);
+int fct_bne(inst k, mem memory, registre* reg, Liste dico);
+int fct_bltz(inst k, mem memory, registre* reg, Liste dico);
+int fct_bgtz(inst k, mem memory, registre* reg, Liste dico);
+int fct_bglz(inst k, mem memory, registre* reg, Liste dico);
+int fct_bgez(inst k, mem memory, registre* reg, Liste dico);
+int fct_beq(inst k, mem memory, registre* reg, Liste dico);
+int fct_andi(inst k, mem memory, registre* reg, Liste dico);
+int fct_and(inst k, mem memory, registre* reg, Liste dico);
+int fct_addu(inst k, mem memory, registre* reg, Liste dico);
+int fct_addiu(inst k, mem memory, registre* reg, Liste dico);
+int fct_addi(inst k, mem memory, registre* reg, Liste dico);
+int fct_mult(inst k, mem memory, registre* reg, Liste dico);
+int fct_syscall(inst k, mem memory, registre* reg, Liste dico);
+int fct_j(inst k, mem memory, registre* reg, Liste dico);
+int fct_jal(inst k, mem memory, registre* reg, Liste dico);
+int fct_jalr(inst k, mem memory, registre* reg, Liste dico);
+int fct_jr(inst k, mem memory, registre* reg, Liste dico);
+int fct_break(inst k, mem memory, registre* reg, Liste dico);
+int fct_lbu(inst k, mem memory, registre* reg, Liste dico);
+int fct_sb(inst k, mem memory, registre* reg, Liste dico);
 
-int fct_seb(inst k, virtualmem vm);
-int fct_nop(inst k, virtualmem vm);
-int fct_move(inst k, virtualmem vm);
-int fct_neg(inst k, virtualmem vm);
-int fct_li(inst k, virtualmem vm);
-int fct_blt(inst k, virtualmem vm);
-int fct_exec(uint32_t adresse, virtualmem vm);
+int fct_seb(inst k, mem memory, registre* reg, Liste dico);
+int fct_nop(inst k, mem memory, registre* reg, Liste dico);
+int fct_move(inst k, mem memory, registre* reg, Liste dico);
+int fct_neg(inst k, mem memory, registre* reg, Liste dico);
+int fct_li(inst k, mem memory, registre* reg, Liste dico);
+int fct_blt(inst k, mem memory, registre* reg, Liste dico);
+int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico);
 
 
 

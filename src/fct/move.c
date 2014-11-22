@@ -11,16 +11,6 @@
 
 #include "typesmem.h"
 
-
-
-
-// Fonction SRL
-
-
-int fct_srl(inst k, mem memory, registre* reg, Liste dico)
-{
-	 
-	reg[k.r.rd].val= (reg[k.r.rt].val)>>reg[k.i.imm].val; 
+int fct_move(inst k, mem memory, registre *reg, Liste dico){
 	return cmd_ok;
 }
-

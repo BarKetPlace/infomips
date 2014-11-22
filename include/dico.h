@@ -4,10 +4,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-#include "reg.h"
+//#include "reg.h"
+//#include "mem.h"
 #include "mem.h"
+#include "reg.h"
 #define MAXSTR 256
 /* TYPES POUR DISASM */
+
+
 
 //Selon son type, un bit d'un code ne signifie pas la même chose
 struct R {unsigned int func:6, si:5, rd:5, rt:5, rs:5, op:6;};
@@ -23,8 +27,10 @@ union inst_poly {
 };
 typedef union inst_poly inst;
 
+struct _liste;
+struct _mem;
 //représente une instruction type, sortie du dictionnaire
-typedef struct {
+typedef struct _def {
 	uint32_t sign;
 	uint32_t masq;
 	char nom[6];
@@ -32,15 +38,13 @@ typedef struct {
 	int nb_op;
 //	char nom_op[MAXSTR];
 	char* nom_op[4]; // MAXOP -> nombre max d'op
-	int (*f) (inst, mem, registre);
+	int (*f) (inst k,struct _mem* memory, registre* reg, struct _liste* dico);
 }* definition;
-
 
 //Définition des listes
 typedef struct _liste {
 definition val; 
 struct _liste * suiv; }* Liste;
-
 
 Liste creer_liste(void);
 int est_vide(Liste l);

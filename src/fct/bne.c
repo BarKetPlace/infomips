@@ -5,19 +5,26 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction bne
 // Similaire a BEQ
 
 
-int fct_bne(inst k, virtualmem vm)
+int fct_bne(inst k, mem memory, registre* reg, Liste dico)
 {
-	int off=((short)regs[k.i.imm].val)<<2;
-	int c=regs[k.i.rs].val==regs[k.i.rt].val;
+	int off=((short)reg[k.i.imm].val)<<2;
+	int c=reg[k.i.rs].val==reg[k.i.rt].val;
 	if (!c)
 		{
-		PC=PC+off;
+		reg[PC].val=reg[PC].val+off;
 		return cmd_ok;
 		}
 	else {return cmd_unknown;}

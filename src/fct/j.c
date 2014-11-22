@@ -14,13 +14,11 @@
 
 
 
-// Fonction SRL
-
-
-int fct_srl(inst k, mem memory, registre* reg, Liste dico)
+int fct_j(inst k, mem memory, registre* reg, Liste dico)
 {
-	 
-	reg[k.r.rd].val= (reg[k.r.rt].val)>>reg[k.i.imm].val; 
-	return cmd_ok;
+	int offset = (k.j.target<<2);
+	reg[PC].val = reg[PC].val + offset;
+
 }
+
 

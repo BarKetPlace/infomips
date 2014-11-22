@@ -5,16 +5,23 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction LW
 
 
-int fct_lw(inst k, virtualmem vm)
+int fct_lw(inst k, mem memory, registre* reg, Liste dico)
 {
 	int tmp;
 	uint32_t m;
-	signed int l=regs[k.i.rs]+(signed long)regs[k.i.imm];
+	signed int l=reg[k.i.rs].val+(signed long)reg[k.i.imm].val;
 	tmp = find_val(memory, l, &m);
 
 	if (l<START_MEM) ERROR_MSG("La memoire commence en 0x%08x",START_MEM);
@@ -26,7 +33,7 @@ int fct_lw(inst k, virtualmem vm)
 		return cmd_unknown;
 	}
 	else {
-		regs[k.i.rt]=m;
+		reg[k.i.rt].val=m;
 		return cmd_ok;
 	}
 }

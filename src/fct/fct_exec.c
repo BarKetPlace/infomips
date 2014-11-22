@@ -5,14 +5,14 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
-#include "typesmem.h"
-#include "fct.h"
 
-int fct_exec(uint32_t adresse, virtualmem vm){
-		mem memory = vm->memory;
-		Liste dico = vm->dico;
-		registre* reg = vm->reg;
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico){
 
 		union inst_poly mot;
 		definition def;	
@@ -30,6 +30,6 @@ int fct_exec(uint32_t adresse, virtualmem vm){
 		}
 		
 		//On execute ensuite la fonction def->f sur le mot
-		def->f(mot, memory, reg);
+		def->f(mot, memory, reg, dico);
 		
 }

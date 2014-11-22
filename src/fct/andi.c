@@ -5,15 +5,22 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction ANDI
 
 
-int fct_andi(inst k, virtualmem vm)
+int fct_andi(inst k, mem memory, registre* reg, Liste dico)
 {
-	long long temp=regs[k.i.rs].val+regs[k.i.imm].val;
-	regs[k.i.rt].val=temp; 
+	long long temp=reg[k.i.rs].val+reg[k.i.imm].val;
+	reg[k.i.rt].val=temp; 
 	return cmd_ok;
 }
 

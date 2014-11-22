@@ -5,16 +5,23 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction LUI
 
 
-int fct_lui(inst k, virtualmem vm)
+int fct_lui(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	long long r=((long long)regs[k.i.imm].val)<<16;
-	regs[k.i.rt].val=r&0xffff0000;
+	long long r=((long long)reg[k.i.imm].val)<<16;
+	reg[k.i.rt].val=r&0xffff0000;
 	return cmd_ok;
 }
 
