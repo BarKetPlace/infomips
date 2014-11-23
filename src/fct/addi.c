@@ -18,8 +18,8 @@
 // Definir max_inst
 
 int fct_addi(inst k, mem memory, registre* reg, Liste dico)
-{
-	long long temp=reg[k.i.rs].val+reg[k.i.imm].val;
+{	//DEBUG_MSG("%d",k.i.imm);
+	long long temp=reg[k.i.rs].val + k.i.imm;//DEBUG_MSG("%d",temp);
 	if (temp<=max_inst) {reg[k.i.rt].val=temp; return cmd_ok;}
 	else {return cmd_unknown;}
 }

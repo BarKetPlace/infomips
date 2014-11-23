@@ -44,13 +44,13 @@ typedef struct _mem {
 	//word tab[MEMSZ_BYTES];
 } *mem;
 
-
+/*
 typedef struct {
 	mem memory;
 	registre* reg;
 	Liste dico;
 }* virtualmem;
-
+*/
 
 #define R__   1
 #define RW_   2

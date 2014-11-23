@@ -36,7 +36,7 @@ typedef struct {
     uint32_t   attr;
 } segment;
 
-typedef struct {
+typedef struct _mem {
     vsize       extent;
     uint32_t    nseg;
     segment    *seg;

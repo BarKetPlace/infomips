@@ -49,7 +49,7 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 	
 	reg[PC].val = start;
 	
-
+	//Tant que le PC est dans la zone text
 	while(! (reg[PC].val>text_start+text_taille)) {	
 
 		//tmp = disasm_(memory, reg, reg[PC].val, reg[PC].val, dico);
@@ -66,9 +66,10 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 			WARNING_MSG("Impossible de trouver une definition pour le mot 0x%08x en 0x%08x", mot.code ,reg[PC].val);	
 			return cmd_unknown;
 		}
-		
+		//DEBUG_MSG("");
+		//detail_def(def);
 		//On execute ensuite la fonction def->f sur le mot
-		//def->f();
+		def->f(mot, memory, reg, dico);
 		
 
 		print_disasm(def, mot);

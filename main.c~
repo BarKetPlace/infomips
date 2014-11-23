@@ -30,13 +30,11 @@
 * @return tout autre nombre (eg tout nombre positif) si erreur d'execution de la commande
 */
 
-int execute_cmd(interpreteur inter, virtualmem vm, Liste_int* pbreaklist) {
+int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int* pbreaklist) {
     //DEBUG_MSG("input '%s'", inter->input);
     char cmdStr[MAX_STR];
 	
-	mem memory = vm->memory;
-	registre* reg = vm->reg;
-	Liste dico = vm->dico;
+	
     memset( cmdStr, '\0', MAX_STR );
 
     /* gestion des commandes vides, commentaires, etc*/
@@ -79,7 +77,7 @@ int execute_cmd(interpreteur inter, virtualmem vm, Liste_int* pbreaklist) {
 	if(strcmp(token, "disasm") == 0){
 		return disasmcmd(inter, memory, reg, dico);
 	}
-	if(strcmp(token, "run") == 0){ exec_fct(0x0, vm);
+	if(strcmp(token, "run") == 0){
 		return runcmd(inter, memory, reg, dico);
 	}
 	if(!strcmp(token, "step")){
@@ -166,7 +164,7 @@ int main ( int argc, char *argv[] ) {
             /* Une nouvelle ligne a ete acquise dans le flux fp*/
 	//printf("%d\n", known_cmd(inter->input));
 	
-            int res = execute_cmd(inter, vm, pbreaklist); /* execution de la commande */
+            int res = execute_cmd(inter, memory, reg, dico, pbreaklist); /* execution de la commande */
 			
             // traitement des erreurs
             switch(res) {

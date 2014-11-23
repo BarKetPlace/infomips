@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
+#include <ctype.h>
 #include "dico.h"
 
 #include "notify.h"
@@ -127,7 +128,9 @@ Liste read_dico(char* fichier)
 		sscanf(token, "%x", &def->masq);//Lecture & ecriture du masque
 	
 		token = strtok(NULL, " \t\n") ;
-		strcpy(def->nom, token); //Lecture & ecriture du nom
+		//changement de casse
+		for (i=0;i<6;i++) token[i] = tolower(token[i]);
+		strcpy(def->nom, token ); //Lecture & ecriture du nom
 		
 		token = strtok(NULL, " \t\n") ;
 		sscanf(token, "%c", &def->type);//Lecture & ecriture du type
@@ -198,7 +201,7 @@ int affectation_fct(definition def)
 	else if (!strcmp(def->nom, "and") ) def->f = fct_and;
 	else if (!strcmp(def->nom, "addu") ) def->f = fct_addu;
 	else if (!strcmp(def->nom, "addiu") ) def->f = fct_addiu;
-	else if (!strcmp(def->nom, "addi") ) def->f = fct_addi;
+	else if (!strcmp(def->nom, "addi") )  def->f = fct_addi;
 	else if (!strcmp(def->nom, "mult") ) def->f = fct_mult;
 	else if (!strcmp(def->nom, "syscall") ) def->f = fct_syscall;
 	else if (!strcmp(def->nom, "j") ) def->f = fct_j;
