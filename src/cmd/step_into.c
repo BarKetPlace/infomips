@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
-
 #include "cmd.h"
 #include "mem.h"
 #include "notify.h"
@@ -37,8 +35,10 @@ int step_intocmd(mem memory, registre* reg, Liste dico)
 		WARNING_MSG(" Instruction inconnue ");
 		return cmd_exit;
 		}
-	DEBUG_MSG("");
-	detail_def(def);
+	//DEBUG_MSG("");
+	tmp = fct_exec(reg[PC].val, memory, reg, dico);
+	if ( tmp != cmd_ok ) return tmp;
+	//detail_def(def);
 
 	//def->f(mot, reg);
 	reg[PC].val += 4;

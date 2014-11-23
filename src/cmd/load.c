@@ -18,13 +18,15 @@
 
 
 
-int loadcmd(char* fichier, mem memory, registre* reg)
+int loadcmd(interpreteur inter, mem memory, registre* reg)
 {
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// Chargement de la mémoire /////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
+	
+	char *fichier = get_next_token(inter);
 	if (memory->nseg) 
 	{	WARNING_MSG("Un programme est déjà chargé en mémoire");
 		WARNING_MSG("Liberation memoire");
@@ -34,11 +36,17 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 
 		memory = alloue_mem();
 	}
+
+	//Si on a specifie une adresse de depart
+	char* token = get_next_token(inter);
+	 uint32_t tmp;
 	
+
+
 	WARNING_MSG("Chargement de '%s' en mémoire",fichier);
 	FILE* felf;
 	segment* seg=NULL;
-	 unsigned int next_segment_start = START_MEM; // compteur pour designer le début de la prochaine section
+	
 	 int i,j;
 	//Info machine
 	 unsigned int type_machine;
@@ -49,19 +57,24 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 	 //Sections possibles
 	 char* section_names[NB_SECTIONS]= {TEXT_SECTION_STR,RODATA_SECTION_STR,DATA_SECTION_STR,BSS_SECTION_STR};
 	 unsigned int segment_permissions[NB_SECTIONS]= {R_X,R__,RW_,RW_};
+	unsigned int next_segment_start; // compteur pour designer le début de la prochaine section
 
 
+	
+	
 	//Ouverture du fichier elf
 	if (   (felf = fopen(fichier, "r") ) == NULL  )
 	{
 		ERROR_MSG(" Impossible d'ouvrir %s \n", fichier);
 		return NULL;
 	}
+
 	//On vérifie que le nombre d'argument est correct et que le fichier est bien un fichier elf
 	if ( (is_elf(fichier,  felf)) != cmd_ok ) 
 	{	
 		return cmd_unknown;
 	}
+
 	//DEBUG_MSG("ok");
 	//On récupère les informations sur la machine
 	elf_get_arch_info(felf, &type_machine, &endianness, &bus_width);
@@ -76,8 +89,15 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 	    if (!init_mem(nsegments, reg, memory)) {
 			WARNING_MSG("Erreur d'initialisation de la mémoire");
 			return 0;
-		}
+			}
+		// Si on a specifie une valeur de depart
+		if (token && is_hexa(token) ) {
+		sscanf(token, "%x", &next_segment_start);
+		next_segment_start += (next_segment_start% 4);
+		memory->start_mem = next_segment_start;
 		
+	}
+
 	    // Ne pas oublier d'allouer les differentes sections
 	    j=0;
 	    for (i=0; i<NB_SECTIONS; i++) {
@@ -94,6 +114,6 @@ int loadcmd(char* fichier, mem memory, registre* reg)
 	//print_mem( memory );
 	
 	//printf("\n\n");
-
+	//DEBUG_MSG("%x",memory->start_mem);
 	return cmd_ok;
 }

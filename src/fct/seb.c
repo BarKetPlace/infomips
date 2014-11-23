@@ -12,5 +12,7 @@
 #include "typesmem.h"
 
 int fct_seb(inst k, mem memory, registre *reg, Liste dico){
+	reg[k.r.rd].val = (signed) reg[k.r.rt].val;	
+	
 	return cmd_ok;
 }
