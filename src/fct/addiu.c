@@ -19,7 +19,7 @@
 
 int fct_addiu(inst k, mem memory, registre* reg, Liste dico)
 {
-	long long temp=reg[k.i.rs].val+reg[k.i.imm].val;
+	long long temp=reg[k.i.rs].val+k.i.imm;
 	reg[k.i.rt].val=temp; 
 	return cmd_ok;
 }

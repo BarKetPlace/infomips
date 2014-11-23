@@ -19,7 +19,7 @@
 
 int fct_bgez(inst k, mem memory, registre* reg, Liste dico)
 {
-	int off=((short)reg[k.i.imm].val)<<2;
+	int off=((short)k.i.imm)<<2;
 	if (reg[k.i.rs].val>=0)
 		{
 		reg[PC].val=reg[PC].val+off;

@@ -24,7 +24,7 @@ int fct_sb(inst k, mem memory, registre* reg, Liste dico)
 	uint32_t m;
 	uint32_t vals;
 	vale=reg[k.i.rt].val;
-	signed int l=reg[k.i.rs].val+(signed long)reg[k.i.imm].val;
+	signed int l=reg[k.i.rs].val+(signed long)k.i.imm;
 	tmp = find_val(memory, l, &m);
 
 	if (l<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);

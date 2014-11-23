@@ -21,7 +21,7 @@
 int fct_or(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	long long temp=(reg[k.r.rs].val)||(reg[k.r.rt].val);
+	long long temp=(reg[k.r.rs].val)|(reg[k.r.rt].val);
 	reg[k.r.rs].val=temp; 
 	return cmd_ok;
 }
