@@ -18,7 +18,7 @@ struct _liste_int * suiv; }* Liste_int;
 int testcmd(interpreteur inter);
 int exitcmd(interpreteur inter, mem memory, registre* reg, Liste dico);
 
-int loadcmd(char* fichier, mem memory, registre* reg);
+int loadcmd(interpreteur inter, mem memory, registre* reg);
 int dispcmd(interpreteur inter, mem memory, registre* reg);
 
 int disasm(mem memory, int adrr, int val, Liste dico);

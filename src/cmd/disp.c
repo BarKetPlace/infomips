@@ -141,13 +141,18 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 		else if (token)//disp reg $.. $....
 		{		
 			while (token) {
-				num_reg = is_registre(token);
-				if( !(num_reg + 1) ) {
-					WARNING_MSG("'%s' n'est pas un registre", token);
+				if (is_valeur(token+1)) {
+					sscanf(token+1, "%d", &num_reg);
+					print_reg(reg,num_reg);
 				}
+				else{
+					num_reg = is_registre(token);
+					if( !(num_reg) ) {
+					WARNING_MSG("'%s' n'est pas un registre", token);
+					}
 
 				print_reg(reg,num_reg);
-
+				}
 				token = get_next_token(inter); //printf("%s\n",token);
 				}
 			

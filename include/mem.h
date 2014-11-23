@@ -41,6 +41,7 @@ typedef struct _mem {
     uint32_t    nseg;
     segment    *seg;
 	int busy;
+	int start_mem;
 	//word tab[MEMSZ_BYTES];
 } *mem;
 
@@ -81,7 +82,7 @@ typedef struct {
 
 // On fixe ici une adresse basse dans la mémoire virtuelle. Le premier segment
 // ira se loger à cette adresse.
-#define START_MEM 0x0000
+//#define START_MEM 0x0000
 #define STOP_MEM 0xfffff000
 // nombre max de sections que l'on extraira du fichier ELF
 #define NB_SECTIONS 4
@@ -107,6 +108,7 @@ int init_tab_mem(mem memory);
 void print_byte_mem(mem memory, uint32_t adr, uint32_t val);
 int print_case_mem(mem memory,uint debut,uint fin);
 int find_val(mem memory, uint32_t adresse, uint32_t* res);
+int load_word(mem memory, uint32_t addresse, uint32_t toload);
 uint32_t swap_mot(uint32_t mot);
 #ifdef __cplusplus
 }

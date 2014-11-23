@@ -60,7 +60,7 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
     }
     if(strcmp(token, "load") == 0)
  	{
-		return loadcmd(get_next_token(inter), memory, reg);
+		return loadcmd(inter, get_next_token(inter), memory, reg);
 	}
 	if(strcmp(token, "disp") == 0){
 		//print_segment_raw_content(memory->seg);
@@ -150,11 +150,7 @@ int main ( int argc, char *argv[] ) {
 	Liste dico =  read_dico("./src/dico/dico.txt");
 	INFO_MSG("Dictionnaire d'instructions chargé");
 	//visualiser(dico);
-	virtualmem vm;
-	vm->memory = memory;
-	vm->reg = reg;
-	vm->dico = dico;
-	
+
 	Liste_int* pbreaklist = calloc(1, sizeof(*pbreaklist));
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {

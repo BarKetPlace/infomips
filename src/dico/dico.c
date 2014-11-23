@@ -129,7 +129,7 @@ Liste read_dico(char* fichier)
 	
 		token = strtok(NULL, " \t\n") ;
 		//changement de casse
-		for (i=0;i<6;i++) token[i] = tolower(token[i]);
+		for (i=0;i<strlen(token);i++) token[i] = tolower(token[i]);
 		strcpy(def->nom, token ); //Lecture & ecriture du nom
 		
 		token = strtok(NULL, " \t\n") ;

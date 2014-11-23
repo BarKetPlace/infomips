@@ -2,7 +2,7 @@
 #include <string.h>
 #include "is_.h"
 
-int is_reg(char* chaine)
+int is_registre(char* chaine)
 {	int i;
 	if (chaine[0]=='$')
 	{

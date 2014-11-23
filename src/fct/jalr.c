@@ -12,16 +12,19 @@
 #include "typesmem.h"
 
 
-
-
 // Fonction JALR
 
 
 int fct_jalr(inst k, mem memory, registre *reg, Liste dico)
-{
-	reg[PC].val=reg[k.r.rs].val;
-	//execute_next_fct(PC);
+{	int tmp;
+	reg[k.r.rd].val=reg[PC].val + 8; 
+	reg[PC].val = reg[k.r.rs].val;
 	
-	//reg[]=
+	tmp = fct_exec(reg[PC].val, memory, reg, dico);
+	//Après cette instruction ^  le PC retrouve sa valeur normale
+	reg[PC].val = reg[k.r.rd].val;
+	// Et le programme continu
+	if (tmp != cmd_ok) return tmp;
+		
 	return cmd_ok;
 }

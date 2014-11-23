@@ -20,7 +20,7 @@
 int fct_srl(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	reg[k.r.rd].val= (reg[k.r.rt].val)>>reg[k.i.imm].val; 
+	reg[k.r.rd].val= (reg[k.r.rt].val)>>( (k.code&0x000007c0)>>6); 
 	return cmd_ok;
 }
 

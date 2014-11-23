@@ -27,7 +27,7 @@ int fct_sb(inst k, mem memory, registre* reg, Liste dico)
 	signed int l=reg[k.i.rs].val+(signed long)reg[k.i.imm].val;
 	tmp = find_val(memory, l, &m);
 
-	if (l<START_MEM) ERROR_MSG("La memoire commence en 0x%08x",START_MEM);
+	if (l<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
 	if (l>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);
 
 	if (tmp==cmd_unknown)

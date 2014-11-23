@@ -16,7 +16,7 @@ int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico){
 
 		union inst_poly mot;
 		definition def;	
-		
+		int tmp;
 		//On va chercher le mot de l'instruction à l'adresse indiquée par le pc
 		if ( find_val(memory, adresse, &(mot.code)) != cmd_ok ) { 
 			WARNING_MSG("Impossible de trouver un mot en 0x%08x", reg[PC].val);	
@@ -30,6 +30,9 @@ int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico){
 		}
 		
 		//On execute ensuite la fonction def->f sur le mot
-		def->f(mot, memory, reg, dico);
+		tmp = def->f(mot, memory, reg, dico);
+		if (tmp != cmd_ok) return tmp;
+		printf("0x%08x :: ",reg[PC].val);
+		print_disasm(def, mot);
 		
 }

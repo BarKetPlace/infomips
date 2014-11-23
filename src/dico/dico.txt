@@ -40,5 +40,5 @@ a0000000	fc000000	SB		I	2	rt imm
 00000022	fc0007ff	SUR		R	3	rd rs rt
 00000023	fc0007ff	SUBU		R	3	rd rs rt
 ac000000	fc000000	SW		I	2	rt imm
-0000000c	fc00003f	SYSCALL		J	0	none
+0000000c	fc00003f	SYSCALL	J	0	none
 00000026	fc0007ff	XOR		R	3	rd rs rt

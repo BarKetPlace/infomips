@@ -12,8 +12,6 @@
 #include "typesmem.h"
 
 
-
-
 int fct_j(inst k, mem memory, registre* reg, Liste dico)
 {
 	int offset = (k.j.target<<2);

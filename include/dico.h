@@ -33,7 +33,7 @@ struct _mem;
 typedef struct _def {
 	uint32_t sign;
 	uint32_t masq;
-	char nom[6];
+	char nom[7];
 	char type;
 	int nb_op;
 //	char nom_op[MAXSTR];

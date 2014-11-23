@@ -4,7 +4,7 @@
 
 
 int is_text_adresse(mem memory, uint32_t adresse, uint32_t* text_start, uint32_t* text_taille)
-{	
+{	//DEBUG_MSG("%x",adresse);
 	int i;
 	uint32_t taille, start;
 	segment* seg = NULL;
