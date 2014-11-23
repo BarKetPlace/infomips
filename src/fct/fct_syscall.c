@@ -5,24 +5,32 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction SYSCALL
 
 
-int fct_syscall(inst i, registre* regs)
+int fct_syscall(inst k, mem memory, registre* reg, Liste dico)
 {
-	switch(regs[v0].val)
+	switch(reg[2].val){
 		case 1: 
-			regs[]=affiche_entier();
-		case 4:
-			regs[]
-		case 5:
+			/*reg[]=affiche_entier();*/ break;
+		case 4:break;
+			//reg[]
+		case 5:break;
 
-		case 8:
+		case 8:break;
 		
-		case 10:
+		case 10:break;
+	}
 	//int off=((short)inst.i.imm)<<2;
-	//if (regs[inst.i.rs]>=0)
+	//if (reg[inst.i.rs]>=0)
 		
 }

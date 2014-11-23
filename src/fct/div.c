@@ -5,16 +5,23 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction DIV
 
 
-int fct_div(inst k, mem memory, registre* regs)
+int fct_div(inst k, mem memory, registre* reg, Liste dico)
 {
-	long long q=regs[k.r.rs].val/regs[k.r.rt].val;
-	regs[LO].val=q;
-	long long r=(regs[k.r.rs].val)%(regs[k.r.rt].val);
-	regs[HI].val=r;
+	long long q=reg[k.r.rs].val/reg[k.r.rt].val;
+	reg[LO].val=q;
+	long long r=(reg[k.r.rs].val)%(reg[k.r.rt].val);
+	reg[HI].val=r;
 	return cmd_ok;
 }

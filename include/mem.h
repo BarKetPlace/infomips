@@ -19,7 +19,7 @@ extern "C" {
 
 #include "types.h"
 #include "reg.h"
-
+#include "dico.h"
 #define MEMSZ		  4  //Mo
 #define MEMSZ_BYTES  (long) (MEMSZ*1024*1024)
 
@@ -36,13 +36,20 @@ typedef struct {
     uint32_t   attr;
 } segment;
 
-typedef struct {
+typedef struct _mem {
     vsize       extent;
     uint32_t    nseg;
     segment    *seg;
 	int busy;
 	//word tab[MEMSZ_BYTES];
 } *mem;
+
+
+typedef struct {
+	mem memory;
+	registre* reg;
+	Liste dico;
+}* virtualmem;
 
 
 #define R__   1

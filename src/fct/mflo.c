@@ -5,15 +5,22 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction MFLO
 
 
-int fct_mflo(inst k, mem memory, registre* regs)
+int fct_mflo(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	regs[LO].val=regs[k.i.rs].val;
+	reg[LO].val=reg[k.i.rs].val;
 	return cmd_ok;
 }
 

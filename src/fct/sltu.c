@@ -5,16 +5,23 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction SLTU
 // def condtion
 
-int fct_sltu(inst k, mem memory, registre* regs)
+int fct_sltu(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	if ((unsigned int)regs[k.r.rs].val<(unsigned int)regs[k.r.rt].val) {regs[k.r.rd].val=1;}
-	else {regs[k.r.rd].val=0;}
+	if ((unsigned int)reg[k.r.rs].val<(unsigned int)reg[k.r.rt].val) {reg[k.r.rd].val=1;}
+	else {reg[k.r.rd].val=0;}
 	return cmd_ok;
 }
 

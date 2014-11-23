@@ -5,17 +5,24 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction BGLZ
 
 
-int fct_bglz(inst k, mem memory, registre* regs)
+int fct_bglz(inst k, mem memory, registre* reg, Liste dico)
 {
-	int off=((short)regs[k.i.imm].val)<<2;
-	if (regs[k.i.rs].val<=0)
+	int off=((short)reg[k.i.imm].val)<<2;
+	if (reg[k.i.rs].val<=0)
 		{
-		PC=PC+off;
+		reg[PC].val=reg[PC].val+off;
 		return cmd_ok;
 		}
 	else {return cmd_unknown;}

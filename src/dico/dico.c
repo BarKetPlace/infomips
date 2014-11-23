@@ -6,7 +6,7 @@
 
 #include "notify.h"
 #include "emulateur.h"
-
+#include "fct.h"
 
 //Fonctions de base sur les listes
 Liste creer_liste(void){return NULL;}
@@ -171,8 +171,50 @@ Liste read_dico(char* fichier)
 
 int affectation_fct(definition def)
 {
-	//if (!strcmp(def->nom, "add") ) def->f = fct_add;
-	//else if (!strcmp(def->nom, "addi") ) def->f = fct_addi;
+	if (!strcmp(def->nom, "add") ) def->f = fct_add;
+	else if (!strcmp(def->nom, "sw") ) def->f = fct_sw;
+	else if (!strcmp(def->nom, "subu") ) def->f = fct_subu;
+	else if (!strcmp(def->nom, "sub") ) def->f = fct_sub;
+	else if (!strcmp(def->nom, "srl") ) def->f = fct_srl;
+	else if (!strcmp(def->nom, "sra") ) def->f = fct_sra;
+	else if (!strcmp(def->nom, "sltu") ) def->f = fct_sltu;
+	else if (!strcmp(def->nom, "slti") ) def->f = fct_slti;
+	else if (!strcmp(def->nom, "slt") ) def->f = fct_slt;
+	else if (!strcmp(def->nom, "sll") ) def->f = fct_sll;
+	else if (!strcmp(def->nom, "ori") ) def->f = fct_ori;
+	else if (!strcmp(def->nom, "or") ) def->f = fct_or;
+	else if (!strcmp(def->nom, "mflo") ) def->f = fct_mflo;
+	else if (!strcmp(def->nom, "mfhi") ) def->f = fct_mfhi;
+	else if (!strcmp(def->nom, "lw") ) def->f = fct_lw;
+	else if (!strcmp(def->nom, "lui") ) def->f = fct_lui;
+	else if (!strcmp(def->nom, "div") ) def->f = fct_div;
+	else if (!strcmp(def->nom, "bne") ) def->f = fct_bne;
+	else if (!strcmp(def->nom, "bltz") ) def->f = fct_bltz;
+	else if (!strcmp(def->nom, "bgtz") ) def->f = fct_bgtz;
+	else if (!strcmp(def->nom, "bglz") ) def->f = fct_bglz;
+	else if (!strcmp(def->nom, "bgez") ) def->f = fct_bgez;
+	else if (!strcmp(def->nom, "beq") ) def->f = fct_beq;
+	else if (!strcmp(def->nom, "andi") ) def->f = fct_andi;
+	else if (!strcmp(def->nom, "and") ) def->f = fct_and;
+	else if (!strcmp(def->nom, "addu") ) def->f = fct_addu;
+	else if (!strcmp(def->nom, "addiu") ) def->f = fct_addiu;
+	else if (!strcmp(def->nom, "addi") ) def->f = fct_addi;
+	else if (!strcmp(def->nom, "mult") ) def->f = fct_mult;
+	else if (!strcmp(def->nom, "syscall") ) def->f = fct_syscall;
+	else if (!strcmp(def->nom, "j") ) def->f = fct_j;
+	else if (!strcmp(def->nom, "jal") ) def->f = fct_jal;
+	else if (!strcmp(def->nom, "jalr") ) def->f = fct_jalr;
+	else if (!strcmp(def->nom, "jr") ) def->f = fct_jr;
+	else if (!strcmp(def->nom, "break") ) def->f = fct_jr;
+	else if (!strcmp(def->nom, "lbu") ) def->f = fct_lbu;
+	else if (!strcmp(def->nom, "sb") ) def->f = fct_sb;
+	else if (!strcmp(def->nom, "seb") ) def->f = fct_seb;
+	else if (!strcmp(def->nom, "nop") ) def->f = fct_nop;
+	else if (!strcmp(def->nom, "move") ) def->f = fct_move;
+	else if (!strcmp(def->nom, "neg") ) def->f = fct_neg;
+	else if (!strcmp(def->nom, "li") ) def->f = fct_li;
+	else if (!strcmp(def->nom, "blt") ) def->f = fct_blt;
+
 	return cmd_ok;
 }
 

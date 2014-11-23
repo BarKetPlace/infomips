@@ -5,15 +5,22 @@
 #include "reg.h"
 #include "bits.h"
 #include "notify.h"
-#include "emulateur.h"
+
+#include "fct.h"
+#include "dico.h"
+
+#include "typesmem.h"
+
+
+
 
 // Fonction MULT
 // Attention definition de LO et HI
 
-int fct_mult(inst k, mem memory, registre regs)
+int fct_mult(inst k, mem memory, registre* reg, Liste dico)
 {
-	long long q=regs[k.r.rs].val*regs[k.r.rt].val;
-	regs[HI].val=q&Ox0000ffff;
-	regs[LO].val=q&Oxffff0000;
+	long long q=reg[k.r.rs].val*reg[k.r.rt].val;
+	reg[HI].val=q&0x0000ffff;
+	reg[LO].val=q&0xffff0000;
 	return cmd_ok;
 }
