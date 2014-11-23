@@ -19,6 +19,10 @@ OBJ_DBG=$(SRC:.c=.o)
 	#gcc $^ -o $@
 
 #./src/is_/is_sym.o ./src/is_/is_elf.o ./src/is_/is_hexa.o ./src/is_/is_conform_line.o
+
+test_fct: $(OBJ_DBG) ./src/fct/fct_...
+	gcc $^ $(LFLAGS) -g -o $@
+
 main: main.o $(OBJ_DBG) 
 	gcc $^ $(LFLAGS) -g -o $@
 	clear

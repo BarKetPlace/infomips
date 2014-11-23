@@ -7,9 +7,11 @@
 #include "bits.h"
 #include "notify.h"
 #include "emulateur.h"
+#include "dico.h"
 
 // Fonction add
 // Definir max_inst
+
 
 int fct_add(inst k, mem memory, registre* regs)
 {
@@ -23,14 +25,14 @@ int fct_add(inst k, mem memory, registre* regs)
 int main()
 {
 	inst l;
-	int l.r.rs;
-	int l.r.rt;
+	int l.r.rs=0;
+	int l.r.rt=0;
 	scanf("l.r.rs = %d",&(l.r.rs));
 	scanf("l.r.rt = %d",&(l.r.rt));
 	mem memory;
 	registre* reg;
 	int u=fct_add(l,memory,reg);
-	printf("rd = 0x08%x", reg[k.r.rd].val);
+	printf("rd = 0x%08x", reg[l.r.rd].val);
 	return 1;
 }
 

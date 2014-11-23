@@ -17,4 +17,16 @@ int fct_addi(inst k, mem memory, registre* regs)
 	else {return cmd_unknown;}
 }
 
-
+int main()
+{
+	inst l;
+	int l.i.rs=0;
+	int l.i.imm=0;
+	scanf("l.r.rs = %d",&(l.i.rs));
+	scanf("l.r.rt = %d",&(l.i.imm));
+	mem memory;
+	registre* reg;
+	int u=fct_add(l,memory,reg);
+	printf("rd = 0x%08x", reg[l.i.rd].val);
+	return 1;
+}

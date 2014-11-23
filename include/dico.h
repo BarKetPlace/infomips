@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include"reg.h"
+#include"mem.h"
 
 #define MAXSTR 256
 /* TYPES POUR DISASM */
@@ -32,7 +34,7 @@ typedef struct {
 	int nb_op;
 //	char nom_op[MAXSTR];
 	char* nom_op[4]; // MAXOP -> nombre max d'op
-	int (*f) (inst, mem, registre);
+	int (*f) (inst k, mem memory, registre* reg);
 }* definition;
 
 
