@@ -18,8 +18,8 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 
 {
 	char *token=get_next_token(inter);
-	char r[128];
-	int j, adresse;
+	char r[128], s[128];
+	int j, adr, valeur;
 	if (token == NULL) //set (null)
 	{
 		WARNING_MSG("Missing arguments");
@@ -36,7 +36,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 		}
 		
 		token = get_next_token(inter);
-		DEBUG_MSG("ok");
+		//DEBUG_MSG("ok");
 			
 		if (token == NULL) //set mem (null)
 		{
@@ -46,9 +46,9 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 
 		else if ((is_type(token))) //set mem <type>
 		{	
-
+			strcpy(s,token);
 			token = get_next_token(inter);
-			DEBUG_MSG("ok");
+			//DEBUG_MSG("ok");
 
 			if (token == NULL) //set mem <type> (null)
 			{
@@ -56,15 +56,21 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 				return cmd_unknown;
 			}
 		
-			DEBUG_MSG("ok");
+			//DEBUG_MSG("ok");
 
 			if (is_adresse(token)) //set mem <type> <adresse>
 			{
+				//&adresse=token;
+				adr=&valeur;
+				sscanf(token,"%x",&adr);
+				DEBUG_MSG("0x%08x",adr);
+				DEBUG_MSG("0x%08x",&valeur);
 				token=get_next_token(inter);
-				DEBUG_MSG("ok");
+				//DEBUG_MSG("ok");
 
 				if (token == NULL) //set mem <type> <adresse> (null)
 				{
+					
 					WARNING_MSG("Missing argument <valeur>");
 					return cmd_unknown;
 				}
@@ -73,16 +79,17 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 
 				else if (is_registre(token) || is_valeur(token)) //set mem <type> <adresse> <valeur>
 				{
-					DEBUG_MSG("ok");
-					sscanf(token, "%x", &adresse);
+					//DEBUG_MSG("ok");
 					if (is_valeur(token)) // valeur entiere
 					{
-						sscanf(token, "%d", &adresse);
+						sscanf(token, "%d", &valeur);
+						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur %d", adr, &valeur, valeur);
 						return cmd_ok;
 					}
 					else if (is_hexa(token)) // valeur hexadecimale
 					{
-						sscanf(token, "%x", &adresse);
+						sscanf(token, "%x", &valeur);
+						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur 0x%08x", adr, &valeur, valeur);
 						return cmd_ok;
 					}
 					else {return cmd_unknown;}
@@ -126,11 +133,11 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 
 		else if ((is_registre(token))!=-1) //set reg <registre>
 		{	
-			DEBUG_MSG("ok");
+			//DEBUG_MSG("ok");
 			strcpy(r, token);
-			DEBUG_MSG("ok");
+			//DEBUG_MSG("ok");
 			token = get_next_token(inter);
-			DEBUG_MSG("ok");
+			//DEBUG_MSG("ok");
 
 			if (token == NULL) //set reg <registre> (null)
 			{
@@ -143,7 +150,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 			{
 				
 				j=transf_reg(reg, r);
-				DEBUG_MSG("%d",j);
+				//DEBUG_MSG("%d",j);
 				if (is_valeur(token)) // valeur entiere
 				{
 					sscanf(token, "%d", &reg[j].val);
