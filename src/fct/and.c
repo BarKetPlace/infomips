@@ -24,3 +24,18 @@ int fct_and(inst k, mem memory, registre* reg, Liste dico)
 	return cmd_ok;
 }
 
+
+/*int main()
+{
+	inst l;
+	Liste dico=NULL;
+	l.r.rs=2;
+	l.r.rt=6;
+	//scanf("l.r.rs = %d",&(l.r.rs));
+	//scanf("l.r.rt = %d",&(l.r.rt));
+	mem memory;
+	registre* reg;
+	int u=fct_and(l,memory,reg, dico);
+	printf("rd = 0x%08x", reg[l.r.rd].val);
+	return 1;
+}*/

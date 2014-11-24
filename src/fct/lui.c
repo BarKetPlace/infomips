@@ -19,7 +19,7 @@
 
 int fct_lui(inst k, mem memory, registre* reg, Liste dico)
 {
-	 uint32_t value = (reg[k.i.imm].val)<<16;
+	 uint32_t value = (k.i.imm)<<16;
 	
 	//reg[k.i.rt].val = (value&0xffff0000) + (reg[k.i.rt].val)&0x0000ffff;
 	reg[k.i.rt].val = value;

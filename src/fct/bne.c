@@ -20,7 +20,7 @@
 
 int fct_bne(inst k, mem memory, registre* reg, Liste dico)
 {
-	int off=((short)reg[k.i.imm].val)<<2;
+	int off=((short)k.i.imm)<<2;
 	int c=reg[k.i.rs].val==reg[k.i.rt].val;
 	if (!c)
 		{

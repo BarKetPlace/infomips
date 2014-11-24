@@ -18,7 +18,9 @@ int fct_sra(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
 	int signe = (reg[k.r.rt].val)&0x80000000;
-	uint32_t shifted = (reg[k.r.rt].val)>>(reg[k.r.sa].val);
+
+	uint32_t shifted = (reg[k.r.rt].val)>>(k.i.imm);
+
 	 
 	reg[k.r.rd].val = signe + shifted;
 

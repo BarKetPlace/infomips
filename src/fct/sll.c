@@ -20,7 +20,7 @@
 int fct_sll(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	reg[k.r.rd].val=((long)reg[k.r.rt].val)<<reg[k.i.imm].val; 
+	reg[k.r.rd].val=((long)reg[k.r.rt].val)<<k.i.imm; 
 	return cmd_ok;
 }
 
