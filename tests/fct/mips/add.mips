@@ -1,0 +1,11 @@
+# test addi/add
+
+.set nomove 
+
+_start:
+.global _start
+
+addi $10 $10 2
+ 
+add $10 $10 $10
+#4 dans $10
