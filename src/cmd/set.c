@@ -19,7 +19,8 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 {
 	char *token=get_next_token(inter);
 	char r[128], s[128];
-	int j, adr, valeur;
+	int j, adr, val;
+	int* valeur;
 	if (token == NULL) //set (null)
 	{
 		WARNING_MSG("Missing arguments");
@@ -61,10 +62,8 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 			if (is_adresse(token)) //set mem <type> <adresse>
 			{
 				//&adresse=token;
-				adr=&valeur;
 				sscanf(token,"%x",&adr);
 				DEBUG_MSG("0x%08x",adr);
-				DEBUG_MSG("0x%08x",&valeur);
 				token=get_next_token(inter);
 				//DEBUG_MSG("ok");
 
@@ -80,15 +79,21 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 				else if (is_registre(token) || is_valeur(token)) //set mem <type> <adresse> <valeur>
 				{
 					//DEBUG_MSG("ok");
+					find_val(memory, adr, &valeur);
+					DEBUG_MSG("0x%08x",&valeur);
 					if (is_valeur(token)) // valeur entiere
 					{
-						sscanf(token, "%d", &valeur);
+						sscanf(token, "%d", &val);
+						DEBUG_MSG("%d", valeur);
+						valeur=val;
 						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur %d", adr, &valeur, valeur);
 						return cmd_ok;
 					}
 					else if (is_hexa(token)) // valeur hexadecimale
 					{
-						sscanf(token, "%x", &valeur);
+						sscanf(token, "%x", &val);
+						DEBUG_MSG("%08x", valeur);
+						valeur=val;
 						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur 0x%08x", adr, &valeur, valeur);
 						return cmd_ok;
 					}
