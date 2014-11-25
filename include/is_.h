@@ -16,5 +16,5 @@ int is_valeur(char* chaine);
 int is_type(char *chaine);
 int is_registre(char* chaine);
 int is_text_adresse(mem memory, uint32_t adresse, uint32_t* text_start, uint32_t* text_taille);
-
+int is_breakpoint(uint32_t adresse, Liste breakliste);
 #endif

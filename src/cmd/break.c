@@ -68,7 +68,7 @@ int break_addcmd(interpreteur inter, mem memory , Liste_int* pbreaklist)
 			//DEBUG_MSG("%x",adresse);
 			if (is_text_adresse(memory,adresse,&text_start,&text_taille) == cmd_ok){
 				//DEBUG_MSG("");
-				(*pbreaklist) = ajout_tete_int(adresse, *pbreaklist); //DEBUG_MSG("");
+				(*pbreaklist) = ajout_tete_int(adresse-adresse%4, *pbreaklist); //DEBUG_MSG("");
 			}
 			else{
 				WARNING_MSG("0x%08x n'est pas dans la zone texte (%x->%x)", adresse,text_start,text_start + text_taille-1);
