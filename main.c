@@ -78,7 +78,7 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
 		return disasmcmd(inter, memory, reg, dico);
 	}
 	if(strcmp(token, "run") == 0){
-		return runcmd(inter, memory, reg, dico);
+		return runcmd(inter, memory, reg, dico, *pbreaklist);
 	}
 	if(!strcmp(token, "step")){
 		token = get_next_token(inter);

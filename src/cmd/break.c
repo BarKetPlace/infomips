@@ -107,7 +107,7 @@ Liste_int supp_int(Liste_int l)
 }
 
 void visualiser_int(Liste_int l)
-{	if (!l) printf("Liste Vide\n");
+{	if (!l) printf("Pas de break point\n");
 	else{
 		while ( l ) 
 		{

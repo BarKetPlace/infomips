@@ -60,7 +60,7 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
     }
     if(strcmp(token, "load") == 0)
  	{
-		return loadcmd(inter, get_next_token(inter), memory, reg);
+		return loadcmd(inter, memory, reg);
 	}
 	if(strcmp(token, "disp") == 0){
 		//print_segment_raw_content(memory->seg);

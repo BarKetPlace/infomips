@@ -13,7 +13,7 @@
 #include "is_.h"
 #include "dico.h"
 
-int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
+int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int breakliste)
 {	//DEBUG_MSG("%x",memory->start_mem);
 	char* token;
 	int start = memory->start_mem, reste;
@@ -51,27 +51,14 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 	
 	//Tant que le PC est dans la zone text
 	while(! (reg[PC].val>text_start+text_taille)) {	
-/*
-		//tmp = disasm_(memory, reg, reg[PC].val, reg[PC].val, dico);
-		//if (tmp != cmd_ok) return cmd_unknown;
-		
-		//On va chercher le mot de l'instruction à l'adresse indiquée par le pc
-		if ( find_val(memory, reg[PC].val, &(mot.code)) != cmd_ok ) { 
-			WARNING_MSG("Impossible de trouver un mot en 0x%08x", reg[PC].val);	
+		if ( is_breakpoint(reg[PC].val, breakliste) == cmd_ok){
+			INFO_MSG("BREAKPOINT :: 0x%08x",reg[PC].val);
 			return cmd_unknown;
 		}
-		
-		//On va ensuite chercher la definition correspondante
-		if ( !(def = find_def(dico, mot) ) ){ 
-			WARNING_MSG("Impossible de trouver une definition pour le mot 0x%08x en 0x%08x", mot.code ,reg[PC].val);	
-			return cmd_unknown;
+		else{ //Pas de breakpoint
+			tmp = fct_exec(reg[PC].val, memory, reg, dico);
+			if ( tmp != cmd_ok ) return tmp;
 		}
-		//DEBUG_MSG("");
-		//detail_def(def);
-		//On execute ensuite la fonction def->f sur le mot
-		def->f(mot, memory, reg, dico);*/
-		tmp = fct_exec(reg[PC].val, memory, reg, dico);
-		if ( tmp != cmd_ok ) return tmp;
 
 		//print_disasm(def, mot);
 	
