@@ -34,5 +34,5 @@ int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico){
 		if (tmp != cmd_ok) return tmp;
 		printf("0x%08x :: ",reg[PC].val);
 		print_disasm(def, mot);
-		
+		return cmd_ok;
 }
