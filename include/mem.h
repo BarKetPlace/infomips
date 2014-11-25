@@ -108,7 +108,8 @@ int init_tab_mem(mem memory);
 void print_byte_mem(mem memory, uint32_t adr, uint32_t val);
 int print_case_mem(mem memory,uint debut,uint fin);
 int find_val(mem memory, uint32_t adresse, uint32_t* res);
-int load_word(mem memory, uint32_t addresse, uint32_t toload);
+int load_word(mem memory, uint32_t addresse, uint32_t wordtoload);
+int load_byte(mem memory, uint32_t adresse, uint32_t bytetoload);
 uint32_t swap_mot(uint32_t mot);
 #ifdef __cplusplus
 }

@@ -1,0 +1,9 @@
+#-------
+#TEST_RETURN_CODE=PASS           
+#TEST_COMMENT="ok"
+#-------
+
+load ./tests/fct/mips/add.o
+assert reg $t2 4
+exit
+

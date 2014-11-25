@@ -128,7 +128,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 			return cmd_unknown;
 		}
 		token = get_next_token(inter);
-		DEBUG_MSG("ok");
+		//DEBUG_MSG("ok");
 		
 		if (token == NULL) //set reg (null)
 		{

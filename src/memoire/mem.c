@@ -447,8 +447,8 @@ int find_val(mem memory, uint32_t adresse, uint32_t* res) {
 	
 	return cmd_unknown;
 }	
-
-int load_word(mem memory, uint32_t adresse, uint32_t toload){
+//Charger un mot en mémoire, l'adresse fournie doit être multiple de 4
+int load_word(mem memory, uint32_t adresse, uint32_t wordtoload){
 	int taille;
 	int start =0;
 	segment* seg =NULL;
@@ -474,7 +474,7 @@ int load_word(mem memory, uint32_t adresse, uint32_t toload){
 		}
 		else
 		{//DEBUG_MSG("");
-			*((uint32_t *) (seg->content+adresse-start)) = toload;
+			*((uint32_t *) (seg->content+adresse-start)) = wordtoload;
 			
 			return cmd_ok;
 		}
@@ -484,6 +484,42 @@ int load_word(mem memory, uint32_t adresse, uint32_t toload){
 	return cmd_ok;
 }
 
+int load_byte(mem memory, uint32_t adresse, byte bytetoload){
+	int taille;
+	int start =0;
+	segment* seg =NULL;
+	int i;
+	//L'adresse fournit est elle valide
+	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
+	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
+	
+	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
+	//DEBUG_MSG("nb seg %d",memory->nseg);
+	for ( i=0; i< memory->nseg;) {
+		seg = memory->seg+i;
+		taille = seg->size._32;
+		start = seg->start._32;
+		//DEBUG_MSG("seg %d starts : 0x%08x taille: %d byte(s)",i,start,taille);
+		//DEBUG_MSG("faddr %d",faddr);
+		
+		//faddr = faddr - seg->start._32;
+
+		if (adresse > start+taille) i++; 
+		else if ( adresse < start ){
+			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
+			break;
+		}
+		else
+		{//DEBUG_MSG("");
+			*(byte *) (seg->content+adresse-start)) = bytetoload;
+			
+			return cmd_ok;
+		}
+		
+	}
+	
+	return cmd_ok;
+}
 //Inverse tout les octets d'un entier
 uint32_t swap_mot(uint32_t mot)
 {	int res=0;
