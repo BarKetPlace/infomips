@@ -19,8 +19,9 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 {
 	char *token=get_next_token(inter);
 	char r[128], s[128];
-	int j, adr, val;
-	int* valeur;
+	int j, adr;
+	byte byte_;
+	uint32_t word_t;
 	if (token == NULL) //set (null)
 	{
 		WARNING_MSG("Missing arguments");
@@ -45,9 +46,8 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 			return cmd_unknown;
 		}
 
-		else if ((is_type(token))) //set mem <type>
-		{	
-			strcpy(s,token);
+		else if (!strcmp(token,"byte")) //set mem byte
+		{
 			token = get_next_token(inter);
 			//DEBUG_MSG("ok");
 
@@ -59,7 +59,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 		
 			//DEBUG_MSG("ok");
 
-			if (is_adresse(token)) //set mem <type> <adresse>
+			if (is_adresse(token)) //set mem byte <adresse>
 			{
 				//&adresse=token;
 				sscanf(token,"%x",&adr);
@@ -67,7 +67,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 				token=get_next_token(inter);
 				//DEBUG_MSG("ok");
 
-				if (token == NULL) //set mem <type> <adresse> (null)
+				if (token == NULL) //set mem byte <adresse> (null)
 				{
 					
 					WARNING_MSG("Missing argument <valeur>");
@@ -76,25 +76,21 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 			
 				//probleme is_valeur pour les hexas
 
-				else if (is_registre(token) || is_valeur(token)) //set mem <type> <adresse> <valeur>
+				else if (is_hexa(token) || is_valeur(token)) //set mem byte <adresse> <valeur>
 				{
 					//DEBUG_MSG("ok");
-					find_val(memory, adr, &valeur);
-					DEBUG_MSG("0x%08x",&valeur);
 					if (is_valeur(token)) // valeur entiere
 					{
-						sscanf(token, "%d", &val);
-						DEBUG_MSG("%d", valeur);
-						valeur=val;
-						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur %d", adr, &valeur, valeur);
+						sscanf(token, "%d", &byte_);
+						load_byte(memory,adr,byte_);
+						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur %d", adr, &byte_, byte_);
 						return cmd_ok;
 					}
 					else if (is_hexa(token)) // valeur hexadecimale
 					{
-						sscanf(token, "%x", &val);
-						DEBUG_MSG("%08x", valeur);
-						valeur=val;
-						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur 0x%08x", adr, &valeur, valeur);
+						sscanf(token, "%02x", &byte_);
+						load_byte(memory,adr,byte_);
+						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur 0x%02x", adr, &byte_, byte_);
 						return cmd_ok;
 					}
 					else {return cmd_unknown;}
@@ -105,6 +101,71 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 					WARNING_MSG("Wrong argument: must be <valeur>");
 					return cmd_unknown;
 				}
+				
+			}
+			else 
+			{	
+				WARNING_MSG("Wrong argument: must be <adresse>");
+				return cmd_unknown;
+			}
+		}
+			
+		else if (!strcmp(token,"word")) //set mem word
+		{
+			token = get_next_token(inter);
+			//DEBUG_MSG("ok");
+
+			if (token == NULL) //set mem word (null)
+			{
+				WARNING_MSG("Missing arguments <adresse> <valeur>");
+				return cmd_unknown;
+			}
+		
+			//DEBUG_MSG("ok");
+
+			if (is_adresse(token)) //set mem word <adresse>
+			{
+				//&adresse=token;
+				sscanf(token,"%x",&adr);
+				DEBUG_MSG("0x%08x",adr);
+				token=get_next_token(inter);
+				//DEBUG_MSG("ok");
+
+				if (token == NULL) //set mem word <adresse> (null)
+				{
+					
+					WARNING_MSG("Missing argument <valeur>");
+					return cmd_unknown;
+				}
+			
+				//probleme is_valeur pour les hexas
+
+				else if (is_hexa(token) || is_valeur(token)) //set mem word <adresse> <valeur>
+				{
+					//DEBUG_MSG("ok");
+					if (is_valeur(token)) // valeur entiere
+					{
+						sscanf(token, "%d", &word_t);
+						load_word(memory,adr,word_t);
+						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur %d", adr, &word_t, word_t);
+						return cmd_ok;
+					}
+					else if (is_hexa(token)) // valeur hexadecimale
+					{
+						sscanf(token, "%x", &word_t);
+						load_word(memory,adr,word_t);
+						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur 0x%08x", adr, &word_t, word_t);
+						return cmd_ok;
+					}
+					else {return cmd_unknown;}
+				}
+
+				else
+				{	
+					WARNING_MSG("Wrong argument: must be <valeur>");
+					return cmd_unknown;
+				}
+				
 			}
 			else 
 			{	

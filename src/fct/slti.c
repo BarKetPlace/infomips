@@ -20,8 +20,8 @@
 int fct_slti(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
-	if ((signed int)reg[k.r.rs].val<(signed int)k.i.imm) {reg[k.r.rd].val=1;}
-	else {reg[k.r.rd].val=0;}
+	if ((signed int)reg[k.i.rs].val<(signed int)k.i.imm) {reg[k.i.rt].val=1;}
+	else {reg[k.i.rt].val=0;}
 	return cmd_ok;
 }
 

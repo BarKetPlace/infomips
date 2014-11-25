@@ -5,6 +5,7 @@
 #include "syms.h"
 #include "emulateur.h"
 #include "mem.h"
+#include "cmd.h"
 
 int is_in_symbols(char* name, stab symtab);
 int is_elf(char* fichier, FILE* felf);

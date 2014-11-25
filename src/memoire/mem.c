@@ -511,7 +511,7 @@ int load_byte(mem memory, uint32_t adresse, byte bytetoload){
 		}
 		else
 		{//DEBUG_MSG("");
-			*(byte *) (seg->content+adresse-start)) = bytetoload;
+			*((byte *) (seg->content+adresse-start)) = bytetoload;
 			
 			return cmd_ok;
 		}
