@@ -474,7 +474,7 @@ int load_word(mem memory, uint32_t adresse, uint32_t wordtoload){
 		}
 		else
 		{//DEBUG_MSG("");
-			*((uint32_t *) (seg->content+adresse-start)) = wordtoload;
+			*( (uint32_t *) (seg->content+adresse-start)) = wordtoload;
 			
 			return cmd_ok;
 		}

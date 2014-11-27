@@ -80,15 +80,27 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 				{
 					//DEBUG_MSG("ok");
 					if (is_valeur(token)) // valeur entiere
-					{
+					{      
 						sscanf(token, "%d", &byte_);
-						load_byte(memory,adr,byte_);
-						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur %d", adr, &byte_, byte_);
-						return cmd_ok;
+						if (byte_>256) {
+						  WARNING_MSG("%d ne tient pas sur 1 octet",byte_);
+						  return cmd_unknown;
+						}
+						
+						else {
+						  load_byte(memory,adr,byte_);
+						  DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur %d", adr, &byte_, byte_);
+						  return cmd_ok;
+						  }
 					}
 					else if (is_hexa(token)) // valeur hexadecimale
 					{
-						sscanf(token, "%02x", &byte_);
+						sscanf(token, "%x", &byte_);
+						if (byte_>256) {
+						  WARNING_MSG("%x ne tient pas sur 1 octet",byte_);
+						  return cmd_unknown;
+						}
+						
 						load_byte(memory,adr,byte_);
 						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur 0x%02x", adr, &byte_, byte_);
 						return cmd_ok;
@@ -97,7 +109,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 				}
 
 				else
-				{	
+				{      
 					WARNING_MSG("Wrong argument: must be <valeur>");
 					return cmd_unknown;
 				}
