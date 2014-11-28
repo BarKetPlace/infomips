@@ -19,7 +19,10 @@ extern "C" {
 
 #include "types.h"
 #include "reg.h"
+#include "syms.h"
 #include "dico.h"
+#include "relocator.h"
+#include "elf.h"
 #define MEMSZ		  4  //Mo
 #define MEMSZ_BYTES  (long) (MEMSZ*1024*1024)
 
@@ -102,7 +105,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content );
 void print_mem( mem vm );
 int del_mem( mem vm );
 void print_segment_raw_content(segment* seg);
-
+void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,stab symtab);
 int init_tab_mem(mem memory);
 //void print_full_mem(mem memory);
 void print_byte_mem(mem memory, uint32_t adr, uint32_t val);
@@ -110,6 +113,8 @@ int print_case_mem(mem memory,uint debut,uint fin);
 int find_val(mem memory, uint32_t adresse, uint32_t* res);
 int load_word(mem memory, uint32_t addresse, uint32_t wordtoload);
 int load_byte(mem memory, uint32_t adresse, byte bytetoload);
+int elf_load_section_in_memory(FILE* fp, mem memory, char* scn,unsigned int permissions,unsigned long long add_start);
+
 uint32_t swap_mot(uint32_t mot);
 #ifdef __cplusplus
 }

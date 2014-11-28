@@ -45,9 +45,6 @@ test_loadmemory: ./tests/memoire/test_loadmemory.o $(OBJ_DBG) ./src/is_/is_sym.o
 	gcc $^ -o $@
 #./src/is_/is_sym.o ./src/is_/is_elf.o ./src/is_/is_hexa.o ./src/is_/is_conform_line.o
 
-main: main.o $(OBJ_DBG) 
-	gcc $^ $(LFLAGS) -g -o $@
-	clear
 
 %.o:%.c
 	gcc $< $(CFLAGS) -c -o $(basename $<).o

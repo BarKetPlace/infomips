@@ -13,6 +13,8 @@
 #include "section.h"
 #include "reg.h"
 #include "is_.h"
+#include "relocator.h"
+
 
 
 
@@ -88,7 +90,7 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 	  // initialiser la memoire virtuelle
 	    if (!init_mem(nsegments, reg, memory)) {
 			WARNING_MSG("Erreur d'initialisation de la mémoire");
-			return 0;
+			return cmd_unknown;
 			}
 		// Si on a specifie une valeur de depart
 		if (token && is_hexa(token) ) {
@@ -108,7 +110,16 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 	            j++;
 	        }
 	    }
+
+		for (i=0; i<nsegments; i++) {
+        reloc_segment(felf, memory->seg[i], memory,endianness,symtab);
+
+    }
 	
+	printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", fichier) ;
+	print_mem(memory);
+    stab32_print( symtab);
+
 	//if(!(init_tab_mem(memory))) WARNING_MSG("Problème de recopie de la mémoire");
 	INFO_MSG("Programme chargé en mémoire avec succés");
 	//print_mem( memory );

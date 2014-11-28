@@ -12,10 +12,12 @@
 
 #include "mem.h"
 #include "reg.h"
+#include "syms.h"
 #include "bits.h"
+#include "elf.h"
 #include "notify.h"
 #include "emulateur.h"
-
+#include "relocator.h"
 // strdup is defined in the string.h header but included only for glibc >=2.12.
 // the following declaration bypasses the version declaration
 char *strdup( const char * );
@@ -202,6 +204,53 @@ int init_tab_mem(mem memory)
 }
 */
 
+/*--------------------------------------------------------------------------  */
+/**
+ * @param fp le fichier elf original
+ * @param seg le segment à reloger
+ * @param mem l'ensemble des segments
+ *
+ * @brief Cette fonction effectue la relocation du segment passé en parametres
+ * @brief l'ensemble des segments doit déjà avoir été chargé en memoire.
+ *
+ * VOUS DEVEZ COMPLETER CETTE FONCTION POUR METTRE EN OEUVRE LA RELOCATION !!
+ */
+void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,stab symtab) {
+    byte *ehdr    = __elf_get_ehdr( fp );
+    uint32_t  scnsz  = 0;
+    Elf32_Rel *rel = NULL;
+    char* reloc_name = malloc(strlen(seg.name)+strlen(RELOC_PREFIX_STR)+1);
+    scntab section_tab;
+
+    // on recompose le nom de la section
+    memcpy(reloc_name,RELOC_PREFIX_STR,strlen(RELOC_PREFIX_STR)+1);
+    strcat(reloc_name,seg.name);
+
+    // on récupere le tableau de relocation et la table des sections
+    rel = (Elf32_Rel *)elf_extract_scn_by_name( ehdr, fp, reloc_name, &scnsz, NULL );
+    elf_load_scntab(fp ,32, &section_tab);
+
+
+
+    if (rel != NULL &&seg.content!=NULL && seg.size._32!=0) {
+
+        INFO_MSG("--------------Relocation de %s-------------------\n",seg.name) ;
+        INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
+
+
+        //------------------------------------------------------
+
+        //TODO : faire la relocation ICI !
+
+        //------------------------------------------------------
+
+    }
+    del_scntab(section_tab);
+    free( rel );
+    free( reloc_name );
+    free( ehdr );
+
+}
 
 
 
@@ -520,6 +569,74 @@ int load_byte(mem memory, uint32_t adresse, byte bytetoload){
 	
 	return cmd_ok;
 }
+
+
+
+// fonction permettant d'extraire une section du fichier ELF et de la chargée dans le segment du même nom
+// parametres :
+//   fp         : le pointeur du fichier ELF
+//   memory     : la structure de mémoire virtuelle
+//   scn        : le nom de la section à charger
+//   permission : l'entier représentant les droits de lecture/ecriture/execution
+//   add_start  : l'addresse virtuelle à laquelle la section doit être chargée
+//
+// retourne 0 en cas de succes, une valeur non nulle sinon
+int elf_load_section_in_memory(FILE* fp, mem memory, char* scn,unsigned int permissions,unsigned long long add_start) {
+    byte *ehdr    = __elf_get_ehdr( fp );
+    byte *content = NULL;
+    uint  textsz  = 0;
+    vsize sz;
+    vaddr addr;
+
+    byte *useless = elf_extract_section_header_table( ehdr, fp );
+    free( useless );
+
+    if ( NULL == ehdr ) {
+        WARNING_MSG( "Can't read ELF file" );
+        return 1;
+    }
+
+    if ( 1 == attach_scn_to_mem(memory, scn, SCN_ATTR( WIDTH_FROM_EHDR( ehdr ), permissions ) ) ) {
+        WARNING_MSG( "Unable to create %s section", scn );
+        free( ehdr );
+        return 1;
+    }
+
+    content = elf_extract_scn_by_name( ehdr, fp, scn, &textsz, NULL );
+    if ( NULL == content ) {
+        WARNING_MSG( "Corrupted ELF file" );
+        free( ehdr );
+        return 1;
+    }
+
+    switch( WIDTH_FROM_EHDR(ehdr) ) {
+    case 32 :
+        sz._32   = textsz/*+8*/; /* +8: In case adding a final sys_exit is needed */
+        addr._32 = add_start;
+        break;
+    case 64 :
+        sz._64   = textsz/*+8*/; /* +8: In case adding a final sys_exit is needed */
+        addr._64 = add_start;
+        break;
+    default :
+        WARNING_MSG( "Wrong machine width" );
+        return 1;
+    }
+
+    if ( 1 == fill_mem_scn(memory, scn, sz, addr, content ) ) {
+        free( ehdr );
+        free( content );
+        WARNING_MSG( "Unable to fill in %s segment", scn );
+        return 1;
+    }
+
+    free( content );
+    free( ehdr );
+
+    return 0;
+}
+
+
 //Inverse tout les octets d'un entier
 uint32_t swap_mot(uint32_t mot)
 {	int res=0;

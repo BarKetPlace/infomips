@@ -12,10 +12,12 @@
 
 #include "mem.h"
 #include "reg.h"
+#include "syms.h"
 #include "bits.h"
+#include "elf.h"
 #include "notify.h"
 #include "emulateur.h"
-
+#include "relocator.h"
 // strdup is defined in the string.h header but included only for glibc >=2.12.
 // the following declaration bypasses the version declaration
 char *strdup( const char * );
@@ -202,6 +204,53 @@ int init_tab_mem(mem memory)
 }
 */
 
+/*--------------------------------------------------------------------------  */
+/**
+ * @param fp le fichier elf original
+ * @param seg le segment à reloger
+ * @param mem l'ensemble des segments
+ *
+ * @brief Cette fonction effectue la relocation du segment passé en parametres
+ * @brief l'ensemble des segments doit déjà avoir été chargé en memoire.
+ *
+ * VOUS DEVEZ COMPLETER CETTE FONCTION POUR METTRE EN OEUVRE LA RELOCATION !!
+ */
+void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,stab symtab) {
+    byte *ehdr    = __elf_get_ehdr( fp );
+    uint32_t  scnsz  = 0;
+    Elf32_Rel *rel = NULL;
+    char* reloc_name = malloc(strlen(seg.name)+strlen(RELOC_PREFIX_STR)+1);
+    scntab section_tab;
+
+    // on recompose le nom de la section
+    memcpy(reloc_name,RELOC_PREFIX_STR,strlen(RELOC_PREFIX_STR)+1);
+    strcat(reloc_name,seg.name);
+
+    // on récupere le tableau de relocation et la table des sections
+    rel = (Elf32_Rel *)elf_extract_scn_by_name( ehdr, fp, reloc_name, &scnsz, NULL );
+    elf_load_scntab(fp ,32, &section_tab);
+
+
+
+    if (rel != NULL &&seg.content!=NULL && seg.size._32!=0) {
+
+        INFO_MSG("--------------Relocation de %s-------------------\n",seg.name) ;
+        INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
+
+
+        //------------------------------------------------------
+
+        //TODO : faire la relocation ICI !
+
+        //------------------------------------------------------
+
+    }
+    del_scntab(section_tab);
+    free( rel );
+    free( reloc_name );
+    free( ehdr );
+
+}
 
 
 
@@ -474,7 +523,7 @@ int load_word(mem memory, uint32_t adresse, uint32_t wordtoload){
 		}
 		else
 		{//DEBUG_MSG("");
-			*((uint32_t *) (seg->content+adresse-start)) = wordtoload;
+			*( (uint32_t *) (seg->content+adresse-start)) = wordtoload;
 			
 			return cmd_ok;
 		}
@@ -511,7 +560,7 @@ int load_byte(mem memory, uint32_t adresse, byte bytetoload){
 		}
 		else
 		{//DEBUG_MSG("");
-			*(byte *) (seg->content+adresse-start)) = bytetoload;
+			*((byte *) (seg->content+adresse-start)) = bytetoload;
 			
 			return cmd_ok;
 		}
