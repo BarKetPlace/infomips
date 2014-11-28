@@ -410,20 +410,22 @@ void print_segment_raw_content(segment* seg) {
 	return cmd_ok;
 }*/
 
-void print_byte_mem(mem memory, uint32_t adr, uint32_t val)
+int print_byte_mem(mem memory, uint32_t adr)
 {
-	uint32_t vals;
-	
-	/*if(find_val(memory, adr-adr%4, &val) == cmd_exit) return cmd_exit;*/
-	
-	vals = swap_mot(val);
-	//DEBUG_MSG("%08x", vals);
-	
-	if (adr%4==0) 		printf(" %02x",vals&0x000000ff);
-	else if (adr%4==1) 	printf(" %02x",(vals&0x0000ff00)>>8);
-	else if (adr%4==2)	printf(" %02x",(vals&0x00ff0000)>>16);
-	else if (adr%4==3)	printf(" %02x",(vals&0xff000000)>>24);
-	return;
+  int tmp;
+  byte valb;
+  
+  tmp = find_byte(memory, adr, &valb);
+  if (tmp==cmd_unknown)
+    {	//printf("\n");
+     
+      return tmp;
+    }
+  else {
+    printf("%02x ",valb);
+    
+  }
+  return cmd_ok;
 }
 
 
@@ -440,21 +442,21 @@ int print_case_mem(mem memory, uint debut_, uint fin_)
 
 	//DEBUG_MSG("%x %x",debut,fin);
 	
-	printf("0x%08x", debut);
+	printf("0x%08x :: ", debut);
 	for (i=debut;i<fin;i++)
-	{	if (i%0x10==0 && i != debut ) printf("\n0x%08x", i);
-		if (i%4==0) adr=i;
+	  {	if (i%0x10==0 && i != debut ) printf("\n0x%08x :: ", i);
+		//if (i%4==0) adr=i;
 		
-		tmp = find_val(memory, adr, &val);
-		if (tmp==cmd_unknown) return tmp;
-		
-		else print_byte_mem(memory, i, val);
+		//tmp = find_word(memory, adr, &val);
+		//if (tmp==cmd_unknown) return tmp;
+	    
+	    if(print_byte_mem(memory, i)==cmd_unknown) return cmd_unknown;
 	}
 printf("\n");
 //DEBUG_MSG("");
 }
 
-int find_val(mem memory, uint32_t adresse, uint32_t* res) {	
+int find_word(mem memory, uint32_t adresse, uint32_t* res) {	
 	//DEBUG_MSG("");
 	int i=0;
 	int taille;
@@ -495,7 +497,52 @@ int find_val(mem memory, uint32_t adresse, uint32_t* res) {
 	WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 	
 	return cmd_unknown;
-}	
+}
+
+int find_byte(mem memory, uint32_t adresse, uint8_t* res) {	
+	//DEBUG_MSG("");
+	int i=0;
+	int taille;
+	uint32_t word = 0;
+	int start =0;
+	segment* seg =NULL;
+	//DEBUG_MSG("%d",memory->nseg);
+	
+	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
+	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
+
+	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
+	//DEBUG_MSG("nb seg %d",memory->nseg);
+	for ( i=0; i< memory->nseg;) {
+		seg = memory->seg+i;
+		taille = seg->size._32;
+		start = seg->start._32;
+		//DEBUG_MSG("seg %d starts : 0x%08x taille: %d byte(s)",i,start,taille);
+		//DEBUG_MSG("faddr %d",faddr);
+		
+		//faddr = faddr - seg->start._32;
+
+		if (adresse > start+taille) i++; 
+		else if ( adresse < start ){
+			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
+			break;
+		}
+		else
+		{//DEBUG_MSG("");
+			*res = *((uint8_t *) (seg->content+adresse-start));
+			//FLIP_ENDIANNESS(word);
+		        
+			return cmd_ok;
+		}
+		
+	}
+	puts("");
+	WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
+	
+	return cmd_unknown;
+}
+
+	
 //Charger un mot en mémoire, l'adresse fournie doit être multiple de 4
 int load_word(mem memory, uint32_t adresse, uint32_t wordtoload){
 	int taille;

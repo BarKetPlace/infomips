@@ -19,7 +19,7 @@ int step_intocmd(mem memory, registre* reg, Liste dico)
 	uint32_t val;
 	int tmp;
 	definition def = NULL;
-	tmp =find_val(memory, reg[PC].val, &val);
+	tmp =find_word(memory, reg[PC].val, &val);
 	inst mot;
 
 	if ( tmp == cmd_unknown ) return tmp;
