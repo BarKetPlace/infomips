@@ -538,7 +538,7 @@ int load_byte(mem memory, uint32_t adresse, byte bytetoload){
 	int start =0;
 	segment* seg =NULL;
 	int i;
-	//L'adresse fournit est elle valide
+	//L'adresse fournie est elle valide
 	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
 	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
 	
