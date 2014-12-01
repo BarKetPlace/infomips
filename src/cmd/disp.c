@@ -15,7 +15,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 	int tmp;
 	uint val;
 	int num_reg; //résultat de is_registre
-
+	byte valb = 0;
 	if (token == NULL) //disp (null)
 	{
 		WARNING_MSG("Missing arguments");
@@ -39,7 +39,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 			
 			
 		else if (is_hexa(token)) //disp mem HEXA
-		{	sscanf(token, "%x", &debut);
+		{	sscanf(token, "%x", &adr);
 			token = get_next_token(inter);
 			//DEBUG_MSG("");
 			if (debut>STOP_MEM) //L'adresse est trop haute (voir mem.h)
@@ -53,6 +53,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 			
 			if (token && !strcmp(token,":") )//disp mem HEXA:
 			{	//DEBUG_MSG("sfsg");
+			  debut = adr;
 				token = get_next_token(inter);
 				if (token && is_hexa(token) ) //disp mem HEXA:HEXA
 				{	sscanf(token, "%x", &fin);		
@@ -86,37 +87,24 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 			}
 			
 			else if ( token && is_hexa(token) ) //disp mem HEXA HEXA ...
-			{	
-				do {	
-					sscanf(token, "%x", &adr);
-					tmp = find_val(memory, adr, &val);
-					if (tmp==cmd_unknown)
-					{	printf("\n");
-						ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adr);
-						return tmp;
-					}
-					else {
-						printf("0x%08x : ",adr);
-						print_byte_mem(memory, adr, val);
-					}
-	
-					printf("\n");	
-					
-					token = get_next_token(inter);
-				} while (token && is_hexa(token));
+			  { printf("0x%08x :: ", adr);
+			    if(print_byte_mem(memory, adr)==cmd_unknown) return cmd_unknown;
+			    printf("\n");
+			    do {
+			      
+			      sscanf(token, "%x", &adr);
+			      printf("0x%08x :: ", adr);
+			      if(print_byte_mem(memory, adr)==cmd_unknown) return cmd_unknown;
+			      printf("\n");
+			      token = get_next_token(inter);
+				  
+			    } while (token && is_hexa(token));
 			}
 			else if (!token)//disp mem HEXA
-			{	tmp = find_val(memory, debut, &val);
-					if (tmp==cmd_unknown)
-					{	printf("\n");
-						//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", debut);
-						return tmp;
-					}
-					else {
-						printf("0x%08x : ",debut);
-					//	DEBUG_MSG(" %08x ", val);
-						print_byte_mem(memory, debut, val);printf("\n");
-					}
+			{       
+			 printf("0x%08x :: ", adr);
+			 print_byte_mem(memory, adr);
+			 printf("\n");		
 			}
 
 			else {

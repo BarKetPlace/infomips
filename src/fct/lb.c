@@ -31,7 +31,7 @@ int fct_lb(inst k, mem memory, registre* reg, Liste dico)
 
 	if (addr<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
 	if (addr>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);
-	tmp = find_val(memory, addr, &value);
+	tmp = find_word(memory, addr, &value);
 	
 	if (tmp==cmd_unknown)
 	{	printf("\n");

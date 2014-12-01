@@ -108,7 +108,7 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 {	int i;
 	char res[MAX_STR];
 	int val, tmp;
-	tmp =find_val(memory, debut, &val);
+	tmp =find_word(memory, debut, &val);
 	uint32_t found_word;
 	if ( tmp == cmd_unknown ) return tmp;
 	
@@ -128,7 +128,7 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 
 	
 	for (i=debut;i<fin;i+=4)
-	{	if ( find_val(memory, i, &val) == cmd_unknown ) return cmd_unknown;
+	{	if ( find_word(memory, i, &val) == cmd_unknown ) return cmd_unknown;
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
 		tmp = disasm(memory, i , val , dico);
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
@@ -196,12 +196,12 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 		}
 		else { //disasm HEXA (HEXA HEXA HEXA ...)
 			
-			if( find_val(memory, debut, &found_word) == cmd_unknown) return cmd_unknown;
+			if( find_word(memory, debut, &found_word) == cmd_unknown) return cmd_unknown;
 			else disasm(memory,debut , found_word, dico);
 
 			while(token && is_hexa(token))
 			{	sscanf(token, "%x", &courant);
-				if( find_val(memory, courant, &found_word) == cmd_unknown) return cmd_unknown;
+				if( find_word(memory, courant, &found_word) == cmd_unknown) return cmd_unknown;
 				else disasm(memory,courant , found_word, dico);
 				token = get_next_token(inter);
 			}
