@@ -13,7 +13,7 @@
  * commande exit qui ne necessite pas d'analyse syntaxique
  * @param inter l'interpreteur qui demande l'analyse
  * @return 0 en case de succes, un nombre positif sinon
- */
+ h */
 int exitcmd(interpreteur inter, mem memory, registre* reg, Liste dico) {
 	del_inter(inter);
 	del_mem(memory);INFO_MSG("Liberation memoire");	
