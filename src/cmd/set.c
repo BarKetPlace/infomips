@@ -20,7 +20,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 	char *token=get_next_token(inter);
 	char r[128], s[128];
 	int j, adr;
-	byte byte_;
+	uint32_t byte_;
 	uint32_t word_t;
 	if (token == NULL) //set (null)
 	{
@@ -82,7 +82,9 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 					if (is_valeur(token)) // valeur entiere
 					{      
 						sscanf(token, "%d", &byte_);
-						if (byte_>256) {
+						
+						if ( (byte_)>256) {
+						  DEBUG_MSG("");
 						  WARNING_MSG("%d ne tient pas sur 1 octet",byte_);
 						  return cmd_unknown;
 						}
@@ -96,7 +98,8 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 					else if (is_hexa(token)) // valeur hexadecimale
 					{
 						sscanf(token, "%x", &byte_);
-						if (byte_>256) {
+						if ( (byte_)>256) {
+						  DEBUG_MSG("");
 						  WARNING_MSG("%x ne tient pas sur 1 octet",byte_);
 						  return cmd_unknown;
 						}
