@@ -17,11 +17,11 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int 
 {	//DEBUG_MSG("%x",memory->start_mem);
 	char* token;
 	int start = memory->start_mem, reste;
-	uint32_t courante, tmp, text_start, text_taille, val;
+	uint32_t /*courante,*/ tmp, text_start, text_taille; //val;
 	token = get_next_token(inter);
 
 	union inst_poly mot;
-	definition def;
+	//definition def;
 
 
 

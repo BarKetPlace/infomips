@@ -41,15 +41,15 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 
   //Si on a specifie une adresse de depart
   char* token = get_next_token(inter);
-  uint32_t tmp;
+  //uint32_t tmp;
 	
 
 
   WARNING_MSG("Chargement de '%s' en mémoire",fichier);
   FILE* felf;
-  segment* seg=NULL;
+  //segment* seg=NULL;
 	
-  int i,j;
+  uint i,j;
   //Info machine
   unsigned int type_machine;
   unsigned int endianness;   //little ou big endian

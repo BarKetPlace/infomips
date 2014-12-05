@@ -29,6 +29,9 @@ void print_disasm(definition def, union inst_poly mot);
 int assertcmd(interpreteur inter, mem memory, registre *reg);
 int setcmd(interpreteur inter, mem memory, registre *reg);
 
+int debugcmd(interpreteur inter, mem memory, registre *reg);
+int resumecmd(interpreteur inter, mem memory, registre *reg);
+
 int runcmd(interpreteur inter,mem memory, registre* reg, Liste dico, Liste_int breakliste);
 //int adresse_to_instruc(mem memory, int adrr, Liste dico, instruction res);
 
