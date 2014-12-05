@@ -21,10 +21,9 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
   char *token=get_next_token(inter);
   char r[128];
 
-  int j, adresse;
-  int val_f_r=0, val_f_a =0;
-  int val_t_a=0, val_t_r=0;
-  byte val_f_m=0;
+  uint j, adresse;
+  uint val_f_a =0;
+  uint val_t_a=0, val_t_r=0;
 		
   if (token && !strcmp(token,"reg")) //assert reg
     {

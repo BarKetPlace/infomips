@@ -106,10 +106,10 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 
 int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 {	int i;
-	char res[MAX_STR];
+	//char res[MAX_STR];
 	int val, tmp;
 	tmp =find_word(memory, debut, &val);
-	uint32_t found_word;
+	//uint32_t found_word;
 	if ( tmp == cmd_unknown ) return tmp;
 	
 	
@@ -147,7 +147,7 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 {	
 	char* token;
-	char* res[MAX_STR];
+	//char* res[MAX_STR];
 	uint32_t debut,fin,decalage,courant;
 	token = get_next_token(inter);
 	uint32_t found_word;

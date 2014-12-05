@@ -9,13 +9,13 @@
 
 int dispcmd(interpreteur inter, mem memory, registre* reg)
 {	
-	char* token, sep, addr_fin;
+	char* token; // sep; addr_fin;
 	uint debut,fin, decalage,adr;
 	token = get_next_token(inter);
-	int tmp;
-	uint val;
+	//int tmp;
+	//uint val;
 	int num_reg; //résultat de is_registre
-	byte valb = 0;
+	//byte valb = 0;
 	if (token == NULL) //disp (null)
 	{
 		WARNING_MSG("Missing arguments");

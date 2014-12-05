@@ -209,7 +209,7 @@ void build_rel_table(char* reloc_name, Elf32_Rel* rel, uint32_t scnsz) {
 
 
 void print_rel_table(char* reloc_name, Elf32_Rel* rel, uint32_t scnsz) {
-  int j;
+  uint j;
   printf("Table de relocation : %s\n",reloc_name);
   printf("Offset\tInfo\tType\tVal.-syms\n");
   word offset = 0, info = 0;
@@ -421,7 +421,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
 //   seg        : le segment de la mémoire virtuelle à afficher
 
 void print_segment_raw_content(segment* seg) {
-    int k;
+    uint k;
     int word =0;
     if (seg!=NULL && seg->size._32>0) {
         for(k=0; k<seg->size._32; k+=4) {
@@ -477,11 +477,11 @@ int print_byte_mem(mem memory, uint32_t adr)
 
 int print_case_mem(mem memory, uint debut_, uint fin_)
 {
-	int i, tmp;
+	uint i;
 	uint debut=debut_;
 	uint fin=fin_;
-	uint val=0;
-	uint adr=debut;
+	//uint val=0, tmp;
+	//uint adr=debut;
 	//DEBUG_MSG("%x %x",debut,fin);
 	//if (debut_%4!=0) debut = debut_ - (debut_%4);
 	//if (fin_%4!=0) fin = fin_ -(fin_%4);
@@ -504,10 +504,10 @@ printf("\n");
 
 int find_word(mem memory, uint32_t adresse, uint32_t* res) {	
 	//DEBUG_MSG("");
-	int i=0;
-	int taille;
+	uint i=0;
+	uint taille;
 	uint32_t word = 0;
-	int start =0;
+	uint start =0;
 	segment* seg =NULL;
 	//DEBUG_MSG("%d",memory->nseg);
 	
@@ -547,10 +547,10 @@ int find_word(mem memory, uint32_t adresse, uint32_t* res) {
 
 int find_byte(mem memory, uint32_t adresse, uint8_t* res) {	
 	//DEBUG_MSG("");
-	int i=0;
-	int taille;
+	uint i=0;
+	uint taille;
 	uint32_t word = 0;
-	int start =0;
+	uint start =0;
 	segment* seg =NULL;
 	//DEBUG_MSG("%d",memory->nseg);
 	
@@ -591,10 +591,10 @@ int find_byte(mem memory, uint32_t adresse, uint8_t* res) {
 	
 //Charger un mot en mémoire, l'adresse fournie doit être multiple de 4
 int load_word(mem memory, uint32_t adresse, uint32_t wordtoload){
-	int taille;
-	int start =0;
+	uint taille;
+	uint start =0;
 	segment* seg =NULL;
-	int i;
+	uint i;
 	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
 	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
 
@@ -627,10 +627,10 @@ int load_word(mem memory, uint32_t adresse, uint32_t wordtoload){
 }
 
 int load_byte(mem memory, uint32_t adresse, byte bytetoload){
-	int taille;
-	int start =0;
+	uint taille;
+	uint start =0;
 	segment* seg =NULL;
-	int i;
+	uint i;
 	//L'adresse fournie est elle valide
 	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
 	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
@@ -732,7 +732,7 @@ int elf_load_section_in_memory(FILE* fp, mem memory, char* scn,unsigned int perm
 
 //Inverse tout les octets d'un entier
 uint32_t swap_mot(uint32_t mot)
-{	int res=0;
+{	uint res=0;
 	res = ((mot&0xff000000)>>24) + ((mot&0x00ff0000)>>8) + ((mot&0x0000ff00)<<8) + ((mot&0x000000ff)<<24);
 	return res;
 }
