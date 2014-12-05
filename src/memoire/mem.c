@@ -223,6 +223,14 @@ void print_rel_table(char* reloc_name, Elf32_Rel* rel, uint32_t scnsz) {
     }
 }
 
+uint32_t find_sec_start(mem memory, char* name ) {
+  int i;
+  for (i=0; i<memory->nseg; i++) {
+    if ( ! strcmp(memory->seg[i].name, name) ) return memory->seg[i].start._32;
+  }
+  ERROR_MSG("impossible de l'adresse de depart de %s", name);
+}
+
 /*--------------------------------------------------------------------------  */
 /**
  * @param fp le fichier elf original
@@ -257,36 +265,83 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
         INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
 	int j,k;
 	uint32_t info=0, offset=0, type_rel=0, nb_symb=0;
+
+	uint32_t needed_sec_start;
+        char* needed_sec_name;
+	uint32_t inst_HI, inst_LO;
 	
+	uint32_t rel_inst;
 	word word_rel;
-	//print_rel_table(reloc_name, rel, scnsz);
+	print_rel_table(reloc_name, rel, scnsz);
 	for(j=0;j<scnsz/sizeof(*rel);j++)
 	  {
-	
+	    
 	    offset = swap_mot(rel[j].r_offset);
 	    info = swap_mot(rel[j].r_info);
 	    type_rel = (info&0xff);
+	    //DEBUG_MSG("%x",( info&0xffffff00)>>8 );
+	    needed_sec_name = strdup(symtab.sym[( (info&0xffffff00)>>8 ) ].name);
+
+	    needed_sec_start = find_sec_start(memory, needed_sec_name);
+
+	    //DEBUG_MSG("%x",needed_sec_start);
+
+
 	    switch(type_rel){
 	    case R_MIPS_26: // Branchement
-	      find_word(memory, seg.start._32+offset, &word_rel);
+	      find_word(memory, needed_sec_start+offset, &word_rel);
 	      nb_symb = (word_rel&0x03ffffff);
 	      //DEBUG_MSG("%d", nb_symb);
 	      //DEBUG_MSG("%x",symtab.sym[nb_symb+1].addr._32);
 	      //sym32_print(symtab.sym[nb_symb+1]); 
 	      word_rel = (word_rel&0xfc000000) + symtab.sym[nb_symb+1].addr._32;
-	      //DEBUG_MSG("%x",word_rel);
-	      load_word(memory, seg.start._32+offset, swap_mot(word_rel));
+	      
+	      load_word(memory, needed_sec_start+offset, swap_mot(word_rel));
 
-	      free( rel+j );
 	      break;
 	      
 	    case R_MIPS_HI16: 
 	      DEBUG_MSG("hi16");
-	      DEBUG_MSG("offset :: %x\tinfo :: %x\n",offset,info);
+	      //DEBUG_MSG("offset :: %x\tinfo :: %x\n",offset,info);
+	      // On va chercher les 16 bits de poids fort de l'adresse @+offset
+	      find_word(memory, seg.start._32+offset, &inst_HI);
+	      //DEBUG_MSG("%x",word_rel);
+
+	      inst_HI = inst_HI&0xffff0000;
 	      break;
-	    case R_MIPS_LO16: DEBUG_MSG("lo16");break;
+	      
+	   
+	    case R_MIPS_LO16: DEBUG_MSG("lo16");
+	      //On charge le mot à l'adresse P
+	      find_word(memory, seg.start._32+offset+4, &inst_LO);
+	      //On extrait les 16 derniers bits
+	      inst_LO = inst_LO&0x0000ffff;
+	      //On concatène les deux pour reconstituer l'instruction à reloger
+	      rel_inst = inst_HI + inst_LO;
+	      //DEBUG_MSG("%x",rel_inst);
+	      //On va chercher le numéro du symbole dans la table de symboles
+	      nb_symb = (rel_inst&0x0000ffff);
+	      // DEBUG_MSG("%x", nb_symb);
+	      //On place dans word_rel la valeur du mot après relocation
+	      word_rel = needed_sec_start + symtab.sym[nb_symb].addr._32;
+	      //DEBUG_MSG("word_rel :: %08x",word_rel);
+	      //On reloge l'adresse en la coupant en deux :: les bits de poids fort sur les poids faibles de la première
+	      // Les bits de poids faible sur les poids faible de la deuxième 
+	        //Première partie
+	      find_word(memory, seg.start._32+offset-4, &rel_inst);
+	      rel_inst= rel_inst&0xffff0000 + ((word_rel&0xffff0000)>>16) ;
+	      load_word(memory, seg.start._32+offset-4, swap_mot(rel_inst)   );
+
+	        //Deuxième partie
+	      find_word(memory, seg.start._32+offset, &rel_inst);
+	      //DEBUG_MSG("%x",rel_inst);
+	      rel_inst= (rel_inst&0xffff0000) + (word_rel&0x0000ffff) ;
+	      //DEBUG_MSG("%x", word_rel&0x0000ffff);
+	      load_word(memory, seg.start._32+offset,  swap_mot(rel_inst));
+	      break;
+	    case R_MIPS_32: break;
 	    }
-    
+	    
 	    
 	  }
 
