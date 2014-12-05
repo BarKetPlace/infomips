@@ -279,22 +279,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      break;
 	      
 	    }
-	   
-	    // INFO_MSG("info : %08x \t offset %08x",info,offset);
-	    
-	    //INFO_MSG("N°tab de reloc :: %d\tType de reloc :: %d",nb_symb, type_rel);
-	    //DEBUG_MSG("");
-	     
-	    switch(type_rel)
-	      {
-	      case 2:
-		break;
-		
-		//DEBUG_MSG("%08x", word_rel);
-		
-		//load_word(memory, seg.start._32+offset, )
-	      }
-
+	 
 	    
 	    
 	  }
@@ -416,8 +401,8 @@ int del_mem( mem vm ) {
 
 int init_stack(mem vm, registre* reg, unsigned int nseg)
 {	if (vm ==NULL)
-	{	ERROR_MSG("Memoire virtuelle mal chargée\n");
-		return 0;
+	{	WARNING_MSG("Memoire virtuelle mal chargée\n");
+		return cmd_unknown;
 	}
 
 	vm->seg[nseg].name      = strdup("[STACK]");
@@ -429,7 +414,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
 
 	reg[30].val = vm->seg[nseg].start._32 ;
 	//INFO_MSG("Pile chargée avec succès");
-	return 1;
+	return cmd_ok;
 }
 
 // fonction affichant les octets d'un segment sur la sortie standard

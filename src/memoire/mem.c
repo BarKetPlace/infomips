@@ -279,8 +279,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      break;
 	      
 	    }
-	 
-	    
+    
 	    
 	  }
 
