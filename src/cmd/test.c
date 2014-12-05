@@ -7,6 +7,7 @@
 #include "mem.h"
 #include "reg.h"
 #include "is_.h"
+#include "pile.h"
 
 /**
  * version de la commande test qui analyse la chaîne entrée à 
@@ -18,10 +19,15 @@
  */
 
 int testcmd(interpreteur inter) {
+
+
     DEBUG_MSG("Chaine : %s", inter->input);
     int return_value=0;
     
 		int no_args=1;
+
+	
+
     /* la commande test attend un argument hexa */
     int hexValue;
     char * token=NULL;
@@ -40,6 +46,14 @@ int testcmd(interpreteur inter) {
             return 1;
         }
     }
+
+	/*mem memory;
+	registre* reg;
+	uint32_t valeur=45;
+	ajout_pile(memory, &reg, valeur);
+	DEBUG_MSG("ok");
+	visualiser_pile(memory, &reg);*/
+	
 
 
     if(no_args){
