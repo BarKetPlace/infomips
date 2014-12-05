@@ -279,8 +279,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      break;
 	      
 	    }
-	 
-	    
+    
 	    
 	  }
 
@@ -401,8 +400,8 @@ int del_mem( mem vm ) {
 
 int init_stack(mem vm, registre* reg, unsigned int nseg)
 {	if (vm ==NULL)
-	{	WARNING_MSG("Memoire virtuelle mal chargée\n");
-		return cmd_unknown;
+	{	ERROR_MSG("Memoire virtuelle mal chargée\n");
+		return 0;
 	}
 
 	vm->seg[nseg].name      = strdup("[STACK]");
@@ -414,7 +413,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
 
 	reg[30].val = vm->seg[nseg].start._32 ;
 	//INFO_MSG("Pile chargée avec succès");
-	return cmd_ok;
+	return 1;
 }
 
 // fonction affichant les octets d'un segment sur la sortie standard
@@ -632,7 +631,7 @@ int load_byte(mem memory, uint32_t adresse, byte bytetoload){
 	int start =0;
 	segment* seg =NULL;
 	int i;
-	//L'adresse fournit est elle valide
+	//L'adresse fournie est elle valide
 	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
 	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
 	

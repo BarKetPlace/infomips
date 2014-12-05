@@ -52,7 +52,7 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
 
     if(strcmp(token, "exit") == 0) {
 	
-        exitcmd(inter, memory, reg, dico);
+        exitcmd(inter, memory, reg, dico, *pbreaklist);
 		exit(EXIT_SUCCESS);
     }
     if(strcmp(token, "test") == 0) {
@@ -81,21 +81,20 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
 		return runcmd(inter, memory, reg, dico, *pbreaklist);
 	}
 	if(!strcmp(token, "step")){
-		token = get_next_token(inter);
-		if(token && !strcmp(token,"into")){
-			return step_intocmd(memory,reg,dico);
-			
-		}
-		else if (!token){
-			return cmd_ok;
-		}
+	  token = get_next_token(inter);
+	  if(token && !strcmp(token,"into")){
+	    return step_intocmd(memory,reg,dico);
+	  }
+	  else if (!token){
+	    return cmd_ok;
+	  }
 
 	}
 	if(!strcmp(token, "break")){
 		return breakcmd(inter, memory, pbreaklist);
 	}
 
-	WARNING_MSG("breakUnknown Command : '%s'", cmdStr);
+	WARNING_MSG("Unknown Command : '%s'", cmdStr);
     return cmd_unknown;
 }
 
@@ -150,62 +149,61 @@ int main ( int argc, char *argv[] ) {
 	Liste dico =  read_dico("./src/dico/dico.txt");
 	INFO_MSG("Dictionnaire d'instructions chargé");
 	//visualiser(dico);
-
+	int res;
 	Liste_int* pbreaklist = calloc(1, sizeof(*pbreaklist));
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {
 
-
+      DEBUG_MSG("");
         if (acquire_line( fp, inter)  == 0 ) {
             /* Une nouvelle ligne a ete acquise dans le flux fp*/
-	//printf("%d\n", known_cmd(inter->input));
+	  //printf("%d\n", known_cmd(inter->input));
 	
-            int res = execute_cmd(inter, memory, reg, dico, pbreaklist); /* execution de la commande */
+            res = execute_cmd(inter, memory, reg, dico, pbreaklist); /* execution de la commande */
 			
             // traitement des erreurs
             switch(res) {
             case cmd_ok:
                 break;
             case cmd_exit:
-                //sortie propre du programme 
-                if ( fp != stdin ) {
-                fclose( fp );               
-				
+	      //sortie propre du programme 
+	      if ( fp != stdin ) {
+                fclose( fp );               		
                 del_inter(inter);
-				del_mem(memory);INFO_MSG("Liberation memoire");	
-				del_reg(reg);INFO_MSG("Liberation des registres");
-				del_dico(dico);INFO_MSG("Liberation du dictionnaire d'instructions");
+		del_mem(memory);INFO_MSG("Liberation memoire");	
+		del_reg(reg);INFO_MSG("Liberation des registres");
+		del_dico(dico);INFO_MSG("Liberation du dictionnaire d'instructions");
                 exit(EXIT_SUCCESS);
-				}
-                break;
-			case cmd_unknown:
-				if ( fp != stdin ) {
-                    fclose( fp );
-                
-				
-                exitcmd(inter, memory, reg, dico);
-                exit(EXIT_SUCCESS);
-				}
-				break;
+	      }
+	      break;
+	    case cmd_unknown:
+	      DEBUG_MSG("");
+	      if ( fp != stdin ) {
+		fclose( fp );	
+		exitcmd(inter, memory, reg, dico, *pbreaklist);
+		exit(EXIT_SUCCESS);
+	      }
+	      break;
             default:
                 // erreur durant l'execution de la commande 
                 // En mode "fichier" toute erreur implique la fin du programme ! 
                 if (inter->mode == SCRIPT) {
                     fclose( fp );
-                    exitcmd(inter, memory, reg, dico);
+                    exitcmd(inter, memory, reg, dico, *pbreaklist);
                    //macro ERROR_MSG : message d'erreur puis fin de programme ! 
                     ERROR_MSG("ERREUR DETECTEE. Aborts");
 			exit(EXIT_SUCCESS);
                 }
                 break;
             }
-        }
-		
+   
+	}
+	DEBUG_MSG("");	
         if( inter->mode == SCRIPT && feof(fp) ) {
              //mode fichier, fin de fichier => sortie propre du programme 
             DEBUG_MSG("FIN DE FICHIER");
             fclose( fp );
-           exitcmd(inter, memory, reg, dico);
+	    exitcmd(inter, memory, reg, dico, *pbreaklist);
             exit(EXIT_SUCCESS);
         }
     }

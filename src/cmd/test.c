@@ -19,8 +19,6 @@
  */
 
 int testcmd(interpreteur inter) {
-
-
     DEBUG_MSG("Chaine : %s", inter->input);
     int return_value=0;
     
