@@ -111,7 +111,7 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
     }
   }
 
-  for (i=0; i<nsegments; i++) {DEBUG_MSG("");
+  for (i=0; i<nsegments; i++) {
     reloc_segment(felf, memory->seg[i], memory,endianness,symtab);
 
   }
