@@ -16,7 +16,7 @@ struct _liste_int * suiv; }* Liste_int;
 
 ////////////////////////////////
 int testcmd(interpreteur inter);
-int exitcmd(interpreteur inter, mem memory, registre* reg, Liste dico);
+int exitcmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int l);
 
 int loadcmd(interpreteur inter, mem memory, registre* reg);
 int dispcmd(interpreteur inter, mem memory, registre* reg);
@@ -39,7 +39,7 @@ Liste_int ajout_tete_int(uint32_t c, Liste_int l);
 Liste_int supp_int(Liste_int l);
 void visualiser_int(Liste_int l);
 Liste_int supp_elt(uint32_t elt, Liste_int l);
-
+void supp_Liste_int(Liste_int l);
 int breakcmd(interpreteur inter,mem memory, Liste_int* pbreaklist);
 int break_addcmd(interpreteur inter, mem memory , Liste_int* pbreaklist);
 int break_delcmd(interpreteur inter, Liste_int* pbreaklist);

@@ -116,6 +116,11 @@ void visualiser_int(Liste_int l)
 		}
 	}
 }
+void supp_Liste_int(Liste_int l){
+  while ( l ){
+    l = supp_int(l);
+  }
+}
 
 Liste_int supp_elt(uint32_t elt, Liste_int l){
 //DEBUG_MSG("");

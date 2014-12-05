@@ -53,7 +53,7 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
   //Info machine
   unsigned int type_machine;
   unsigned int endianness;   //little ou big endian
-  unsigned int bus_width;    // 32 bits ou 64bits
+  unsigned int bus_width;    // 32 bits ou 64 bits
   //Table des symboles
   stab symtab= new_stab(0);
   //Sections possibles

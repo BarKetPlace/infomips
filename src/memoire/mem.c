@@ -175,7 +175,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
 * @param a virtual memory
 */
 /*
-int init_tab_mem(mem memory)
+int tab_mem(mem memory)
 {	int i,k,word;
 	int cpt=0;
 	segment segm;
@@ -276,8 +276,15 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      word_rel = (word_rel&0xfc000000) + symtab.sym[nb_symb+1].addr._32;
 	      //DEBUG_MSG("%x",word_rel);
 	      load_word(memory, seg.start._32+offset, swap_mot(word_rel));
+
+	      free( rel+j );
 	      break;
 	      
+	    case R_MIPS_HI16: 
+	      DEBUG_MSG("hi16");
+	      DEBUG_MSG("offset :: %x\tinfo :: %x\n",offset,info);
+	      break;
+	    case R_MIPS_LO16: DEBUG_MSG("lo16");break;
 	    }
     
 	    
@@ -411,7 +418,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
         vm->seg[nseg].attr      = SCN_ATTR(1, RW_);
         vm->seg[nseg].content   = calloc(vm->seg[nseg].size._64,1);
 
-	reg[30].val = vm->seg[nseg].start._32 ;
+	reg[29].val = vm->seg[nseg].start._32 ;
 	//INFO_MSG("Pile chargée avec succès");
 	return 1;
 }
