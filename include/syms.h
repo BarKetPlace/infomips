@@ -42,7 +42,7 @@ typedef struct {
     sym       *sym;
 } stab;
 
-sym  new_sym32( char *name, vaddr32 addr, uint size, sym_type type, uint scnidx );
+sym  new_sym32( char *name, vaddr32 addr, uint size, sym_type type, uint scnxidx );
 sym  new_sym64( char *name, vaddr64 addr, uint size, sym_type type, uint scnidx );
 void sym32_print( sym s );
 void sym64_print( sym s );
