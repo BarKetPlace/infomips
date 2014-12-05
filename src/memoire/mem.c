@@ -270,32 +270,16 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	    case R_MIPS_26: // Branchement
 	      find_word(memory, seg.start._32+offset, &word_rel);
 	      nb_symb = (word_rel&0x03ffffff);
-	      DEBUG_MSG("%d", nb_symb);
+	      //DEBUG_MSG("%d", nb_symb);
 	      //DEBUG_MSG("%x",symtab.sym[nb_symb+1].addr._32);
 	      //sym32_print(symtab.sym[nb_symb+1]); 
 	      word_rel = (word_rel&0xfc000000) + symtab.sym[nb_symb+1].addr._32;
-	      DEBUG_MSG("%x",word_rel);
+	      //DEBUG_MSG("%x",word_rel);
 	      load_word(memory, seg.start._32+offset, swap_mot(word_rel));
 	      break;
 	      
 	    }
-	   
-	    // INFO_MSG("info : %08x \t offset %08x",info,offset);
-	    
-	    //INFO_MSG("N°tab de reloc :: %d\tType de reloc :: %d",nb_symb, type_rel);
-	    //DEBUG_MSG("");
-	     
-	    switch(type_rel)
-	      {
-	      case 2:
-		break;
-		
-		//DEBUG_MSG("%08x", word_rel);
-		
-		//load_word(memory, seg.start._32+offset, )
-	      }
-
-	    
+    
 	    
 	  }
 
