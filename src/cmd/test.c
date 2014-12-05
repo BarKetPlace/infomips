@@ -19,9 +19,6 @@
 
 int testcmd(interpreteur inter) {
 
-
-  empiler
-
   
     DEBUG_MSG("Chaine : %s", inter->input);
     int return_value=0;
