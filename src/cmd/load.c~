@@ -14,7 +14,7 @@
 #include "reg.h"
 #include "is_.h"
 #include "relocator.h"
-//nom du prefix à appliquer pour la section
+
 
 
 

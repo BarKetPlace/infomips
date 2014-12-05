@@ -203,6 +203,25 @@ int init_tab_mem(mem memory)
 	return 1;
 }
 */
+void build_rel_table(char* reloc_name, Elf32_Rel* rel, uint32_t scnsz) {
+  
+}
+
+
+void print_rel_table(char* reloc_name, Elf32_Rel* rel, uint32_t scnsz) {
+  int j;
+  printf("Table de relocation : %s\n",reloc_name);
+  printf("Offset\tInfo\tType\tVal.-syms\n");
+  word offset = 0, info = 0;
+  
+  for(j=0;j<scnsz/sizeof(*rel);j++)
+    {
+      offset = swap_mot(rel[j].r_offset);
+      info = swap_mot(rel[j].r_info);
+
+      printf("%x\t%x\t%s\n",offset,info,MIPS32_REL[(info&0xff)]);
+    }
+}
 
 /*--------------------------------------------------------------------------  */
 /**
@@ -236,6 +255,49 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 
         INFO_MSG("--------------Relocation de %s-------------------\n",seg.name) ;
         INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
+	int j,k;
+	uint32_t info=0, offset=0, type_rel=0, nb_symb=0;
+	
+	word word_rel;
+	//print_rel_table(reloc_name, rel, scnsz);
+	for(j=0;j<scnsz/sizeof(*rel);j++)
+	  {
+	
+	    offset = swap_mot(rel[j].r_offset);
+	    info = swap_mot(rel[j].r_info);
+	    type_rel = (info&0xff);
+	    switch(type_rel){
+	    case R_MIPS_26: // Branchement
+	      find_word(memory, seg.start._32+offset, &word_rel);
+	      nb_symb = (word_rel&0x03ffffff);
+	      DEBUG_MSG("%d", nb_symb);
+	      //DEBUG_MSG("%x",symtab.sym[nb_symb+1].addr._32);
+	      //sym32_print(symtab.sym[nb_symb+1]); 
+	      word_rel = (word_rel&0xfc000000) + symtab.sym[nb_symb+1].addr._32;
+	      DEBUG_MSG("%x",word_rel);
+	      load_word(memory, seg.start._32+offset, swap_mot(word_rel));
+	      break;
+	      
+	    }
+	   
+	    // INFO_MSG("info : %08x \t offset %08x",info,offset);
+	    
+	    //INFO_MSG("N°tab de reloc :: %d\tType de reloc :: %d",nb_symb, type_rel);
+	    //DEBUG_MSG("");
+	     
+	    switch(type_rel)
+	      {
+	      case 2:
+		break;
+		
+		//DEBUG_MSG("%08x", word_rel);
+		
+		//load_word(memory, seg.start._32+offset, )
+	      }
+
+	    
+	    
+	  }
 
 
         //------------------------------------------------------
