@@ -27,7 +27,7 @@ int fct_syscall(inst k, mem memory, registre* reg, Liste dico)
 	switch(reg[2].val){
 		case 1: 
 			printf("SYSCALL %d :: %d\n",reg[2].val, reg[4].val); break;
-		case 4:break;
+		case 4:
 			printf("SYSCALL %d :: %s\n",reg[2].val, reg[4].val); break;
 		case 5:
 			printf("SYSCALL %d :: ", reg[2].val);
@@ -42,6 +42,7 @@ int fct_syscall(inst k, mem memory, registre* reg, Liste dico)
 		
 		case 10: exit(0);
 			break;
+	default: return cmd_unknown;
 	}
 	reg[PC].val+=4;
 	return cmd_ok;
