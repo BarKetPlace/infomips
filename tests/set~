@@ -1,5 +1,0 @@
-load ./elf/boucle.o
-
-set reg $t1 25
-assert reg $t1 25
-assert reg $t1 0x19

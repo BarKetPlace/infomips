@@ -41,7 +41,7 @@ int step_intocmd(mem memory, registre* reg, Liste dico)
 	//detail_def(def);
 
 	//def->f(mot, reg);
-	reg[PC].val += 4;
+	//reg[PC].val += 4;
 
 	return cmd_ok;
 

@@ -23,5 +23,6 @@ int fct_div(inst k, mem memory, registre* reg, Liste dico)
 	reg[LO].val=q;
 	long long r=(reg[k.r.rs].val)%(reg[k.r.rt].val);
 	reg[HI].val=r;
+	reg[PC].val+=4;
 	return cmd_ok;
 }

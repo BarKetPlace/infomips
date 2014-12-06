@@ -41,5 +41,6 @@ int fct_syscall(inst k, mem memory, registre* reg, Liste dico)
 		case 10: exit(0);
 			break;
 	}
-
+	reg[PC].val+=4;
+	return cmd_ok;
 }

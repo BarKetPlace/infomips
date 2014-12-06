@@ -21,6 +21,7 @@ int fct_mflo(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
 	reg[LO].val=reg[k.i.rs].val;
+	reg[PC].val+=4;
 	return cmd_ok;
 }
 

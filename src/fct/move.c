@@ -12,5 +12,6 @@
 #include "typesmem.h"
 
 int fct_move(inst k, mem memory, registre *reg, Liste dico){
+	reg[PC].val+=4;
 	return cmd_ok;
 }

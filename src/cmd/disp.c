@@ -73,6 +73,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 			}		
 			else if ( token && !strcmp(token,"+") )//disp mem HEXA+
 			{	//DEBUG_MSG("sfsg");
+			  debut = adr;
 				token = get_next_token(inter);
 				if (token && is_valeur(token) ) //disp mem HEXA+val
 				{	sscanf(token, "%d", &decalage);		

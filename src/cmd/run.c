@@ -62,7 +62,7 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int 
 
 		//print_disasm(def, mot);
 	
-		reg[PC].val+=4;
+		//reg[PC].val+=4;
 	}
 	printf("******Fin du programme******\n");
 	return cmd_ok;

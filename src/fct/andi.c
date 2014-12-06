@@ -20,7 +20,8 @@
 int fct_andi(inst k, mem memory, registre* reg, Liste dico)
 {
 	long long temp=(reg[k.i.rs].val)&(k.i.imm);
-	reg[k.i.rt].val=temp; 
+	reg[k.i.rt].val=temp;
+	reg[PC].val+=4;
 	return cmd_ok;
 }
 

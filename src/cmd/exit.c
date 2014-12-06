@@ -21,6 +21,7 @@ int exitcmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int
 	del_reg(reg);INFO_MSG("Liberation des registres");
 	del_dico(dico);INFO_MSG("Liberation du dictionnaire d'instructions");
 	supp_Liste_int(l);
+	
 	return cmd_exit;
 }
 

@@ -42,9 +42,10 @@ int fct_sb(inst k, mem memory, registre* reg, Liste dico)
 		else if (l%4==1) 	reg[k.i.rt].val=(vals&0x0000ff00)>>8;
 		else if (l%4==2)	reg[k.i.rt].val=(vals&0x00ff0000)>>16;
 		else if (l%4==3)	reg[k.i.rt].val=(vals&0xff000000)>>24;
-
+		reg[PC].val+=4;
 		return cmd_ok;
 	}
+	reg[PC].val+=4;
 	return cmd_ok;
 }
 

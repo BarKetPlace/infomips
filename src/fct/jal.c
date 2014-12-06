@@ -13,13 +13,15 @@
 
 int fct_jal(inst k, mem memory, registre* reg, Liste dico)
 {	int tmp;
-	reg[31].val = reg[PC].val + 8; // On avance le PC et on le sauve dans le registre 31
-
-	tmp = fct_exec(k.j.target<<2, memory, reg, dico);
+	reg[31].val = reg[PC].val + 4; // On avance le PC et on le sauve dans le registre 31
+	DEBUG_MSG("%x",k.j.target);
+	
+	tmp = fct_exec(k.j.target, memory, reg, dico);
 	//Après cette instruction ^  le PC retrouve sa valeur normale
 	reg[PC].val = reg[31].val;
 	// Et le programme continu
-	if (tmp != cmd_ok) return tmp;
+	return tmp;
+	//if (tmp != cmd_ok) return tmp;
 	
 }
 

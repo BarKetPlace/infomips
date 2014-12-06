@@ -261,8 +261,8 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 
     if (rel != NULL &&seg.content!=NULL && seg.size._32!=0) {
 
-        INFO_MSG("--------------Relocation de %s-------------------\n",seg.name) ;
-        INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
+        INFO_MSG("--------------Relocation de %s-------------------",seg.name) ;
+        //INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
 	int j,k;
 	uint32_t info=0, offset=0, type_rel=0, nb_symb=0;
 
@@ -339,7 +339,14 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      //DEBUG_MSG("%x", word_rel&0x0000ffff);
 	      load_word(memory, seg.start._32+offset,  swap_mot(rel_inst));
 	      break;
-	    case R_MIPS_32: break;
+	    case R_MIPS_32: 
+	      DEBUG_MSG("MIPS_32");
+	      find_word(memory, seg.start._32+offset, &word_rel);
+	      DEBUG_MSG("%x", word_rel);
+	      rel_inst = needed_sec_start+word_rel;
+	      load_word(memory, seg.start._32+offset, swap_mot(rel_inst));
+	       
+	      break;
 	    }
 	    
 	    

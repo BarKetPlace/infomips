@@ -39,6 +39,7 @@ int fct_lw(inst k, mem memory, registre* reg, Liste dico)
 	}
 	else {
 		reg[k.i.rt].val=value;
+		reg[PC].val+=4;
 		return cmd_ok;
 	}
 }

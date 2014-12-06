@@ -47,6 +47,7 @@ int fct_lb(inst k, mem memory, registre* reg, Liste dico)
 		else if (addr%4==3)	reg[k.i.rt].val=(value&0xff000000)>>24;
 		
 	}
+	reg[PC].val+=4;
 	return cmd_ok;
 }
 
