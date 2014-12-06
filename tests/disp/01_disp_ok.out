@@ -1,13 +1,22 @@
+Symbol table has 7 syms:
+Symbol            .text (0    bytes @ 0x00000000): section
+Symbol            .data (0    bytes @ 0x00000000): section
+Symbol             .bss (0    bytes @ 0x00000000): section
+Symbol         .reginfo (0    bytes @ 0x00000000): section
+Symbol             .pdr (0    bytes @ 0x00000000): section
+Symbol           _start (0    bytes @ 0x00000000): object
+Symbol                X (0    bytes @ 0x00000000): no type
 Virtual memory map (4 segments)
 .text   	r-x	Vaddr: 0x00000000	Size: 24 bytes
 .data   	rw-	Vaddr: 0x00001000	Size: 4 bytes
 .bss    	rw-	Vaddr: 0x00002000	Size: 0 bytes
 [STACK] 	rw-	Vaddr: 0xfffff000	Size: 8388608 bytes
-0x00000010 00 00
-0x00000000 20 09 00 0c 00 00 50 20 21 4a 00 01
-0x00000004 :  00
-0x00000008 :  21
-0x0000000c :  15
-0x0000000f :  00
-0x00000000 20 09 00 0c 00 00 50 20 21 4a 00 01 15 49 ff fe
-0x00000010 00 00 00 00 00 00 50 20 21 00 00 00
+0x00000010 :: 00 00 
+0x00000000 :: 20 09 00 0c 00 00 50 20 21 4a 00 01 
+0x00000000 :: 20 
+0x00000004 :: 00 
+0x00000008 :: 21 
+0x0000000c :: 15 
+0x0000000f :: fe 
+0x00000000 :: 20 09 00 0c 00 00 50 20 21 4a 00 01 15 49 ff fe 
+0x00000010 :: 00 00 00 00 00 00 50 20 21 

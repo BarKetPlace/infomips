@@ -5,4 +5,6 @@
 
 
 load ./elf/boucle.o
-disp mem 0x0:0x4
+disasm 0x1000
+
+
