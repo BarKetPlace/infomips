@@ -15,7 +15,70 @@
 #include "is_.h"
 #include "dico.h"
 
-
+//Affichage de l'instruction desassemblée
+void print_disasm(definition def, union inst_poly mot)
+{
+	char* token=NULL;
+	char* delim = " ";
+	int i;
+	char tempo[MAXSTR];
+	tempo[0]='\0';
+	
+	//detail_def(def);
+	//DEBUG_MSG("");
+	if (def->type == 'R')
+	{	//DEBUG_MSG("");
+		printf("%s ",def->nom);
+		strcpy(tempo,def->nom_op);
+		token = strtok(tempo, delim) ;
+		for (i=0;i<def->nb_op;i++)
+		{
+			//DEBUG_MSG("0x%08x", mot.code);
+			//DEBUG_MSG(" 0x%08x 0x%08x 0x%08x ",mot.r.rd, mot.r.rt, mot.r.rs);
+			
+			//DEBUG_MSG("%s",token);
+			if ( !strcmp(def->nom_op[i], "rd") ) printf("$%d ",mot.r.rd);
+			if ( !strcmp(def->nom_op[i], "rt") ) printf("$%d ",mot.r.rt);
+			if ( !strcmp(def->nom_op[i], "rs") ) printf("$%d ",mot.r.rs);
+			//if ( !strcmp(token, "rt") ) printf("$%d ",mot.r.rt);
+			token = strtok(NULL, delim);
+		}
+	}
+	else if (def->type == 'I')
+	{
+		printf("%s ",def->nom);
+		
+		//token = strtok(def->nom_op, delim);
+		for (i=0;i<def->nb_op;i++)
+		{
+			//DEBUG_MSG("0x%08x", mot.code);
+			//DEBUG_MSG(" 0x%08x 0x%08x 0x%08x ",mot.r.rd, mot.r.rt, mot.r.rs);
+			
+			//DEBUG_MSG("%s",token);
+			if ( !strcmp(def->nom_op[i], "rt") ) printf("$%d ",mot.i.rt);
+			else if ( !strcmp(def->nom_op[i], "rs") ) printf("$%d ",mot.i.rs);
+			else if ( !strcmp(def->nom_op[i], "imm") ) printf("%d ",mot.i.imm);
+			//token = strtok(NULL, delim);
+		}
+		//DEBUG_MSG("");
+		//DEBUG_MSG("%s",token);
+	}
+	else if (def->type == 'J')
+	{	//puts(token);
+		//DEBUG_MSG("");
+		//puts(def->nom);
+		printf("%s ",def->nom);
+		//DEBUG_MSG("");
+		//token = strtok(def->nom_op, delim);
+		for (i=0;i<def->nb_op;i++)
+		{
+			if ( !strcmp(def->nom_op[i], "target") ) printf("0x%08x ",mot.j.target);
+		}
+		//else ERROR_MSG("Erreur dictionnaire: type J -> op=target");
+		
+	}
+	printf("\n");
+}
 
 int disasm(mem memory, int adrr, int val, Liste dico)
 {	//int val = swap_mot(val_);
@@ -43,10 +106,10 @@ int disasm(mem memory, int adrr, int val, Liste dico)
 
 int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 {	int i;
-	char res[MAX_STR];
+	//char res[MAX_STR];
 	int val, tmp;
-	tmp =find_val(memory, debut, &val);
-	uint32_t found_word;
+	tmp =find_word(memory, debut, &val);
+	//uint32_t found_word;
 	if ( tmp == cmd_unknown ) return tmp;
 	
 	
@@ -65,7 +128,7 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 
 	
 	for (i=debut;i<fin;i+=4)
-	{	if ( find_val(memory, i, &val) == cmd_unknown ) return cmd_unknown;
+	{	if ( find_word(memory, i, &val) == cmd_unknown ) return cmd_unknown;
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
 		tmp = disasm(memory, i , val , dico);
 		//DEBUG_MSG("0x%08x: 0x%08x",i, val);
@@ -84,7 +147,7 @@ int disasm_(mem memory, registre* reg, int debut, int fin, Liste dico)
 int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 {	
 	char* token;
-	char* res[MAX_STR];
+	//char* res[MAX_STR];
 	uint32_t debut,fin,decalage,courant;
 	token = get_next_token(inter);
 	uint32_t found_word;
@@ -133,12 +196,12 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 		}
 		else { //disasm HEXA (HEXA HEXA HEXA ...)
 			
-			if( find_val(memory, debut, &found_word) == cmd_unknown) return cmd_unknown;
+			if( find_word(memory, debut, &found_word) == cmd_unknown) return cmd_unknown;
 			else disasm(memory,debut , found_word, dico);
 
 			while(token && is_hexa(token))
 			{	sscanf(token, "%x", &courant);
-				if( find_val(memory, courant, &found_word) == cmd_unknown) return cmd_unknown;
+				if( find_word(memory, courant, &found_word) == cmd_unknown) return cmd_unknown;
 				else disasm(memory,courant , found_word, dico);
 				token = get_next_token(inter);
 			}
