@@ -93,12 +93,12 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
 	if(!strcmp(token, "break")){
 		return breakcmd(inter, memory, pbreaklist);
 	}
-	if(!strcmp(token, "debug")){
+	/*	if(!strcmp(token, "debug")){
 		return debugcmd(inter, memory, reg);
 	}
 	if(!strcmp(token, "resume")){
 		return resumecmd(inter, memory, reg);
-	}
+		}*/
 
 
 
