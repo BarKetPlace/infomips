@@ -56,6 +56,7 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int 
 			return cmd_unknown;
 		}
 		else{ //Pas de breakpoint
+		  //DEBUG_MSG("%x",reg[PC].val);
 			tmp = fct_exec(reg[PC].val, memory, reg, dico);
 			if ( tmp != cmd_ok ) return tmp;
 		}

@@ -19,9 +19,11 @@
 
 
 int fct_syscall(inst k, mem memory, registre* reg, Liste dico)
-{	char lecture[MAX_STR];
+{ //DEBUG_MSG("");	
+  char lecture[MAX_STR];
 	uint32_t entierlu;
 	int i;
+	DEBUG_MSG("%d",reg[2].val);
 	switch(reg[2].val){
 		case 1: 
 			printf("SYSCALL %d :: %d\n",reg[2].val, reg[4].val); break;

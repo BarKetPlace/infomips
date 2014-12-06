@@ -17,12 +17,13 @@
 int fct_beq(inst k, mem memory, registre* reg, Liste dico)
 {
 	int off=(k.i.imm)<<2;
-	DEBUG_MSG("%d",off);
+	//DEBUG_MSG("%d",off);
 	int c=reg[k.i.rs].val==reg[k.i.rt].val;
 	if (c)
 		{
+		  reg[PC].val+=4;
 		reg[PC].val=reg[PC].val+off;
-		DEBUG_MSG("%x",reg[PC].val);
+		//	DEBUG_MSG("%x",reg[PC].val);
 		return cmd_ok;
 		}
 	else {return cmd_unknown;}

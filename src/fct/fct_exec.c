@@ -22,17 +22,20 @@ int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico){
 			WARNING_MSG("Impossible de trouver un mot en 0x%08x", adresse);	
 			return cmd_unknown;
 		}
-		
+		//DEBUG_MSG("");
 		//On va ensuite chercher la definition correspondante
 		if ( !(def = find_def(dico, mot) ) ){ 
 			WARNING_MSG("Impossible de trouver une definition pour le mot 0x%08x en 0x%08x", mot.code ,adresse);	
 			return cmd_unknown;
 		}
-		
+		//	DEBUG_MSG("%s",def->nom);
 		//On execute ensuite la fonction def->f sur le mot
-		tmp = def->f(mot, memory, reg, dico);
+		tmp = def->f(mot, memory, reg, dico);//DEBUG_MSG("");
 		if (tmp != cmd_ok) return tmp;
+		
+		
 		printf("0x%08x :: ",adresse);
 		print_disasm(def, mot);
+		//DEBUG_MSG("");
 		return cmd_ok;
 }
