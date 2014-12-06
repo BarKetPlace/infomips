@@ -5,4 +5,4 @@
 
 
 load ./elf/boucle.o
-disp mem 0x0:0x4
+disp mem HEXA

@@ -1,0 +1,9 @@
+Symbol table has 7 syms:
+Symbol            .text (0    bytes @ 0x00000000): section
+Symbol            .data (0    bytes @ 0x00000000): section
+Symbol             .bss (0    bytes @ 0x00000000): section
+Symbol         .reginfo (0    bytes @ 0x00000000): section
+Symbol             .pdr (0    bytes @ 0x00000000): section
+Symbol           _start (0    bytes @ 0x00000000): object
+Symbol                X (0    bytes @ 0x00000000): no type
+0x0ffffff0 :: 

@@ -180,7 +180,7 @@ int disasmcmd(interpreteur inter, mem memory, registre* reg, Liste dico)
 		else if (token && !strcmp(token, "+")){//disasm HEXA+
 			token = get_next_token(inter);
 			if (token && is_valeur(token)){ //disasm HEXA+decalage
-				sscanf(token, "%x", &decalage);
+				sscanf(token, "%d", &decalage);
 				if (decalage%4 != 0) decalage = decalage -(decalage%4);
 				
 				

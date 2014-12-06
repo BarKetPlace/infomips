@@ -129,7 +129,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 		else if (token)//disp reg $.. $....
 		{		
 			while (token) {
-				if (is_valeur(token+1)) {
+				if (token[0] == '$' && is_valeur(token+1) ) {
 					sscanf(token+1, "%d", &num_reg);
 					print_reg(reg,num_reg);
 				}

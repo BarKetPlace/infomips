@@ -1,0 +1,4 @@
+for i in `seq 10 20`;
+do
+        cp ./02_disp.emu $i"_disp.emu"
+done
