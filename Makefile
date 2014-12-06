@@ -53,8 +53,8 @@ test_loadmemory: ./tests/memoire/test_loadmemory.o $(OBJ_DBG) ./src/is_/is_sym.o
 clean:
 	rm main.o
 	find ./src -name "*.o" -type f | xargs rm
-	find . -name "*~" -type f | xargs rm
-	find ./tests/ -name "*.out" -type f | xargs rm
+	#find . -name "*~" -type f | xargs rm
+	#find ./tests/ -name "*.out" -type f | xargs rm
  
 # créé l'archive à envoyer à votre tuteur (pas de rar SVP! et interdiction absolu d'envoyer autre chose qu'une archive, il ne doit y avoir qu'un seul fichier joint dans l'e-mail !)
 #archive:
