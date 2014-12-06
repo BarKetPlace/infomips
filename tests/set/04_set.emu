@@ -5,3 +5,4 @@
 
 
 load ./elf/boucle.
+set mem word 0x1c 0x1g

@@ -36,8 +36,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 			print_mem(memory);
 			return cmd_ok;
 		}
-			
-			
+
 		else if (is_hexa(token)) //disp mem HEXA
 		{	sscanf(token, "%x", &adr);
 			token = get_next_token(inter);
@@ -70,7 +69,8 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				else { WARNING_MSG("Usage : disp mem HEXA:HEXA ");
 						return cmd_exit; 
 						}
-			}		
+			}
+		
 			else if ( token && !strcmp(token,"+") )//disp mem HEXA+
 			{	//DEBUG_MSG("sfsg");
 				token = get_next_token(inter);
@@ -100,19 +100,27 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 				  
 			    } while (token && is_hexa(token));
 			}
+
 			else if (!token)//disp mem HEXA
 			{       
 			 printf("0x%08x :: ", adr);
 			 print_byte_mem(memory, adr);
 			 printf("\n");		
 			}
-
+			
 			else {
 			WARNING_MSG("USAGE: disp mem \"map\" or <plage>+");
-			return cmd_exit;
+			return cmd_unknown;
 			}
-			return cmd_ok;
+			
 		}
+		else
+		{
+			WARNING_MSG("USAGE: disp mem \"map\" or <plage>+");
+			return cmd_unknown;
+		}
+		return cmd_ok;	
+			
 	}
 
 	else if (!strcmp(token,"reg"))//disp reg
