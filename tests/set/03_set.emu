@@ -1,8 +1,8 @@
 #-------
 #TEST_RETURN_CODE=FAIL          
-#TEST_COMMENT="ok"
+#TEST_COMMENT="Test fonctionnement byte"
 #-------
 
 
 load ./elf/boucle.o
-
+set mem byte 0x1b 280
