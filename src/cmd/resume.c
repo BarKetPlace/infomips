@@ -18,6 +18,6 @@
 
 int resumecmd(interpreteur inter, mem memory, registre *reg)
 {
-		inter->mode=DEBUG_MODE;
+		inter->mode=SCRIPT;
 		return cmd_ok;
 }

@@ -18,7 +18,7 @@
 
 int debugcmd(interpreteur inter, mem memory, registre *reg)
 {
-		inter->mode=SCRIPT;
+		inter->mode=DEBUG_MODE;
 		return cmd_ok;
 }
 	
