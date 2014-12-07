@@ -261,7 +261,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 
     if (rel != NULL &&seg.content!=NULL && seg.size._32!=0) {
 
-        INFO_MSG("--------------Relocation de %s-------------------",seg.name) ;
+      //INFO_MSG("--------------Relocation de %s-------------------",seg.name) ;
         //INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
 	int j,k;
 	uint32_t info=0, offset=0, type_rel=0, nb_symb=0;
@@ -272,7 +272,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	
 	uint32_t rel_inst;
 	word word_rel;
-	print_rel_table(reloc_name, rel, scnsz);
+	//print_rel_table(reloc_name, rel, scnsz);
 	for(j=0;j<scnsz/sizeof(*rel);j++)
 	  {
 	    
@@ -301,7 +301,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      break;
 	      
 	    case R_MIPS_HI16: 
-	      DEBUG_MSG("hi16");
+	      //DEBUG_MSG("hi16");
 	      //DEBUG_MSG("offset :: %x\tinfo :: %x\n",offset,info);
 	      // On va chercher les 16 bits de poids fort de l'adresse @+offset
 	      find_word(memory, seg.start._32+offset, &inst_HI);
@@ -311,7 +311,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      break;
 	      
 	   
-	    case R_MIPS_LO16: DEBUG_MSG("lo16");
+	    case R_MIPS_LO16: //DEBUG_MSG("lo16");
 	      //On charge le mot à l'adresse P
 	      find_word(memory, seg.start._32+offset+4, &inst_LO);
 	      //On extrait les 16 derniers bits
@@ -340,9 +340,9 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      load_word(memory, seg.start._32+offset,  swap_mot(rel_inst));
 	      break;
 	    case R_MIPS_32: 
-	      DEBUG_MSG("MIPS_32");
+	      //DEBUG_MSG("MIPS_32");
 	      find_word(memory, seg.start._32+offset, &word_rel);
-	      DEBUG_MSG("%x", word_rel);
+	      //DEBUG_MSG("%x", word_rel);
 	      rel_inst = needed_sec_start+word_rel;
 	      load_word(memory, seg.start._32+offset, swap_mot(rel_inst));
 	       
@@ -529,7 +529,7 @@ int print_byte_mem(mem memory, uint32_t adr)
 {
   int tmp;
   byte valb;
-  
+  //DEBUG_MSG("%d",adr);
   tmp = find_byte(memory, adr, &valb);
   if (tmp==cmd_unknown)
     {	//printf("\n");
@@ -633,13 +633,13 @@ int find_byte(mem memory, uint32_t adresse, uint8_t* res) {
 		taille = seg->size._32;
 		start = seg->start._32;
 		//DEBUG_MSG("seg %d starts : 0x%08x taille: %d byte(s)",i,start,taille);
-		//DEBUG_MSG("faddr %d",faddr);
+		//DEBUG_MSG("adresse %d",adresse);
 		
 		//faddr = faddr - seg->start._32;
 
-		if (adresse > start+taille) i++; 
+		if (adresse > start+taille-1) i++; 
 		else if ( adresse < start ){
-			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
+			WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 			break;
 		}
 		else
@@ -651,8 +651,8 @@ int find_byte(mem memory, uint32_t adresse, uint8_t* res) {
 		}
 		
 	}
-	puts("");
-	WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
+	puts("\n");
+	//WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 	
 	return cmd_unknown;
 }

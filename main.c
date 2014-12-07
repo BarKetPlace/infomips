@@ -201,10 +201,10 @@ int main ( int argc, char *argv[] ) {
 		    //macro ERROR_MSG : message d'erreur puis fin de programme !
 		    exit(EXIT_SUCCESS);
 		} 
-		    else {
+		/*else {
 		      ERROR_MSG("ERREUR DETECTEE. Aborts");
 		      exit(EXIT_SUCCESS);
-		    }
+		      }*/
                     
                 
                 break;

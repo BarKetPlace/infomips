@@ -118,7 +118,14 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 	
   //printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", fichier) ;
   //print_mem(memory);
-  stab32_print( symtab);
+
+  //////////////////////////////////////////////////
+  //////////////////////////////////////////////////
+  //AFFICHAGE TABLE DES SYMBOLES
+  //stab32_print( symtab);
+  //////////////////////////////////////////////////
+  //////////////////////////////////////////////////
+
 
   //if(!(init_tab_mem(memory))) WARNING_MSG("Problème de recopie de la mémoire");
   INFO_MSG("Programme chargé en mémoire avec succés");

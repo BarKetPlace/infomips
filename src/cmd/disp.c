@@ -41,7 +41,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 		{	sscanf(token, "%x", &adr);
 			token = get_next_token(inter);
 			//DEBUG_MSG("");
-			if (debut>STOP_MEM) //L'adresse est trop haute (voir mem.h)
+			if (adr>STOP_MEM) //L'adresse est trop haute (voir mem.h)
 			{
 				WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 				return cmd_exit;
@@ -62,8 +62,8 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 						return cmd_exit;
 					}
 					//disp mem HEXA:HEXA			avec 0<= HEXA,HEXA <= 0xfffff000
-					if (fin>=debut) print_case_mem(memory, debut, fin);
-					else print_case_mem(memory,fin,debut);
+					if (fin>=debut) print_case_mem(memory, debut, fin-1);
+					else print_case_mem(memory,fin,debut-1);
 					return cmd_ok;
 				}
 				else { WARNING_MSG("Usage : disp mem HEXA:HEXA ");
@@ -82,7 +82,7 @@ int dispcmd(interpreteur inter, mem memory, registre* reg)
 						WARNING_MSG("Highest adress: 0x%08x",STOP_MEM);
 						return cmd_exit;
 					}
-				return print_case_mem(memory, debut, debut+decalage); 	
+				return print_case_mem(memory, debut, debut+decalage-1); 	
 
 				}
 			}
