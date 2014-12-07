@@ -27,6 +27,7 @@ int fct_sw(inst k, mem memory, registre* reg, Liste dico)
 	
 	
 	else {
+		reg[PC].val+=4;
 		return load_word(memory, adresse, reg[k.i.rt].val);
 	}
 

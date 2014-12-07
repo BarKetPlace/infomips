@@ -1,5 +1,0 @@
-
-load ./main.o #L'emulateur n'affiche pas le WARNING_MSG (src/cmd/load.c: line: 48)
-load ./elf/boucle.o
-load
-exit

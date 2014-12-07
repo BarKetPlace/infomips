@@ -22,5 +22,6 @@ int fct_mult(inst k, mem memory, registre* reg, Liste dico)
 	long long q=reg[k.r.rs].val*reg[k.r.rt].val;
 	reg[HI].val=q&0x0000ffff;
 	reg[LO].val=q&0xffff0000;
+	reg[PC].val+=4;
 	return cmd_ok;
 }

@@ -21,6 +21,7 @@ int fct_srl(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
 	reg[k.r.rd].val= (reg[k.r.rt].val)>>(k.r.sa); 
+	reg[PC].val+=4;
 	return cmd_ok;
 }
 

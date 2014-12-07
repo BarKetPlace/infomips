@@ -21,7 +21,7 @@ int fct_add(inst k, mem memory, registre* reg, Liste dico)
 {
 	 
 	long long temp=reg[k.r.rs].val+reg[k.r.rt].val;
-	if (temp<=max_inst) {reg[k.r.rd].val=temp; return cmd_ok;}
+	if (temp<=max_inst) {reg[k.r.rd].val=temp;reg[PC].val+=4; return cmd_ok;}
 	else {WARNING_MSG("Erreur"); return cmd_unknown;}
 }
 

@@ -117,10 +117,12 @@ Liste read_dico(char* fichier)
 	fgets(chaine, MAXSTR, fp);
 	
 	while(fgets(chaine, MAXSTR, fp))
-	{	//DEBUG_MSG("%s",chaine);
+	{	//DEBUG_MSG("%s",chaine);	
+	  
 		if (chaine[0] != '\n' && chaine[0] != '\0' && chaine[0] != '\t' && chaine[0] != ' ')
 		{
 		definition def = calloc(1, sizeof(*def));//On alloue une nouvelle définition
+		memset(def->nom, '\0',8);
 		token = strtok(strdup( chaine ), " \t\n");
 		sscanf(token, "%x", &def->sign);//Lecture & ecriture de la signature
 		
@@ -131,7 +133,7 @@ Liste read_dico(char* fichier)
 		//changement de casse
 		for (i=0;i<strlen(token);i++) token[i] = tolower(token[i]);
 		strcpy(def->nom, token ); //Lecture & ecriture du nom
-		
+		//DEBUG_MSG("%s",def->nom);
 		token = strtok(NULL, " \t\n") ;
 		sscanf(token, "%c", &def->type);//Lecture & ecriture du type
 
@@ -247,6 +249,7 @@ definition find_def(Liste dico, union inst_poly mot)
 		if ( (mot.code&masque) == signature )  {	//DEBUG_MSG("");
 			//detail_def(dico->val);
 			res = dico->val;
+			
 			break;
 		}
 

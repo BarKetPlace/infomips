@@ -7,7 +7,7 @@
 #include "mem.h"
 #include "reg.h"
 #include "is_.h"
-#include "pile.h"
+//#include "pile.h"
 
 /**
  * version de la commande test qui analyse la chaîne entrée à 

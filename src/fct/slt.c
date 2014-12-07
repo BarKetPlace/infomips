@@ -23,6 +23,7 @@ int fct_slt(inst k, mem memory, registre* reg, Liste dico)
 	if ((signed int)reg[k.r.rs].val<(signed int)reg[k.r.rt].val) 
 		{reg[k.r.rd].val=1;}
 	else {reg[k.r.rd].val=0;}
+	reg[PC].val+=4;
 	return cmd_ok;
 }
 

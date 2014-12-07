@@ -12,5 +12,6 @@
 #include "typesmem.h"
 
 int fct_nop(inst k, mem memory, registre* reg, Liste dico)
-{ return cmd_ok;
+{ reg[PC].val+=4;
+return cmd_ok;
 }

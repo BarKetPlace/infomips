@@ -23,7 +23,7 @@ int fct_lui(inst k, mem memory, registre* reg, Liste dico)
 	
 	//reg[k.i.rt].val = (value&0xffff0000) + (reg[k.i.rt].val)&0x0000ffff;
 	reg[k.i.rt].val = value;
-
+	reg[PC].val+=4;
 	return cmd_ok;
 }
 

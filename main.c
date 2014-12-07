@@ -93,12 +93,12 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
 	if(!strcmp(token, "break")){
 		return breakcmd(inter, memory, pbreaklist);
 	}
-	if(!strcmp(token, "debug")){
+	/*	if(!strcmp(token, "debug")){
 		return debugcmd(inter, memory, reg);
 	}
 	if(!strcmp(token, "resume")){
 		return resumecmd(inter, memory, reg);
-	}
+		}*/
 
 
 
@@ -162,7 +162,7 @@ int main ( int argc, char *argv[] ) {
     /* boucle infinie : lit puis execute une cmd en boucle */
     while ( 1 ) {
 
-      DEBUG_MSG("");
+      //DEBUG_MSG("");
         if (acquire_line( fp, inter)  == 0 ) {
             /* Une nouvelle ligne a ete acquise dans le flux fp*/
 	  //printf("%d\n", known_cmd(inter->input));
@@ -185,8 +185,8 @@ int main ( int argc, char *argv[] ) {
 	      }
 	      break;
 	    case cmd_unknown:
-	      DEBUG_MSG("");
-	      if ( fp != stdin ) {
+	      //DEBUG_MSG("");
+	      if ( fp != stdin ) { //Mode fichier; on sort
 		fclose( fp );	
 		exitcmd(inter, memory, reg, dico, *pbreaklist);
 		exit(EXIT_SUCCESS);
@@ -198,15 +198,20 @@ int main ( int argc, char *argv[] ) {
                 if (inter->mode == SCRIPT) {
                     fclose( fp );
                     exitcmd(inter, memory, reg, dico, *pbreaklist);
-                   //macro ERROR_MSG : message d'erreur puis fin de programme ! 
-                    ERROR_MSG("ERREUR DETECTEE. Aborts");
-			exit(EXIT_SUCCESS);
-                }
+		    //macro ERROR_MSG : message d'erreur puis fin de programme !
+		    exit(EXIT_SUCCESS);
+		} 
+		    else {
+		      ERROR_MSG("ERREUR DETECTEE. Aborts");
+		      exit(EXIT_SUCCESS);
+		    }
+                    
+                
                 break;
             }
    
 	}
-	DEBUG_MSG("");	
+	//DEBUG_MSG("");	
         if( inter->mode == SCRIPT && feof(fp) ) {
              //mode fichier, fin de fichier => sortie propre du programme 
             DEBUG_MSG("FIN DE FICHIER");
