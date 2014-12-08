@@ -16,7 +16,7 @@
 // Definir max_inst
 
 
-int fct_add(inst k, mem memory, registre* reg, Liste dico)
+int fct_add(inst k, mem memory, registre* reg)
 
 {
 	 

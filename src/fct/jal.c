@@ -11,7 +11,7 @@
 
 #include "typesmem.h"
 
-int fct_jal(inst k, mem memory, registre* reg, Liste dico)
+int fct_jal(inst k, mem memory, registre* reg)
 {	int tmp;
 	reg[31].val = reg[PC].val + 8; // On avance le PC et on le sauve dans le registre 31
 	//DEBUG_MSG("%x",k.j.target);

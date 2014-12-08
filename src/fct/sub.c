@@ -18,7 +18,7 @@
 // Fonction SUB
 // Definir max_inst
 
-int fct_sub(inst k, mem memory, registre* reg, Liste dico)
+int fct_sub(inst k, mem memory, registre* reg)
 {
 	 
 	long long temp=reg[k.r.rs].val-reg[k.r.rt].val;

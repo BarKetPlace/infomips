@@ -11,7 +11,7 @@
 
 #include "typesmem.h"
 
-int fct_blt(inst k, mem memory, registre *reg, Liste dico){
+int fct_blt(inst k, mem memory, registre *reg){
 	reg[PC].val+=4;
 	return cmd_ok;
 }

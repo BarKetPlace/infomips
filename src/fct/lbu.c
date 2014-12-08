@@ -18,7 +18,7 @@
 // Fonction LBU
 
 
-int fct_lbu(inst k, mem memory, registre* reg, Liste dico)
+int fct_lbu(inst k, mem memory, registre* reg)
 {
 	int tmp;	
 

@@ -14,7 +14,7 @@
 
 // Fonction SRA
 
-int fct_sra(inst k, mem memory, registre* reg, Liste dico)
+int fct_sra(inst k, mem memory, registre* reg)
 {
 	 
 	int signe = (reg[k.r.rt].val)&0x80000000;

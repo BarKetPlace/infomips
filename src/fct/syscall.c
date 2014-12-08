@@ -18,7 +18,7 @@
 // Fonction SYSCALL
 
 
-int fct_syscall(inst k, mem memory, registre* reg, Liste dico)
+int fct_syscall(inst k, mem memory, registre* reg)
 { //DEBUG_MSG("");	
   char lecture[MAX_STR];
 	uint32_t entierlu;

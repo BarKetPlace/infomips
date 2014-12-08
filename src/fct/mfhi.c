@@ -17,7 +17,7 @@
 // Fonction MFHI
 
 
-int fct_mfhi(inst k, mem memory, registre* reg, Liste dico)
+int fct_mfhi(inst k, mem memory, registre* reg)
 {
 	 
 	reg[HI].val=reg[k.i.rs].val;

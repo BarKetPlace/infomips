@@ -17,7 +17,7 @@
 // Fonction SB
 
 
-int fct_sb(inst k, mem memory, registre* reg, Liste dico)
+int fct_sb(inst k, mem memory, registre* reg)
 {
 	uint32_t vale=reg[k.i.rt].val;
 	int tmp;

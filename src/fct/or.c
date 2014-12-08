@@ -18,7 +18,7 @@
 // Attention mettre les barres
 
 
-int fct_or(inst k, mem memory, registre* reg, Liste dico)
+int fct_or(inst k, mem memory, registre* reg)
 {
 	 
 	long long temp=(reg[k.r.rs].val)|(reg[k.r.rt].val);

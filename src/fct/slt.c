@@ -17,7 +17,7 @@
 // Fonction SLT
 
 
-int fct_slt(inst k, mem memory, registre* reg, Liste dico)
+int fct_slt(inst k, mem memory, registre* reg)
 {
 	 
 	if ((signed int)reg[k.r.rs].val<(signed int)reg[k.r.rt].val) 

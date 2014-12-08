@@ -17,7 +17,7 @@
 // Fonction LUI
 
 
-int fct_lui(inst k, mem memory, registre* reg, Liste dico)
+int fct_lui(inst k, mem memory, registre* reg)
 {
 	 uint32_t value = (k.i.imm)<<16;
 	

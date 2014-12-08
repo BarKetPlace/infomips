@@ -17,7 +17,7 @@
 // Fonction SLTI
 
 
-int fct_slti(inst k, mem memory, registre* reg, Liste dico)
+int fct_slti(inst k, mem memory, registre* reg)
 {
 	 
 	if ((signed int)reg[k.i.rs].val<(signed int)k.i.imm) {reg[k.i.rt].val=1;}
