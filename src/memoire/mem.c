@@ -118,7 +118,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
 
     if ( NULL != vm ) {
         uint i;
-
+	
         for ( i= 0; i< vm->nseg; i++ ) {
             if ( 0 == strncasecmp( vm->seg[i].name, name, strlen(name) ) ) {
                 switch( SCN_WIDTH( vm->seg[i].attr ) ) {
@@ -133,7 +133,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
                         return 1;
                     }
                     if ( NULL != content ) {
-                        memcpy( vm->seg[i].content, content, sz._32 );
+		      memcpy( vm->seg[i].content, content, sz._32 );
                     }
                     return 0;
                     break;
@@ -148,7 +148,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
                         return 1;
                     }
                     if ( NULL != content ) {
-                        memcpy( vm->seg[i].content, content, sz._64 );
+		      memcpy( vm->seg[i].content, content, sz._64 );
                     }
                     return 0;
                     break;
