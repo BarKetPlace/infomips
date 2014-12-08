@@ -18,7 +18,7 @@
 // Fonction LB
 
 
-int fct_lb(inst k, mem memory, registre* reg, Liste dico)
+int fct_lb(inst k, mem memory, registre* reg)
 {
 	int tmp;	
 

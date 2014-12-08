@@ -17,7 +17,7 @@
 // Fonction ADDI
 // Definir max_inst
 
-int fct_addi(inst k, mem memory, registre* reg, Liste dico)
+int fct_addi(inst k, mem memory, registre* reg)
 {	//DEBUG_MSG("%d",k.i.imm);
 	long long temp=reg[k.i.rs].val + k.i.imm;//DEBUG_MSG("%d",temp);
 	if (temp<=max_inst) {reg[k.i.rt].val=temp;reg[PC].val+=4; return cmd_ok;}

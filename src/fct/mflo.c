@@ -17,7 +17,7 @@
 // Fonction MFLO
 
 
-int fct_mflo(inst k, mem memory, registre* reg, Liste dico)
+int fct_mflo(inst k, mem memory, registre* reg)
 {
 	 
 	reg[LO].val=reg[k.i.rs].val;

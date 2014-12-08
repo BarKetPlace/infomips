@@ -17,7 +17,7 @@
 // Fonction DIV
 
 
-int fct_div(inst k, mem memory, registre* reg, Liste dico)
+int fct_div(inst k, mem memory, registre* reg)
 {
 	long long q=reg[k.r.rs].val/reg[k.r.rt].val;
 	reg[LO].val=q;

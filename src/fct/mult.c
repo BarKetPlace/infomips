@@ -17,7 +17,7 @@
 // Fonction MULT
 // Attention definition de LO et HI
 
-int fct_mult(inst k, mem memory, registre* reg, Liste dico)
+int fct_mult(inst k, mem memory, registre* reg)
 {
 	long long q=reg[k.r.rs].val*reg[k.r.rt].val;
 	reg[HI].val=q&0x0000ffff;

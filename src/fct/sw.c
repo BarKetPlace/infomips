@@ -14,7 +14,7 @@
 // Fonction SW
 
 
-int fct_sw(inst k, mem memory, registre* reg, Liste dico)
+int fct_sw(inst k, mem memory, registre* reg)
 {
 	uint32_t vale=reg[k.i.rt].val;
 	int tmp;

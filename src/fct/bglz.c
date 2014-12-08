@@ -17,7 +17,7 @@
 // Fonction BGLZ
 
 
-int fct_bglz(inst k, mem memory, registre* reg, Liste dico)
+int fct_bglz(inst k, mem memory, registre* reg)
 {
 	int off=((short)k.i.imm)<<2;
 	if (reg[k.i.rs].val<=0)

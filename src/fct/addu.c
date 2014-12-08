@@ -17,7 +17,7 @@
 // Fonction ADDU
 // Definir max_inst
 
-int fct_addu(inst k, mem memory, registre* reg, Liste dico)
+int fct_addu(inst k, mem memory, registre* reg)
 {
 	long long temp=reg[k.r.rs].val+reg[k.r.rt].val;
 	reg[k.r.rd].val=temp;

@@ -17,7 +17,7 @@
 // Fonction SLTU
 // def condtion
 
-int fct_sltu(inst k, mem memory, registre* reg, Liste dico)
+int fct_sltu(inst k, mem memory, registre* reg)
 {
 	 
 	if ((unsigned int)reg[k.r.rs].val<(unsigned int)reg[k.r.rt].val) {reg[k.r.rd].val=1;}

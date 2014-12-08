@@ -14,7 +14,7 @@
 // Fonction beq
 
 
-int fct_beq(inst k, mem memory, registre* reg, Liste dico)
+int fct_beq(inst k, mem memory, registre* reg)
 {
 	int off=(k.i.imm)<<2;
 	//DEBUG_MSG("%d",off);

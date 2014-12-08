@@ -15,7 +15,7 @@
 // Fonction JALR
 
 
-int fct_jalr(inst k, mem memory, registre *reg, Liste dico)
+int fct_jalr(inst k, mem memory, registre *reg)
 {	int tmp;
 	reg[k.r.rd].val=reg[PC].val + 8; 
 	reg[PC].val = reg[k.r.rs].val;

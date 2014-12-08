@@ -17,7 +17,7 @@
 // Fonction ANDI
 
 
-int fct_andi(inst k, mem memory, registre* reg, Liste dico)
+int fct_andi(inst k, mem memory, registre* reg)
 {
 	long long temp=(reg[k.i.rs].val)&(k.i.imm);
 	reg[k.i.rt].val=temp;

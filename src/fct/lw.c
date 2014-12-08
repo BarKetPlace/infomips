@@ -17,7 +17,7 @@
 // Fonction LW
 
 
-int fct_lw(inst k, mem memory, registre* reg, Liste dico)
+int fct_lw(inst k, mem memory, registre* reg)
 {
 		int tmp;	
 

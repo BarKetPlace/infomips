@@ -17,7 +17,7 @@
 // Fonction JR
 
 
-int fct_jr(inst k, mem memory, registre *reg, Liste dico)
+int fct_jr(inst k, mem memory, registre *reg)
 {
 	reg[PC].val=reg[k.r.rs].val;
 	return cmd_ok;
