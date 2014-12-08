@@ -37,12 +37,12 @@ int enleve_pile( mem memory, registre *reg, uint32_t* res )
 }
 
 
-// Fonction qui permet de visualiser l'adresse que pointe le pointeur stack
+// Fonction qui permet de visualiser le contenu de la pile
 
 int visualiser_pile( mem memory, registre *reg )
 {
-		uint32_t debut = 0xfffff000 ;
-		uint32_t fin = 0xffffffff ;
+		uint32_t debut = 0xff7ff000 ;
+		uint32_t fin = 0xfffff000 ;
 		print_case_mem ( mem, debut, fin );
 		return cmd_ok;
 }

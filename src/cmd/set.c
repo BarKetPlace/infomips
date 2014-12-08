@@ -90,7 +90,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 						
 						else {
 						  load_byte(memory,adr,byte_);
-						  DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur %d", adr, &byte_, byte_);
+						  //DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur %d", adr, &byte_, byte_);
 						  return cmd_ok;
 						  }
 					}
@@ -103,7 +103,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 						}
 						
 						load_byte(memory,adr,byte_);
-						DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur 0x%02x", adr, &byte_, byte_);
+						//DEBUG_MSG("L'adresse 0x%08x (0x%08x) contient la valeur 0x%02x", adr, &byte_, byte_);
 						return cmd_ok;
 					}
 					else {return cmd_unknown;}
@@ -140,7 +140,7 @@ int setcmd(interpreteur inter, mem memory, registre *reg)
 			{
 				//&adresse=token;
 				sscanf(token,"%x",&adr);
-				DEBUG_MSG("0x%08x",adr);
+				//DEBUG_MSG("0x%08x",adr);
 				token=get_next_token(inter);
 				//DEBUG_MSG("ok");
 
