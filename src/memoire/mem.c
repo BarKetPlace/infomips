@@ -239,9 +239,7 @@ uint32_t find_sec_start(mem memory, char* name ) {
  *
  * @brief Cette fonction effectue la relocation du segment passé en parametres
  * @brief l'ensemble des segments doit déjà avoir été chargé en memoire.
- *
- * VOUS DEVEZ COMPLETER CETTE FONCTION POUR METTRE EN OEUVRE LA RELOCATION !!
- */
+*/
 void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,stab* symtab,stab* symtab_libc,FILE* fp_libc ) {
     byte *ehdr    = __elf_get_ehdr( fp );
     uint32_t  scnsz  = 0;
@@ -263,7 +261,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 
     if (rel != NULL &&seg.content!=NULL && seg.size._32!=0) {
 
-      //INFO_MSG("--------------Relocation de %s-------------------",seg.name) ;
+      INFO_MSG("--------------Relocation de %s-------------------",seg.name) ;
         //INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
 	int j,k;
 	uint32_t info=0, offset=0, type_rel=0, nb_symb=0;
@@ -274,7 +272,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	
 	uint32_t rel_inst;
 	word word_rel;
-	//print_rel_table(reloc_name, rel, scnsz);
+	print_rel_table(reloc_name, rel, scnsz);
 	for(j=0;j<scnsz/sizeof(*rel);j++)
 	  {
 	    

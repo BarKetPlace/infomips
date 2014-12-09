@@ -284,7 +284,7 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 
     // on reloge libc
     for (i=0; i<j; i++) {
-        reloc_segment(pf_libc, memory->seg[i], memory,endianness,&symtab_libc,NULL,NULL);
+        reloc_segment(pf_libc, memory->seg[i], memory,endianness,&symtab_libc,&symtab_libc,pf_libc);
     }
 
     // on change le nom des differents segments de libc
@@ -327,9 +327,9 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
    
 
    // printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", fichier) ;
-    print_mem(memory);
+    //print_mem(memory);
     //stab32_print( symtab);
-    //stab32_print( symtab_libc);
+    stab32_print( symtab_libc);
 
     // on fait le ménage avant de partir
    
