@@ -242,12 +242,13 @@ uint32_t find_sec_start(mem memory, char* name ) {
  *
  * VOUS DEVEZ COMPLETER CETTE FONCTION POUR METTRE EN OEUVRE LA RELOCATION !!
  */
-void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,stab symtab) {
+void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,stab* symtab,stab* symtab_libc,FILE* fp_libc ) {
     byte *ehdr    = __elf_get_ehdr( fp );
     uint32_t  scnsz  = 0;
     Elf32_Rel *rel = NULL;
     char* reloc_name = malloc(strlen(seg.name)+strlen(RELOC_PREFIX_STR)+1);
     scntab section_tab;
+	 scntab section_tab_libc;
 
     // on recompose le nom de la section
     memcpy(reloc_name,RELOC_PREFIX_STR,strlen(RELOC_PREFIX_STR)+1);
@@ -257,7 +258,8 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
     rel = (Elf32_Rel *)elf_extract_scn_by_name( ehdr, fp, reloc_name, &scnsz, NULL );
     elf_load_scntab(fp ,32, &section_tab);
 
-
+    if (symtab_libc!=NULL && fp_libc!=NULL)
+        elf_load_scntab(fp_libc ,32, &section_tab_libc);
 
     if (rel != NULL &&seg.content!=NULL && seg.size._32!=0) {
 
@@ -280,7 +282,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	    info = swap_mot(rel[j].r_info);
 	    type_rel = (info&0xff);
 	    //DEBUG_MSG("%x",( info&0xffffff00)>>8 );
-	    needed_sec_name = strdup(symtab.sym[( (info&0xffffff00)>>8 ) ].name);
+	    needed_sec_name = strdup(symtab->sym[( (info&0xffffff00)>>8 ) ].name);
 
 	    needed_sec_start = find_sec_start(memory, needed_sec_name);
 
@@ -294,7 +296,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      //DEBUG_MSG("%d", nb_symb);
 	      //DEBUG_MSG("%x",symtab.sym[nb_symb+1].addr._32);
 	      //sym32_print(symtab.sym[nb_symb+1]); 
-	      word_rel = (word_rel&0xfc000000) + symtab.sym[nb_symb+1].addr._32;
+	      word_rel = (word_rel&0xfc000000) + symtab->sym[nb_symb+1].addr._32;
 	      
 	      load_word(memory, needed_sec_start+offset, swap_mot(word_rel));
 
@@ -323,7 +325,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      nb_symb = (rel_inst&0x0000ffff);
 	      // DEBUG_MSG("%x", nb_symb);
 	      //On place dans word_rel la valeur du mot après relocation
-	      word_rel = needed_sec_start + symtab.sym[nb_symb].addr._32;
+	      word_rel = needed_sec_start + symtab->sym[nb_symb].addr._32;
 	      //DEBUG_MSG("word_rel :: %08x",word_rel);
 	      //On reloge l'adresse en la coupant en deux :: les bits de poids fort sur les poids faibles de la première
 	      // Les bits de poids faible sur les poids faible de la deuxième 
@@ -441,7 +443,7 @@ void print_mem( mem vm ) {
  * Destroys a virtual memory by making all the necessary free operations
  * @param a virtual memory
  */
-int del_mem( mem vm ) {
+int del_mem( mem vm ) {DEBUG_MSG("");
 
     if ( NULL != vm ) {
 
@@ -594,7 +596,7 @@ int find_word(mem memory, uint32_t adresse, uint32_t* res) {
 		
 		//faddr = faddr - seg->start._32;
 
-		if (adresse > start+taille) i++; 
+		if (!taille || adresse > start+taille) i++; 
 		else if ( adresse < start ){
 			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 			break;
@@ -632,12 +634,12 @@ int find_byte(mem memory, uint32_t adresse, uint8_t* res) {
 		seg = memory->seg+i;
 		taille = seg->size._32;
 		start = seg->start._32;
-		//DEBUG_MSG("seg %d starts : 0x%08x taille: %d byte(s)",i,start,taille);
+		DEBUG_MSG("seg %d starts : 0x%08x taille: %d byte(s)",i,start,taille);
 		//DEBUG_MSG("adresse %d",adresse);
 		
 		//faddr = faddr - seg->start._32;
 
-		if (adresse > start+taille-1) i++; 
+		if (!taille || adresse > start+taille-1) i++; 
 		else if ( adresse < start ){
 			WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 			break;
@@ -678,7 +680,7 @@ int load_word(mem memory, uint32_t adresse, uint32_t wordtoload){
 		
 		//faddr = faddr - seg->start._32;
 
-		if (adresse > start+taille) i++; 
+		if (!taille || adresse > start+taille) i++; 
 		else if ( adresse < start ){
 			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 			break;
@@ -715,7 +717,7 @@ int load_byte(mem memory, uint32_t adresse, byte bytetoload){
 		
 		//faddr = faddr - seg->start._32;
 
-		if (adresse > start+taille) i++; 
+		if (!taille || adresse > start+taille) i++; 
 		else if ( adresse < start ){
 			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
 			break;

@@ -105,7 +105,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content );
 void print_mem( mem vm );
 int del_mem( mem vm );
 void print_segment_raw_content(segment* seg);
-void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,stab symtab);
+  void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,stab* symtab, stab*, FILE*);
 int init_tab_mem(mem memory);
 //void print_full_mem(mem memory);
 int print_byte_mem(mem memory, uint32_t adr);
