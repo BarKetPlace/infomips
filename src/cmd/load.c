@@ -277,8 +277,8 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
     nsegments = get_nsegments(symtab,section_names,NB_SECTIONS);
     nsegments += get_nsegments(symtab_libc,section_names,NB_SECTIONS);
 
-	stab32_print( symtab_libc);
-	stab32_print( symtab);
+	//stab32_print( symtab_libc);
+	//stab32_print( symtab);
 
 
     // allouer la memoire virtuelle
@@ -307,7 +307,7 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
     for (i=0; i<j; i++) {
         reloc_segment(pf_libc, memory->seg[i], memory,endianness,&symtab_libc,NULL,NULL);
     }
-
+//print_mem(memory);
     // on change le nom des differents segments de libc
     for (i=0; i<j; i++) {
         char seg_name [256]= {0};
@@ -318,7 +318,7 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 		strcpy(memory->seg[i].name, seg_name);
        // memory->seg[i].name=strdup(seg_name);
     }
-	print_mem(memory);
+	//print_mem(memory);
 	
 //DEBUG_MSG("");
 
@@ -354,7 +354,7 @@ print_mem(memory);
    // printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", fichier) ;
     //print_mem(memory);
     //stab32_print( symtab);
-	DEBUG_MSG("");
+	//DEBUG_MSG("");
     //stab32_print( symtab_libc);
 	//stab32_print(symtab);
     // on fait le ménage avant de partir
