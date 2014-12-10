@@ -20,7 +20,7 @@
 int fct_mfhi(inst k, mem memory, registre* reg)
 {
 	 
-	reg[HI].val=reg[k.i.rs].val;
+	reg[HI].val=reg[k.r.rs].val;
 	reg[PC].val+=4;
 	return cmd_ok;
 }

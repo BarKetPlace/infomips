@@ -20,13 +20,13 @@ OBJ_DBG=$(SRC:.c=.o)
 
 #./src/is_/is_sym.o ./src/is_/is_elf.o ./src/is_/is_hexa.o ./src/is_/is_conform_line.o
 
-fct: fct_jal.o $(OBJ_DBG)
-	gcc $^ $(LFLAGS) -g -o $@
-	clear
+#fct: fct_jal.o $(OBJ_DBG)
+#	gcc $^ $(LFLAGS) -g -o $@
+#	clear
 
-f_add: $(OBJ_DBG) $(INCDIR) ./src/fct/add.c
-	gcc $^ $(LFLAGS) -g -o $@
-	clear
+#f_add: $(OBJ_DBG) $(INCDIR) ./src/fct/add.c
+#	gcc $^ $(LFLAGS) -g -o $@
+#	clear
 
 main: main.o $(OBJ_DBG)
 	gcc $^ $(LFLAGS) -g -o $@

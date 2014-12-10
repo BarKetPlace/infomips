@@ -20,7 +20,7 @@
 int fct_mflo(inst k, mem memory, registre* reg)
 {
 	 
-	reg[LO].val=reg[k.i.rs].val;
+	reg[LO].val=reg[k.r.rs].val;
 	reg[PC].val+=4;
 	return cmd_ok;
 }
