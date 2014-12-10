@@ -42,7 +42,7 @@ int fct_syscall(inst k, mem memory, registre* reg)
 		
 		case 10: exit(0);
 			break;
-	default: return cmd_unknown;
+	default: printf("SYSCALL :: UNKNOWN VALUE\n");return cmd_unknown;
 	}
 	reg[PC].val+=4;
 	return cmd_ok;

@@ -8,6 +8,10 @@
 #include "dico.h"
 
 
+#define PATH_TO_LIBC "./libc/libc.so"
+#define LIBC_MEM_END 0xff7ff000u
+
+
 
 //Définition des listes de nombres
 typedef struct _liste_int {

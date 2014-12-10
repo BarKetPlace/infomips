@@ -173,7 +173,7 @@ int main ( int argc, char *argv[] ) {
             switch(res) {
             case cmd_ok:
                 break;
-            case cmd_exit:
+            case cmd_exit://DEBUG_MSG("");
 	      //sortie propre du programme 
 	      if ( fp != stdin ) {
                 fclose( fp );               		
@@ -187,12 +187,12 @@ int main ( int argc, char *argv[] ) {
 	    case cmd_unknown:
 	      //DEBUG_MSG("");
 	      if ( fp != stdin ) { //Mode fichier; on sort
-		fclose( fp );	
+		fclose( fp );	//DEBUG_MSG("");
 		exitcmd(inter, memory, reg, dico, *pbreaklist);
 		exit(EXIT_SUCCESS);
 	      }
 	      break;
-            default:
+            default://DEBUG_MSG("");
                 // erreur durant l'execution de la commande 
                 // En mode "fichier" toute erreur implique la fin du programme ! 
                 if (inter->mode == SCRIPT) {
