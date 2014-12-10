@@ -69,7 +69,7 @@ extern "C" {
     fprintf( stderr, __VA_ARGS__ );					\
     fprintf( stderr, ".\n" );						\
     RESET_COLORS(ON(stderr));						\
-    exit( EXIT_FAILURE );					\
+    exit( EXIT_FAILURE );						\
 } while( 0 )
 
 #define WARNING_MSG(...) do {						\

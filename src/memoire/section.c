@@ -8,9 +8,9 @@
  * Section handling.
  */
 
-
-#include "section.h"
 #include "notify.h"
+#include "section.h"
+
 
 /**
  * Creates a new table of sections and performs the necessary memory allocations

@@ -15,9 +15,7 @@
 extern "C" {
 #endif
 
-
 #include "types.h"
-
 
 unsigned int get_host_endianness( void );
 byte *__flip_endianness( byte * block, uint sz );

@@ -39,7 +39,7 @@ typedef struct {
     uint32_t   attr;
 } segment;
 
-typedef struct _mem {
+typedef struct {
     vsize       extent;
     uint32_t    nseg;
     segment    *seg;
@@ -96,6 +96,8 @@ typedef struct {
 #define DATA_SECTION_STR ".data"
 #define BSS_SECTION_STR ".bss"
 
+//nom du prefix à appliquer pour la section
+#define RELOC_PREFIX_STR ".rel"
 
 int init_stack(mem vm, registre* reg, unsigned int nseg);
 mem alloue_mem(void);
@@ -115,7 +117,7 @@ int find_byte(mem memory, uint32_t adresse, uint8_t* res);
 int load_word(mem memory, uint32_t addresse, uint32_t wordtoload);
 int load_byte(mem memory, uint32_t adresse, byte bytetoload);
 int elf_load_section_in_memory(FILE* fp, mem memory, char* scn,unsigned int permissions,unsigned long long add_start);
-  uint32_t find_sec_start(mem memory, char* name );
+  uint32_t find_sec_start(mem memory, int syms, char* name );
   void print_rel_table(char* reloc_name, Elf32_Rel* rel, uint32_t scnsz);
   uint32_t swap_mot(uint32_t mot);
 #ifdef __cplusplus

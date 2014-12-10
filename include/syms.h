@@ -15,12 +15,7 @@
 extern "C" {
 #endif
 
-
-
 #include "types.h"
-
-
-
 
 
 typedef enum {
@@ -42,7 +37,7 @@ typedef struct {
     sym       *sym;
 } stab;
 
-sym  new_sym32( char *name, vaddr32 addr, uint size, sym_type type, uint scnxidx );
+sym  new_sym32( char *name, vaddr32 addr, uint size, sym_type type, uint scnidx );
 sym  new_sym64( char *name, vaddr64 addr, uint size, sym_type type, uint scnidx );
 void sym32_print( sym s );
 void sym64_print( sym s );
@@ -51,7 +46,6 @@ stab new_stab( uint size );
 void stab32_print( stab s );
 void stab64_print( stab s );
 void del_stab( stab s );
-unsigned int get_nsegments(stab symtab,char* section_names[],int nb_sections);
 
 #ifdef __cplusplus
 }
