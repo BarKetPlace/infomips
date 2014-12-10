@@ -39,30 +39,34 @@ int init_mem( uint32_t nseg, registre* reg, mem vm ) {
 
     
 
+    //mem vm = calloc( 1, sizeof( *vm ) );
+
     if ( NULL == vm ) {
         WARNING_MSG( "Unable to allocate host memory for vmem" );
-        return 0;
+        return NULL;
     }
     else {
         uint i;
 
-        vm->seg = calloc( nseg+1, sizeof( *(vm->seg) ) );
+        vm->seg = calloc( nseg, sizeof( *(vm->seg) ) );
         if ( NULL == vm->seg ) {
             WARNING_MSG( "Unable to allocate host memory for vmem segment" );
             free( vm );
-            return 0;
+            return NULL;
         }
 
         // each segment is initialised to a null value
         // Note that though this is unnecessary since a calloc is used
         // this permits future evolution of the default initialisation values
-        for ( i= 0; i< nseg+1; i++ ) {
+        for ( i= 0; i< nseg; i++ ) {
             vm->seg[i].name      = NULL;
             vm->seg[i].content   = NULL;
             vm->seg[i].start._64 = 0x0;
             vm->seg[i].size._64  = 0x0;
             vm->seg[i].attr      = 0x0;
         }
+
+        
         vm->nseg = nseg+1;
 		WARNING_MSG("Chargement de la pile");
 		if (!init_stack(vm, reg, nseg))
@@ -118,7 +122,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
 
     if ( NULL != vm ) {
         uint i;
-	
+
         for ( i= 0; i< vm->nseg; i++ ) {
             if ( 0 == strncasecmp( vm->seg[i].name, name, strlen(name) ) ) {
                 switch( SCN_WIDTH( vm->seg[i].attr ) ) {
@@ -133,7 +137,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
                         return 1;
                     }
                     if ( NULL != content ) {
-		      memcpy( vm->seg[i].content, content, sz._32 );
+                        memcpy( vm->seg[i].content, content, sz._32 );
                     }
                     return 0;
                     break;
@@ -148,7 +152,7 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
                         return 1;
                     }
                     if ( NULL != content ) {
-		      memcpy( vm->seg[i].content, content, sz._64 );
+                        memcpy( vm->seg[i].content, content, sz._64 );
                     }
                     return 0;
                     break;
@@ -168,7 +172,6 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
         return 1;
     }
 }
-
 
 /**
 * prints the content of a virtual memory
@@ -215,20 +218,24 @@ void print_rel_table(char* reloc_name, Elf32_Rel* rel, uint32_t scnsz) {
   word offset = 0, info = 0;
   
   for(j=0;j<scnsz/sizeof(*rel);j++)
-    {
+    {//DEBUG_MSG("");
       offset = swap_mot(rel[j].r_offset);
       info = swap_mot(rel[j].r_info);
-
-      printf("%x\t%x\t%s\n",offset,info,MIPS32_REL[(info&0xff)]);
+		
+      printf("%x\t%x\t%s\t%x\n",offset,info,MIPS32_REL[(info&0xff)], (info&0xffffff00)>>8 );
     }
 }
 
-uint32_t find_sec_start(mem memory, char* name ) {
+uint32_t find_sec_start(mem memory, int syms, char* name ) {
   int i;
+	//DEBUG_MSG("%s",name);
+	
   for (i=0; i<memory->nseg; i++) {
-    if ( ! strcmp(memory->seg[i].name, name) ) return memory->seg[i].start._32;
+	//DEBUG_MSG("%s", memory->seg[i].name);
+	
+    if ( memory->seg[i].name && ! strcmp(memory->seg[i].name, name) ) return memory->seg[i].start._32;
   }
-  ERROR_MSG("impossible de l'adresse de depart de %s", name);
+  WARNING_MSG("impossible de trouver l'adresse de depart de %s", name);
 }
 
 /*--------------------------------------------------------------------------  */
@@ -268,90 +275,124 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 
 	uint32_t needed_sec_start;
         char* needed_sec_name;
-	uint32_t inst_HI, inst_LO;
-	
-	uint32_t rel_inst;
+	uint32_t AHI, ALO;
+	char texte[10];
+	strcpy(texte, ".text");
+	uint32_t AHL;
+	int syms;
 	word word_rel;
-	print_rel_table(reloc_name, rel, scnsz);
+	word S,P;
+	//DEBUG_MSG("");
+	//print_rel_table(reloc_name, rel, scnsz);
+	
 	for(j=0;j<scnsz/sizeof(*rel);j++)
 	  {
-	    
-	    offset = swap_mot(rel[j].r_offset);
-	    info = swap_mot(rel[j].r_info);
-	    type_rel = (info&0xff);
+	    //DEBUG_MSG("");
+	    offset = swap_mot(rel[j].r_offset);//DEBUG_MSG("");
+	    info = swap_mot(rel[j].r_info);//DEBUG_MSG("");
+		syms = (info&0xffffff00)>>8;
+		DEBUG_MSG("Symbole a reloger");
+		 printf("Offset\tInfo\tType\tVal.-syms\n");
+		printf("%x\t%x\t%s\t%x\n",offset,info,MIPS32_REL[(info&0xff)], syms );
+		DEBUG_MSG("");
+
+	    type_rel = (info&0xff); //DEBUG_MSG("%d",type_rel);
+		
 	    //DEBUG_MSG("%x",( info&0xffffff00)>>8 );
-	    needed_sec_name = strdup(symtab->sym[( (info&0xffffff00)>>8 ) ].name);
+		//DEBUG_MSG("offset :: %x\tinfo :: %x\n",offset,info);
+		DEBUG_MSG("%s",symtab->sym[syms ].name);
+		if (symtab->sym[syms].type == section){
+	    needed_sec_name = strdup(symtab->sym[syms ].name);
+	//DEBUG_MSG("%s",needed_sec_name);
+	    needed_sec_start = find_sec_start(memory,syms , needed_sec_name);
+		}
+		else if (symtab->sym[syms].type == function) {
+			needed_sec_name = strdup(symtab->sym[syms].name);
+			
+			needed_sec_start = find_sec_start(memory, syms, texte);
+			DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
+		}
 
-	    needed_sec_start = find_sec_start(memory, needed_sec_name);
-
+//DEBUG_MSG("");
 	    //DEBUG_MSG("%x",needed_sec_start);
 
 
 	    switch(type_rel){
 	    case R_MIPS_26: // Branchement
+			
 	      find_word(memory, needed_sec_start+offset, &word_rel);
 	      nb_symb = (word_rel&0x03ffffff);
-	      //DEBUG_MSG("%d", nb_symb);
-	      //DEBUG_MSG("%x",symtab.sym[nb_symb+1].addr._32);
+	      //DEBUG_MSG("%x", nb_symb);
+	      DEBUG_MSG("%x",symtab->sym[nb_symb+1].addr._32);
 	      //sym32_print(symtab.sym[nb_symb+1]); 
 	      word_rel = (word_rel&0xfc000000) + symtab->sym[nb_symb+1].addr._32;
-	      
+	      DEBUG_MSG("%x", word_rel);
 	      load_word(memory, needed_sec_start+offset, swap_mot(word_rel));
 
 	      break;
 	      
 	    case R_MIPS_HI16: 
 	      //DEBUG_MSG("hi16");
-	      //DEBUG_MSG("offset :: %x\tinfo :: %x\n",offset,info);
+	      //DEBUG_MSG("offset :: %x\tinfo :: %x\n",offset,info);rel_
 	      // On va chercher les 16 bits de poids fort de l'adresse @+offset
-	      find_word(memory, seg.start._32+offset, &inst_HI);
+		DEBUG_MSG("");
+	      find_word(memory, seg.start._32+offset, &AHI);
 	      //DEBUG_MSG("%x",word_rel);
 
-	      inst_HI = inst_HI&0xffff0000;
+	      //AHI = AHI&0x0000ffff;
 	      break;
 	      
 	   
-	    case R_MIPS_LO16: //DEBUG_MSG("lo16");
+	    case R_MIPS_LO16: DEBUG_MSG("lo16");
 	      //On charge le mot à l'adresse P
-	      find_word(memory, seg.start._32+offset+4, &inst_LO);
+	      find_word(memory, seg.start._32+offset, &ALO);
+			//DEBUG_MSG("%x",ALO);
 	      //On extrait les 16 derniers bits
-	      inst_LO = inst_LO&0x0000ffff;
+	    //  ALO = ALO&0x0000ffff;
 	      //On concatène les deux pour reconstituer l'instruction à reloger
-	      rel_inst = inst_HI + inst_LO;
-	      //DEBUG_MSG("%x",rel_inst);
+	      AHL = AHI<<16 + (short) ALO; DEBUG_MSG("%x",AHL);
+	      
 	      //On va chercher le numéro du symbole dans la table de symboles
-	      nb_symb = (rel_inst&0x0000ffff);
-	      // DEBUG_MSG("%x", nb_symb);
+	      //nb_symb = (AHL&0x0000ffff);
+			
+	       DEBUG_MSG("%d", syms);
 	      //On place dans word_rel la valeur du mot après relocation
-	      word_rel = needed_sec_start + symtab->sym[nb_symb].addr._32;
+
+	      S = needed_sec_start + symtab->sym[syms].addr._32;
+		  P = seg.start._32+offset;
+		DEBUG_MSG("S : %x\t P : %x",S,P);
 	      //DEBUG_MSG("word_rel :: %08x",word_rel);
 	      //On reloge l'adresse en la coupant en deux :: les bits de poids fort sur les poids faibles de la première
 	      // Les bits de poids faible sur les poids faible de la deuxième 
 	        //Première partie
-	      find_word(memory, seg.start._32+offset-4, &rel_inst);
-	      rel_inst= rel_inst&0xffff0000 + ((word_rel&0xffff0000)>>16) ;
-	      load_word(memory, seg.start._32+offset-4, swap_mot(rel_inst)   );
+	      find_word(memory, P-4, &word_rel);
+			word_rel = (word_rel>>16)<<16;
+			DEBUG_MSG("%x",(AHL+S) - ((short)(AHL+S) ));
+	      word_rel = word_rel + (  ((AHL+S) - ((short)(AHL+S) )) >>16 ) ;
+		DEBUG_MSG("%x",word_rel);
+	      load_word(memory, seg.start._32+offset-4, swap_mot(word_rel)   );
 
-	        //Deuxième partie
-	      find_word(memory, seg.start._32+offset, &rel_inst);
-	      //DEBUG_MSG("%x",rel_inst);
-	      rel_inst= (rel_inst&0xffff0000) + (word_rel&0x0000ffff) ;
+	       //Deuxième partie
+	      find_word(memory, seg.start._32+offset, &word_rel);
+	      //DEBUG_MSG("%x",AHL);
+			word_rel = (word_rel>>16)<<16;
+	      word_rel = word_rel + ((AHL+S)&0x0000ffff) ;
 	      //DEBUG_MSG("%x", word_rel&0x0000ffff);
-	      load_word(memory, seg.start._32+offset,  swap_mot(rel_inst));
+	      load_word(memory, seg.start._32+offset,  swap_mot(word_rel));
 	      break;
 	    case R_MIPS_32: 
 	      //DEBUG_MSG("MIPS_32");
 	      find_word(memory, seg.start._32+offset, &word_rel);
 	      //DEBUG_MSG("%x", word_rel);
-	      rel_inst = needed_sec_start+word_rel;
+	     word rel_inst = needed_sec_start+word_rel;
 	      load_word(memory, seg.start._32+offset, swap_mot(rel_inst));
 	       
 	      break;
 	    }
 	    
-	    
+	   // DEBUG_MSG("%d / %d",j,scnsz/sizeof(*rel));
 	  }
-
+	//DEBUG_MSG("");
 
         //------------------------------------------------------
 
@@ -360,14 +401,19 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
         //------------------------------------------------------
 
     }
+	//DEBUG_MSG("");
     del_scntab(section_tab);
     free( rel );
     free( reloc_name );
     free( ehdr );
-
+//DEBUG_MSG("");
 }
 
 
+/**
+* prints the content of a virtual memory
+* @param a virtual memory
+*/
 
 void print_mem( mem vm ) {
     if ( NULL != vm ) {
@@ -383,12 +429,12 @@ void print_mem( mem vm ) {
         printf( "Virtual memory map (%u segments)\n", n );
 
         for ( i= 0; i< vm->nseg; i++ ) {
-
+		
             if ( UNDEF == SCN_RIGHTS( vm->seg[i].attr ) ) {
                 continue;
             }
-
-            printf( "%-8s\t", vm->seg[i].name );
+	
+            printf( "%-8s\t", vm->seg[i].name );//DEBUG_MSG("");
             switch( SCN_RIGHTS( vm->seg[i].attr ) ) {
             case R__ :
                 printf( "r--" );
@@ -441,7 +487,7 @@ void print_mem( mem vm ) {
  * Destroys a virtual memory by making all the necessary free operations
  * @param a virtual memory
  */
-int del_mem( mem vm ) {DEBUG_MSG("");
+int del_mem( mem vm ) {
 
     if ( NULL != vm ) {
 
@@ -461,12 +507,10 @@ int del_mem( mem vm ) {DEBUG_MSG("");
         }
 
         free( vm );
-	return 1;
     }
 
-    return 0;
+    return cmd_ok;
 }
-
 int init_stack(mem vm, registre* reg, unsigned int nseg)
 {	if (vm ==NULL)
 	{	ERROR_MSG("Memoire virtuelle mal chargée\n");
@@ -579,10 +623,10 @@ int find_word(mem memory, uint32_t adresse, uint32_t* res) {
 	uint start =0;
 	segment* seg =NULL;
 	//DEBUG_MSG("%d",memory->nseg);
-	
+	//DEBUG_MSG("%x %x",adresse, memory->start_mem);
 	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
 	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
-
+	//DEBUG_MSG("");
 	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
 	//DEBUG_MSG("nb seg %d",memory->nseg);
 	for ( i=0; i< memory->nseg;) {
@@ -591,13 +635,15 @@ int find_word(mem memory, uint32_t adresse, uint32_t* res) {
 		start = seg->start._32;
 		//DEBUG_MSG("seg %d starts : 0x%08x taille: %d byte(s)",i,start,taille);
 		//DEBUG_MSG("faddr %d",faddr);
-		
+		//DEBUG_MSG("");
+
 		//faddr = faddr - seg->start._32;
 
 		if (!taille || adresse > start+taille) i++; 
-		else if ( adresse < start ){
+		else if ( adresse < start ){//DEBUG_MSG("");
+				i++;
 			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
-			break;
+			//break;
 		}
 		else
 		{//DEBUG_MSG("");
@@ -606,7 +652,7 @@ int find_word(mem memory, uint32_t adresse, uint32_t* res) {
 			*res = word;
 			return cmd_ok;
 		}
-		
+		//DEBUG_MSG("");
 	}
 	puts("");
 	WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
@@ -632,15 +678,16 @@ int find_byte(mem memory, uint32_t adresse, uint8_t* res) {
 		seg = memory->seg+i;
 		taille = seg->size._32;
 		start = seg->start._32;
-		DEBUG_MSG("seg %d starts : 0x%08x taille: %d byte(s)",i,start,taille);
+		//DEBUG_MSG("seg %d starts : 0x%08x taille: %d byte(s)",i,start,taille);
 		//DEBUG_MSG("adresse %d",adresse);
 		
 		//faddr = faddr - seg->start._32;
 
 		if (!taille || adresse > start+taille-1) i++; 
 		else if ( adresse < start ){
-			WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
-			break;
+			i++;
+			//WARNING_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
+			//break;
 		}
 		else
 		{//DEBUG_MSG("");
@@ -679,9 +726,9 @@ int load_word(mem memory, uint32_t adresse, uint32_t wordtoload){
 		//faddr = faddr - seg->start._32;
 
 		if (!taille || adresse > start+taille) i++; 
-		else if ( adresse < start ){
+		else if ( adresse < start ){i++;
 			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
-			break;
+			//break;
 		}
 		else
 		{//DEBUG_MSG("");
@@ -716,9 +763,9 @@ int load_byte(mem memory, uint32_t adresse, byte bytetoload){
 		//faddr = faddr - seg->start._32;
 
 		if (!taille || adresse > start+taille) i++; 
-		else if ( adresse < start ){
+		else if ( adresse < start ){i++;
 			//ERROR_MSG("L'adresse 0x%08x n'est pas allouee", adresse);
-			break;
+			//break;
 		}
 		else
 		{//DEBUG_MSG("");
@@ -731,7 +778,6 @@ int load_byte(mem memory, uint32_t adresse, byte bytetoload){
 	
 	return cmd_ok;
 }
-
 
 
 // fonction permettant d'extraire une section du fichier ELF et de la chargée dans le segment du même nom

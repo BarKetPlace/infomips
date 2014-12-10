@@ -17,6 +17,23 @@
 
 #define START_MEM 0x0
 
+// Cette fonction calcule le nombre de segments à prevoir
+// Elle cherche dans les symboles si les sections predefinies
+// s'y trouve
+// parametres :
+//  symtab : la table des symboles
+//
+// retourne le nombre de sections trouvées
+
+unsigned int get_nsegments(stab symtab,char* section_names[],int nb_sections) {
+    unsigned int n=0;
+    int i;
+    for (i=0; i<nb_sections; i++) {
+        if (is_in_symbols(section_names[i],symtab)) n++;
+    }
+    return n;
+}
+
 int loadcmd(interpreteur inter, mem memory, registre* reg)
 {/*
   ///////////////////////////////////////////////////////////////////////////////////////////
@@ -260,6 +277,10 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
     nsegments = get_nsegments(symtab,section_names,NB_SECTIONS);
     nsegments += get_nsegments(symtab_libc,section_names,NB_SECTIONS);
 
+	//stab32_print( symtab_libc);
+	//stab32_print( symtab);
+
+
     // allouer la memoire virtuelle
     // initialiser la memoire virtuelle
   if (!init_mem(nsegments, reg, memory)) {
@@ -281,21 +302,25 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
             j++;
         }
     }
-
+	print_mem(memory);
     // on reloge libc
     for (i=0; i<j; i++) {
-        reloc_segment(pf_libc, memory->seg[i], memory,endianness,&symtab_libc,&symtab_libc,pf_libc);
+        reloc_segment(pf_libc, memory->seg[i], memory,endianness,&symtab_libc,NULL,NULL);
     }
-
+//print_mem(memory);
     // on change le nom des differents segments de libc
     for (i=0; i<j; i++) {
         char seg_name [256]= {0};
         strcpy(seg_name,"libc");
         strcat(seg_name,memory->seg[i].name);
-        free(memory->seg[i].name);
-        memory->seg[i].name=strdup(seg_name);
+        //free(memory->seg[i].name);
+		memset(memory->seg[i].name, '\0', strlen(memory->seg[i].name));
+		strcpy(memory->seg[i].name, seg_name);
+       // memory->seg[i].name=strdup(seg_name);
     }
-
+	//print_mem(memory);
+	
+//DEBUG_MSG("");
 
 	//Adresse de départ de la mémoire virtuelle
 	// Si on a specifie une valeur de depart
@@ -317,7 +342,7 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
             j++;
         }
     }
-
+print_mem(memory);
     // on reloge chaque section du fichier
     for (i=k; i<j; i++) {
         reloc_segment(pf_elf, memory->seg[i], memory,endianness,&symtab,&symtab_libc,pf_libc);
@@ -329,8 +354,9 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
    // printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", fichier) ;
     //print_mem(memory);
     //stab32_print( symtab);
-    stab32_print( symtab_libc);
-
+	//DEBUG_MSG("");
+    //stab32_print( symtab_libc);
+	//stab32_print(symtab);
     // on fait le ménage avant de partir
    
    // del_stab(symtab_libc);

@@ -7,9 +7,9 @@
  * Bit twiddling.
  */
 
-
-#include "bits.h"
 #include "types.h"
+#include "bits.h"
+
 
 /**
  * Simple way of guessing the endianness of the machine on which this code is executed

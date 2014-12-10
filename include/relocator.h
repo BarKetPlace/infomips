@@ -33,8 +33,6 @@ extern "C" {
 #define R_MIPS_GOTLO16  22
 #define R_MIPS_CALLHI16 30
 #define R_MIPS_CALLLO16 31
-//nom du prefix à appliquer pour la section
-#define RELOC_PREFIX_STR ".rel"
 
 static char *MIPS32_REL[] = {
     "R_MIPS_NONE", "R_MIPS_16", "R_MIPS_32", "R_MIPS_REL32",

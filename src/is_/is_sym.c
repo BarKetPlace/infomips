@@ -9,7 +9,7 @@
 //
 // retourne 1 si present, 0 sinon
 int is_in_symbols(char* name, stab symtab) {
-    uint i;
+    int i;
     for (i=0; i<symtab.size; i++) {
         if (!strcmp(symtab.sym[i].name,name)) return 1;
     }
