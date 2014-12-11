@@ -1,0 +1,10 @@
+.set noreorder
+.text 
+
+ADDI $t1, $zero, -3 #3 dans $t1
+ADDI $t2, $zero, 0 #3 dans $t2
+BLTZ $t2, 4 #Pas de saut d'1 instruction
+BLTZ $t1, 4 #Saut d'1 instruction
+ADDI $t4, $zero, 56 #instruction sautee
+ADDI $t4, $t4, 27 #instruction effectuee
+
