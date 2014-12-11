@@ -82,11 +82,12 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
 	}
 	if(!strcmp(token, "step")){
 	  token = get_next_token(inter);
+	
 	  if(token && !strcmp(token,"into")){
 	    return step_intocmd(memory,reg,dico);
 	  }
 	  else if (!token){
-	    return cmd_ok;
+	    return stepcmd(memory, reg, dico);
 	  }
 
 	}
@@ -177,16 +178,13 @@ int main ( int argc, char *argv[] ) {
 	      //sortie propre du programme 
 	      if ( fp != stdin ) {
                 fclose( fp );               		
-                del_inter(inter);
-		del_mem(memory);INFO_MSG("Liberation memoire");	
-		del_reg(reg);INFO_MSG("Liberation des registres");
-		del_dico(dico);INFO_MSG("Liberation du dictionnaire d'instructions");
-                exit(EXIT_SUCCESS);
+                exitcmd(inter, memory, reg, dico, *pbreaklist);
+		exit(EXIT_SUCCESS);
 	      }
 	      break;
 	    case cmd_unknown:
 	      //DEBUG_MSG("");
-	      if ( fp != stdin ) { //Mode fichier; on sort
+	      if ( fp != stdin && inter->mode == SCRIPT) { //Mode fichier; on sort
 		fclose( fp );	//DEBUG_MSG("");
 		exitcmd(inter, memory, reg, dico, *pbreaklist);
 		exit(EXIT_SUCCESS);

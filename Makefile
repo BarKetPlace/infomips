@@ -1,7 +1,7 @@
 TARGET = projet
 
 CFLAGS = -g -std=c99 -I$(INCDIR)/  -DDEBUG -DVERBOSE
-LFLAGS=-lreadline -lm -lcurses
+LFLAGS= -lreadline -lm -lcurses
 INCDIR=./include
 SRCDIR= src/memoire src/cmd src/emul src/is_ src/dico src/fct
 

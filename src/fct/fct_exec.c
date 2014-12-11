@@ -9,11 +9,11 @@
 #include "fct.h"
 #include "dico.h"
 
-#include "typesmem.h"
 
 
-int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico){
-DEBUG_MSG("");
+
+int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico, int* ptemoin){
+//DEBUG_MSG("");
 		union inst_poly mot;
 		definition def;	
 		int tmp;
@@ -21,16 +21,21 @@ DEBUG_MSG("");
 		if ( find_word(memory, adresse, &(mot.code)) != cmd_ok ) { 
 			WARNING_MSG("Impossible de trouver un mot en 0x%08x", adresse);	
 			return cmd_unknown;
-		}
+		}//DEBUG_MSG("");
 		//DEBUG_MSG("");
 		//On va ensuite chercher la definition correspondante
 		if ( !(def = find_def(dico, mot) ) ){ 
 			WARNING_MSG("Impossible de trouver une definition pour le mot 0x%08x en 0x%08x", mot.code ,adresse);	
 			return cmd_unknown;
 		}
+		//DEBUG_MSG("%d",*ptemoin);
+		if ( !strcmp(def->nom, "jr") || !strcmp(def->nom, "j") || !strcmp(def->nom, "jal") || !strcmp(def->nom, "jalr")) 
+		 *ptemoin = 1; // Passage du temoin a un pour la fonction step
+		
+		//DEBUG_MSG("");
 		//DEBUG_MSG("%s",def->nom);
 		//On execute ensuite la fonction def->f sur le mot
-		tmp = def->f(mot, memory, reg, dico);//DEBUG_MSG("");
+		tmp = def->f(mot, memory, reg);//DEBUG_MSG("");
 		if (tmp != cmd_ok) return tmp;
 		
 		

@@ -38,7 +38,7 @@ int resumecmd(interpreteur inter, mem memory, registre *reg);
 
 int runcmd(interpreteur inter,mem memory, registre* reg, Liste dico, Liste_int breakliste);
 //int adresse_to_instruc(mem memory, int adrr, Liste dico, instruction res);
-
+int stepcmd(mem memory,registre* reg, Liste dico);
 ////////////////////////////
 //break
 //fonction sur les listes de nombres
