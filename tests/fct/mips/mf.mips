@@ -1,0 +1,6 @@
+.set noreorder
+.text 
+
+ADDI $33 $10 6 #6 dans $HI
+ADDI $34 $zero 0x72 #72 dans $LO
+

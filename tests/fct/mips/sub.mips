@@ -1,0 +1,10 @@
+.set noreorder
+.text 
+
+ADDI $9 $10 12 #12 dans $12
+ADDI $7 $zero 3
+SUB $6 $9 $7
+SUBU $5 $9 $7
+
+
+

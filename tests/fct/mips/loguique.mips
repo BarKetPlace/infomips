@@ -1,0 +1,10 @@
+.set noreorder
+.text 
+
+ADDI $9 $10 65535 #FFFF dans $12
+ADDI $7 $zero 61680 #F0F0 dans $7
+AND $13 $9 $7
+ANDI $14 $9 0x00FF
+OR $15 $9 $7
+ORI $16 $9 0xFF00
+XOR $17 $7 $9

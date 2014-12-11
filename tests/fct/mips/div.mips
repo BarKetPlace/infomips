@@ -1,0 +1,10 @@
+.set noreorder
+.text 
+
+ADDI $9 $10 14 #14 dans $12
+ADDI $7 $zero 3 #3 dans $7
+DIV $9 $7
+MFHI 
+MFLO
+
+

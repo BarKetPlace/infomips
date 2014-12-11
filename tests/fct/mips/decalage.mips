@@ -1,0 +1,8 @@
+.set noreorder
+.text 
+
+ADDI $9 $zero 0xff140000 #... dans $9
+ADDI $10 $zero 40 
+SLL $11 $9 4
+SRL $12 $9 8 
+SRA $13 $9 8

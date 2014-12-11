@@ -1,0 +1,10 @@
+.set noreorder
+.text 
+
+ADDI $9 $10 12 #12 dans $12
+ADDI $7 $zero 3
+MULT $7 $9 #3*12
+MFHI 
+MFLO
+
+
