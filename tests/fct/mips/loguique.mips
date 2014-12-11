@@ -1,10 +1,10 @@
 .set noreorder
 .text 
 
-ADDI $9 $10 65535 #FFFF dans $12
-ADDI $7 $zero 61680 #F0F0 dans $7
-AND $13 $9 $7
-ANDI $14 $9 0x00FF
-OR $15 $9 $7
-ORI $16 $9 0xFF00
-XOR $17 $7 $9
+ADDI $t1, $zero, 0xffff #FFFF dans $t1
+ADDI $t2, $zero, 0xf0f0 #F0F0 dans $t2
+AND $t3, $t1, $t2 #0xf0f0 dans $t3
+#ANDI $t4, $t1, 0xff #0xff dans $t4
+OR $t5, $t1, $t2 #0xffff dans $t5
+ORI $t6, $t2, 0xFF00 #0xfff0 dans $t6
+#XOR $t7, $t2, $t1

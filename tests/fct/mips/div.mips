@@ -1,10 +1,9 @@
 .set noreorder
 .text 
 
-ADDI $9 $10 14 #14 dans $12
-ADDI $7 $zero 3 #3 dans $7
-DIV $9 $7
-MFHI 
-MFLO
+ADDI $t1, $zero, 14 #14 dans $t1
+ADDI $t2, $zero, 3 #3 dans $t2
+DIV $t1, $t2 #4 dans $HI, 2 dans $LO
+
 
 

@@ -21,6 +21,7 @@ int fct_slt(inst k, mem memory, registre* reg);
 int fct_sll(inst k, mem memory, registre* reg);
 int fct_ori(inst k, mem memory, registre* reg);
 int fct_or(inst k, mem memory, registre* reg);
+int fct_xor(inst k, mem memory, registre* reg);
 int fct_mflo(inst k, mem memory, registre* reg);
 int fct_mfhi(inst k, mem memory, registre* reg);
 int fct_lw(inst k, mem memory, registre* reg);
