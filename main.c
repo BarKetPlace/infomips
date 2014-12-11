@@ -18,7 +18,7 @@
 #include "is_.h"
 #include "emulateur.h"
 #include "dico.h"
-#include "typesmem.h"
+
 #include "fct.h"
 /**
 *

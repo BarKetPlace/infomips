@@ -624,9 +624,9 @@ int find_word(mem memory, uint32_t adresse, uint32_t* res) {
 	segment* seg =NULL;
 	//DEBUG_MSG("%d",memory->nseg);
 	//DEBUG_MSG("%x %x",adresse, memory->start_mem);
-	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
-	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
-	//DEBUG_MSG("");
+	if (adresse<memory->start_mem){ WARNING_MSG("La memoire commence en 0x%08x",memory->start_mem); return cmd_unknown;}
+	if (adresse>STOP_MEM) {WARNING_MSG("La memoire termine en 0x%08x",STOP_MEM);	return cmd_unknown;}
+//DEBUG_MSG("");
 	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
 	//DEBUG_MSG("nb seg %d",memory->nseg);
 	for ( i=0; i< memory->nseg;) {
@@ -669,8 +669,8 @@ int find_byte(mem memory, uint32_t adresse, uint8_t* res) {
 	segment* seg =NULL;
 	//DEBUG_MSG("%d",memory->nseg);
 	
-	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
-	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
+	if (adresse<memory->start_mem){ WARNING_MSG("La memoire commence en 0x%08x",memory->start_mem); return cmd_unknown;}
+	if (adresse>STOP_MEM) {WARNING_MSG("La memoire termine en 0x%08x",STOP_MEM);	return cmd_unknown;}
 
 	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
 	//DEBUG_MSG("nb seg %d",memory->nseg);
@@ -711,8 +711,8 @@ int load_word(mem memory, uint32_t adresse, uint32_t wordtoload){
 	uint start =0;
 	segment* seg =NULL;
 	uint i;
-	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
-	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
+	if (adresse<memory->start_mem){ WARNING_MSG("La memoire commence en 0x%08x",memory->start_mem); return cmd_unknown;}
+	if (adresse>STOP_MEM) {WARNING_MSG("La memoire termine en 0x%08x",STOP_MEM);	return cmd_unknown;}
 
 	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
 	//DEBUG_MSG("nb seg %d",memory->nseg);
@@ -748,9 +748,9 @@ int load_byte(mem memory, uint32_t adresse, byte bytetoload){
 	segment* seg =NULL;
 	uint i;
 	//L'adresse fournie est elle valide
-	if (adresse<memory->start_mem) ERROR_MSG("La memoire commence en 0x%08x",memory->start_mem);
-	if (adresse>STOP_MEM) ERROR_MSG("La memoire termine en 0x%08x",STOP_MEM);	
-	
+	if (adresse<memory->start_mem){ WARNING_MSG("La memoire commence en 0x%08x",memory->start_mem); return cmd_unknown;}
+	if (adresse>STOP_MEM) {WARNING_MSG("La memoire termine en 0x%08x",STOP_MEM);	return cmd_unknown;}
+
 	//if (adresse%4 != 0) adresse = adresse - (adresse%4);
 	//DEBUG_MSG("nb seg %d",memory->nseg);
 	for ( i=0; i< memory->nseg;) {
