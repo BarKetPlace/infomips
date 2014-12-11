@@ -18,7 +18,8 @@
 
 int debugcmd(interpreteur inter, mem memory, registre *reg)
 {
-		inter->mode=DEBUG_MODE;
+		inter->mode=INTERACTIF;
+	
 		return cmd_ok;
 }
 	
