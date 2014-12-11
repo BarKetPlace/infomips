@@ -118,7 +118,7 @@ int assertcmd(interpreteur inter, mem memory, registre *reg)
 		  WARNING_MSG("La valeur ne tient pas sur 1 octet");
 		  return cmd_unknown;
 		}
-	      DEBUG_MSG("%d %x",val_t_a,val_f_a);
+	     // DEBUG_MSG("%d %x",val_t_a,val_f_a);
 	      //Comparaison entre les deux valeurs
 	      if (val_t_a==val_f_a) { return cmd_ok;}
 	      else { WARNING_MSG("Erreur"); return cmd_unknown;}

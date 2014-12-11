@@ -43,18 +43,10 @@ typedef struct {
     vsize       extent;
     uint32_t    nseg;
     segment    *seg;
-	int busy;
 	int start_mem;
-	//word tab[MEMSZ_BYTES];
 } *mem;
 
-/*
-typedef struct {
-	mem memory;
-	registre* reg;
-	Liste dico;
-}* virtualmem;
-*/
+
 
 #define R__   1
 #define RW_   2
@@ -85,7 +77,7 @@ typedef struct {
 
 // On fixe ici une adresse basse dans la mémoire virtuelle. Le premier segment
 // ira se loger à cette adresse.
-//#define START_MEM 0x0000
+#define START_MEM 0
 #define STOP_MEM 0xfffff000
 // nombre max de sections que l'on extraira du fichier ELF
 #define NB_SECTIONS 4
@@ -109,7 +101,7 @@ int del_mem( mem vm );
 void print_segment_raw_content(segment* seg);
   void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,stab* symtab, stab*, FILE*);
 int init_tab_mem(mem memory);
-//void print_full_mem(mem memory);
+
 int print_byte_mem(mem memory, uint32_t adr);
 int print_case_mem(mem memory,uint debut,uint fin);
 int find_word(mem memory, uint32_t adresse, uint32_t* res);

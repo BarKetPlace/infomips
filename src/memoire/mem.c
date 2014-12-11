@@ -170,43 +170,6 @@ int fill_mem_scn( mem vm, char *name, vsize sz, vaddr start, byte *content ) {
     }
 }
 
-/**
-* prints the content of a virtual memory
-* @param a virtual memory
-*/
-/*
-int tab_mem(mem memory)
-{	int i,k,word;
-	int cpt=0;
-	segment segm;
-	//printf("%d\n",memory->nseg);
-	for (i=0; i<memory->nseg-1; i++)
-	{	//printf("\n%d\n", (*(memory->seg+i)).size._32);
-		
-		//print_segment_raw_content(memory->seg+i);printf("\n");
-
-		
-		for (k=0;k<(*(memory->seg+i)).size._32;k+=4)
-		{	
-			//printf("0x%08x\n", *(  (unsigned int *) (  *(memory->seg+i)->content+k  )     ) );
-
-	 		word = *((unsigned int *) ((memory->seg+i)->content+k));
-            FLIP_ENDIANNESS(word);
-            //printf("%08x\n",	word);
-
-			(memory->tab)[cpt] = word ;
-			cpt+=4;
-
-		}
-		
-	}
-	return 1;
-}
-*/
-void build_rel_table(char* reloc_name, Elf32_Rel* rel, uint32_t scnsz) {
-  
-}
-
 
 void print_rel_table(char* reloc_name, Elf32_Rel* rel, uint32_t scnsz) {
   uint j;
@@ -266,7 +229,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
     if (rel != NULL &&seg.content!=NULL && seg.size._32!=0) {
 
       //INFO_MSG("--------------Relocation de %s-------------------",seg.name) ;
-        //INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
+      //INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
 	int j,k;
 	uint32_t info=0, offset=0, type_rel=0, nb_symb=0;
 
@@ -287,21 +250,34 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	    //DEBUG_MSG("");
 	    offset = swap_mot(rel[j].r_offset);//DEBUG_MSG("");
 	    info = swap_mot(rel[j].r_info);//DEBUG_MSG("");
-		syms = (info&0xffffff00)>>8;
-		//DEBUG_MSG("Symbole a reloger");
-		// printf("Offset\tInfo\tType\tVal.-syms\n");
-		//printf("%x\t%x\t%s\t%x\n",offset,info,MIPS32_REL[(info&0xff)], syms );
-		//DEBUG_MSG("");
+		syms = (info&0xffffff00)>>8; // Numéro dans la table de symbole
+
+		P = seg.start._32+offset;
+		/*DEBUG_MSG("Symbole a reloger");
+		 printf("Offset\tInfo\tType\tVal.-syms\n");
+		printf("%x\t%x\t%s\t%x\n",offset,info,MIPS32_REL[(info&0xff)], syms );
+		DEBUG_MSG("");*/
 
 	    type_rel = (info&0xff); //DEBUG_MSG("%d",type_rel);
 		
 	    //DEBUG_MSG("%x",( info&0xffffff00)>>8 );
 		//DEBUG_MSG("offset :: %x\tinfo :: %x\n",offset,info);
 		//DEBUG_MSG("%s",symtab->sym[syms ].name);
+
 		if (symtab->sym[syms].type == section){
-	    needed_sec_name = strdup(symtab->sym[syms ].name);
+	//nom de la section dans la table de symboles
+	    needed_sec_name = strdup(symtab->sym[syms ].name); 
+			//DEBUG_MSG("%s",needed_sec_name);
+	//Adresse de debut de la section
+	    needed_sec_start = find_sec_start(memory, syms, needed_sec_name);
+			//DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
+		}
+
+		else if (symtab->sym[syms].type == notype){
+	    //needed_sec_name = strdup(symtab->sym[syms ].name);
 	//DEBUG_MSG("%s",needed_sec_name);
-	    needed_sec_start = find_sec_start(memory,syms , needed_sec_name);
+	    needed_sec_start = seg.start._32; //find_sec_start(memory,syms , needed_sec_name);
+		//DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
 		}
 		else if (symtab->sym[syms].type == function) {
 			needed_sec_name = strdup(symtab->sym[syms].name);
@@ -309,20 +285,24 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 			needed_sec_start = find_sec_start(memory, syms, texte);
 			//DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
 		}
-
-//DEBUG_MSG("");
+		else {
+			WARNING_MSG("Unknown relocation type");
+			return cmd_unknown;
+	     //DEBUG_MSG("");
 	    //DEBUG_MSG("%x",needed_sec_start);
+		}
 
+	 S = needed_sec_start + symtab->sym[syms].addr._32;
 
 	    switch(type_rel){
 	    case R_MIPS_26: // Branchement
-			
+
 	      find_word(memory, needed_sec_start+offset, &word_rel);
 	      nb_symb = (word_rel&0x03ffffff);
 	      //DEBUG_MSG("%x", nb_symb);
-	      //DEBUG_MSG("%x",symtab->sym[nb_symb+1].addr._32);
+	     // DEBUG_MSG("%x",symtab->sym[nb_symb+1].addr._32);
 	      //sym32_print(symtab.sym[nb_symb+1]); 
-	      word_rel = (word_rel&0xfc000000) + symtab->sym[nb_symb+1].addr._32;
+	      word_rel = (word_rel&0xfc000000) + symtab->sym[nb_symb+1].addr._32 + needed_sec_start;
 	     // DEBUG_MSG("%x", word_rel);
 	      load_word(memory, needed_sec_start+offset, swap_mot(word_rel));
 
@@ -331,52 +311,50 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	    case R_MIPS_HI16: 
 	      //DEBUG_MSG("hi16");
 	      //DEBUG_MSG("offset :: %x\tinfo :: %x\n",offset,info);rel_
-	      // On va chercher les 16 bits de poids fort de l'adresse @+offset
-		//DEBUG_MSG("");
-	      find_word(memory, seg.start._32+offset, &AHI);
-	      //DEBUG_MSG("%x",word_rel);
+	      // On va chercher le mot à l'adresse P
 
-	      //AHI = AHI&0x0000ffff;
+	      find_word(memory, P, &AHI);
+	  
 	      break;
 	      
 	   
 	    case R_MIPS_LO16: //DEBUG_MSG("lo16");
+		 
 	      //On charge le mot à l'adresse P
-	      find_word(memory, seg.start._32+offset, &ALO);
+	      find_word(memory, P, &ALO);
 			//DEBUG_MSG("%x",ALO);
-	      //On extrait les 16 derniers bits
-	    //  ALO = ALO&0x0000ffff;
-	      //On concatène les deux pour reconstituer l'instruction à reloger
+	     
+	      //On concatène AHI et ALO les deux pour reconstituer l'instruction à reloger
 	      AHL = AHI<<16 + (short) ALO; //DEBUG_MSG("%x",AHL);
 	      
-	      //On va chercher le numéro du symbole dans la table de symboles
-	      //nb_symb = (AHL&0x0000ffff);
-			
+	 
 	       //DEBUG_MSG("%d", syms);
 	      //On place dans word_rel la valeur du mot après relocation
 
-	      S = needed_sec_start + symtab->sym[syms].addr._32;
-		  P = seg.start._32+offset;
+
+		
 		//DEBUG_MSG("S : %x\t P : %x",S,P);
 	      //DEBUG_MSG("word_rel :: %08x",word_rel);
+
 	      //On reloge l'adresse en la coupant en deux :: les bits de poids fort sur les poids faibles de la première
 	      // Les bits de poids faible sur les poids faible de la deuxième 
 	        //Première partie
 	      find_word(memory, P-4, &word_rel);
-			word_rel = (word_rel>>16)<<16;
+	      word_rel = (word_rel>>16)<<16;
 			//DEBUG_MSG("%x",(AHL+S) - ((short)(AHL+S) ));
 	      word_rel = word_rel + (  ((AHL+S) - ((short)(AHL+S) )) >>16 ) ;
 		//DEBUG_MSG("%x",word_rel);
-	      load_word(memory, seg.start._32+offset-4, swap_mot(word_rel)   );
+	      load_word(memory, P-4, swap_mot(word_rel)   );
 
 	       //Deuxième partie
-	      find_word(memory, seg.start._32+offset, &word_rel);
+	      find_word(memory, P, &word_rel);
 	      //DEBUG_MSG("%x",AHL);
 			word_rel = (word_rel>>16)<<16;
 	      word_rel = word_rel + ((AHL+S)&0x0000ffff) ;
 	      //DEBUG_MSG("%x", word_rel&0x0000ffff);
-	      load_word(memory, seg.start._32+offset,  swap_mot(word_rel));
+	      load_word(memory, P,  swap_mot(word_rel));
 	      break;
+
 	    case R_MIPS_32: 
 	      //DEBUG_MSG("MIPS_32");
 	      find_word(memory, seg.start._32+offset, &word_rel);
@@ -391,14 +369,11 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	  }
 	//DEBUG_MSG("");
 
-        //------------------------------------------------------
-
-        //TODO : faire la relocation ICI !
-
-        //------------------------------------------------------
-
+       
     }
 	//DEBUG_MSG("");
+	//free(texte[]);
+	//free(needed_sec_name);
     del_scntab(section_tab);
     free( rel );
     free( reloc_name );
@@ -430,7 +405,7 @@ void print_mem( mem vm ) {
             if ( UNDEF == SCN_RIGHTS( vm->seg[i].attr ) ) {
                 continue;
             }
-	
+	//DEBUG_MSG("");
             printf( "%-8s\t", vm->seg[i].name );//DEBUG_MSG("");
             switch( SCN_RIGHTS( vm->seg[i].attr ) ) {
             case R__ :
@@ -514,7 +489,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
 	{	ERROR_MSG("Memoire virtuelle mal chargée\n");
 		return 0;
 	}
-	print_mem(vm);
+	//print_mem(vm);
 	//memset(vm->seg[nseg-1].name,'\0',sizeof(vm->seg[nseg-1].name));
 	//vm->seg[nseg-1]= calloc(1, sizeof( (vm->seg[nseg-1]) ));
 	vm->seg[nseg-1].name      = strdup("[STACK]");

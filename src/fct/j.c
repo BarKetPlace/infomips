@@ -16,7 +16,7 @@ int fct_j(inst k, mem memory, registre* reg)
 {
 	int offset = (k.j.target<<2);
 	reg[PC].val = reg[PC].val + offset;
-
+	return cmd_ok;
 }
 
 
