@@ -1,5 +1,10 @@
 .set noreorder
 .text 
 
-ADDI $t1, $zero, 34 #3 dans $t1
-JR $t2 #met la valeur de PC dans $t2: 8
+ADDI $t2, $zero, 0x10 #0x10 dans $t1
+JR $t2 #saute a l'adresse de $t2: 0x10
+ADDI $t4, $zero, 0x45 #sautee
+ADDI $t4, $t4, 0x45 #sautee
+ADDI $t4, $t4, 0x45 #instruction effectuee: 0x45 dans $t4
+
+

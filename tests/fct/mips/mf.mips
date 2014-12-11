@@ -5,7 +5,8 @@
 _start:
 .global _start
 
-addi $HI, $zero, 6 #6 dans $HI
-addi $LO, $zero, 0x72 #72 dans $LO
-MFHI $t1
-MFLO $t2 
+addi $t1, $t2, 16 #16 dans $t1
+addi $t2, $zero, 3 #3 dans $t2
+mult $t1, $t2 #3*16=48 dans $t3
+MFHI $t4
+MFLO $t5 

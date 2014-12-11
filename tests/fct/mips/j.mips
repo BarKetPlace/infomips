@@ -2,8 +2,7 @@
 .text 
 
 ADDI $t1, $zero, 34 #3 dans $t1
-J 12 #saut a la ligne 8
-ADDI $t2, $zero, 16
-ADDI $t2, $t2, 16
-ADDI $t2, $t2, 16 #intsruction effectuee
+J 0x8 #saut a la ligne 8
+ADDI $t2, $zero, 2 #sautee
+ADDI $t2, $t2, 4 #instruction effectuee
 

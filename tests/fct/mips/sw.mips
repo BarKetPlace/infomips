@@ -1,0 +1,7 @@
+.set noreorder
+.text 
+
+ADDI $t1, $zero, 2 #0xe dans $t1
+ADDI $t2, $zero, 0x4500 #0x4500 dans $t2
+SW $t7, 0x60($t1)
+

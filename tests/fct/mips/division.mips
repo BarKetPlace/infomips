@@ -4,4 +4,3 @@
 ADDI $t1, $zero, 14 #14 dans $t1
 ADDI $t2, $zero, 3 #3 dans $t2
 DIV $t1, $t2 #4 dans $HI, 2 dans $LO
-

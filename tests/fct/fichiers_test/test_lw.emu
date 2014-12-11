@@ -3,6 +3,7 @@
 #TEST_COMMENT="ok"
 #-------
 
-load ./tests/fct/mips/mult.o
-assert reg $LO 0x30
+load ./tests/fct/mips/sub.o
+assert reg $t2 0x4523
 exit
+
