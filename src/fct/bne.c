@@ -29,6 +29,6 @@ int fct_bne(inst k, mem memory, registre* reg)
       reg[PC].val=reg[PC].val+off;
       return cmd_ok;
     }
-  else {return cmd_unknown;}
+  else {reg[PC].val+=4; return cmd_ok;}
 }
 

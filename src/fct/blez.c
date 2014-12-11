@@ -11,16 +11,11 @@
 
 #include "typesmem.h"
 
+// Fonction blez
 
-
-
-// Fonction BGLZ
-
-
-int fct_bglz(inst k, mem memory, registre* reg)
-{
+int fct_blez(inst k, mem memory, registre *reg){
 	int off=((short)k.i.imm)<<2;
-	if (reg[k.i.rs].val<=0)
+	if ((signed)reg[k.i.rs].val<=0)
 		{
 		reg[PC].val+=4;
 		reg[PC].val=reg[PC].val+off;

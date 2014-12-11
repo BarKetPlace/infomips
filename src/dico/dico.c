@@ -218,7 +218,7 @@ int affectation_fct(definition def)
 	else if (!strcmp(def->nom, "move") ) def->f = fct_move;
 	else if (!strcmp(def->nom, "neg") ) def->f = fct_neg;
 	else if (!strcmp(def->nom, "li") ) def->f = fct_li;
-	else if (!strcmp(def->nom, "blt") ) def->f = fct_blt;
+	else if (!strcmp(def->nom, "blez") ) def->f = fct_blez;
 
 	return cmd_ok;
 }

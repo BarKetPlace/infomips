@@ -22,10 +22,11 @@ int fct_bltz(inst k, mem memory, registre* reg)
 	int off=((short)k.i.imm)<<2;
 	if (reg[k.i.rs].val<0)
 		{
+		reg[PC].val+=4;
 		reg[PC].val=reg[PC].val+off;
 		return cmd_ok;
 		}
-	else {return cmd_unknown;}
+	else {reg[PC].val+=4; return cmd_ok;}
 }
 
 

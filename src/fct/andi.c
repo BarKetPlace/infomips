@@ -19,7 +19,7 @@
 
 int fct_andi(inst k, mem memory, registre* reg)
 {
-	long long temp=(reg[k.i.rs].val)&(k.i.imm);
+	long long temp=(reg[k.i.rs].val)&((long) k.i.imm);
 	reg[k.i.rt].val=temp;
 	reg[PC].val+=4;
 	return cmd_ok;

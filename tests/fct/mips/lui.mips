@@ -1,0 +1,6 @@
+.set noreorder
+.text 
+
+ADDI $t1, $zero, 34 #3 dans $t1
+LUI $t2, 0x2c34 #2c34 dans les octets les plus forts de $t2
+

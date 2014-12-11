@@ -31,6 +31,7 @@ int fct_bne(inst k, mem memory, registre* reg);
 int fct_bltz(inst k, mem memory, registre* reg);
 int fct_bgtz(inst k, mem memory, registre* reg);
 int fct_bglz(inst k, mem memory, registre* reg);
+int fct_blez(inst k, mem memory, registre* reg);
 int fct_bgez(inst k, mem memory, registre* reg);
 int fct_beq(inst k, mem memory, registre* reg);
 int fct_andi(inst k, mem memory, registre* reg);

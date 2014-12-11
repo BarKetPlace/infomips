@@ -1,12 +1,13 @@
 .set noreorder
 .text 
 
+#Probleme de segmentation
+
 ADDI $t1, $zero, -3 #3 dans $t1
-ADDI $t2, $zero, 0 #3 dans $t2
-BLEZ $t2, 4 #Saut d'1 instruction
-ADDI $t4, $zero, 56 #instruction sautee
-ADDI $t4, $t4, 27 #instruction effectuee
+ADDI $t2, $zero, 7 #3 dans $t2
+BLEZ $t2, 4 #Pas de saut d'1 instruction
+ADDI $t4, $zero, 56 #instruction effectuee
 BLEZ $t1, 4 #Saut d'1 instruction
 ADDI $t4, $zero, 56 #instruction sautee
-ADDI $t4, $t4, 27 #instruction effectuee : 27+27 dans $t4
+ADDI $t4, $t2, 27 #instruction effectuee : 27+27 dans $t4
 
