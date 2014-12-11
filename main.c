@@ -51,7 +51,7 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
     char * token = get_next_token(inter);
 
     if(strcmp(token, "exit") == 0) {
-	
+	DEBUG_MSG("");
         exitcmd(inter, memory, reg, dico, *pbreaklist);
 		exit(EXIT_SUCCESS);
     }
