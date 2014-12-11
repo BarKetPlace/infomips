@@ -283,7 +283,7 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 
     // allouer la memoire virtuelle
     // initialiser la memoire virtuelle
-  if (!init_mem(nsegments, reg, memory)) {
+  if (init_mem(nsegments, reg, memory)!= cmd_ok) {
     WARNING_MSG("Erreur d'initialisation de la mémoire");
     return cmd_unknown;
   }
@@ -311,15 +311,18 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 	INFO_MSG("Relocation de la libc terminee");
 
 //print_mem(memory);
+
+
     // on change le nom des differents segments de libc
     for (i=0; i<j; i++) {
         char seg_name [256]= {0};
-        strcpy(seg_name,"libc");
+        strcpy(seg_name,"libc");	
+	DEBUG_MSG("Changement de nom de : %s", memory->seg[i].name);
         strcat(seg_name,memory->seg[i].name);
-        //free(memory->seg[i].name);
-		memset(memory->seg[i].name, '\0', strlen(memory->seg[i].name));
-		strcpy(memory->seg[i].name, seg_name);
-       // memory->seg[i].name=strdup(seg_name);
+        free(memory->seg[i].name);
+	//	memset(memory->seg[i].name, '\0', strlen(memory->seg[i].name));
+	//	strcpy(memory->seg[i].name, seg_name);
+       	memory->seg[i].name=strdup(seg_name);
     }
 	//print_mem(memory);
 	
@@ -353,7 +356,17 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 
     }
 	INFO_MSG("Relocation du programme terminee");
-   
+   print_mem(memory);
+	DEBUG_MSG("%d %d",memory->nseg, nsegments);
+	memory->nseg = nsegments+1;
+		WARNING_MSG("Chargement de la pile");
+		if (!init_stack(memory, reg, memory->nseg))
+		{
+			ERROR_MSG("Erreur lors du chargement de la pile");
+    		}
+		INFO_MSG("Pile initialisée");
+	
+	print_mem(memory);
 
    // printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", fichier) ;
     //print_mem(memory);

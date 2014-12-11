@@ -35,11 +35,16 @@ mem alloue_mem(void)
 	return vm;
 }
 
-int init_mem( uint32_t nseg, registre* reg, mem vm ) {
+/**
+ * Creates a virtual memory and performs the necessary memory allocations
+ * @param size  the number of segments that composes this virtual memory
+ * @return the new allocated virtual memory or NULL in case of failure
+ */
 
-    
 
-    //mem vm = calloc( 1, sizeof( *vm ) );
+int  init_mem(uint32_t nseg, registre* reg, mem vm) {
+
+  //  mem vm = calloc( 1, sizeof( *vm ) );
 
     if ( NULL == vm ) {
         WARNING_MSG( "Unable to allocate host memory for vmem" );
@@ -52,7 +57,7 @@ int init_mem( uint32_t nseg, registre* reg, mem vm ) {
         if ( NULL == vm->seg ) {
             WARNING_MSG( "Unable to allocate host memory for vmem segment" );
             free( vm );
-            return NULL;
+            return cmd_unknown;
         }
 
         // each segment is initialised to a null value
@@ -66,18 +71,10 @@ int init_mem( uint32_t nseg, registre* reg, mem vm ) {
             vm->seg[i].attr      = 0x0;
         }
 
-        
-        vm->nseg = nseg+1;
-		WARNING_MSG("Chargement de la pile");
-		if (!init_stack(vm, reg, nseg))
-		{
-			ERROR_MSG("Erreur lors du chargement de la pile");
-    	}
-		INFO_MSG("Pile initialisée");
-	}
-	vm->start_mem = 0;
-    return 1;
+        vm->nseg = nseg;
+    }
 
+    return cmd_ok;
 }
 
 /**
@@ -488,17 +485,17 @@ void print_mem( mem vm ) {
  * @param a virtual memory
  */
 int del_mem( mem vm ) {
-
+	DEBUG_MSG("");
     if ( NULL != vm ) {
 
         if ( NULL != vm->seg ) {
             uint i;
 
-            for ( i= 0; i< vm->nseg; i++ ) {
-                if ( NULL != vm->seg[i].content ) {
+            for ( i= 0; i< vm->nseg; i++ ) {DEBUG_MSG("");
+                if ( NULL != vm->seg[i].content ) {DEBUG_MSG("");
                     free( vm->seg[i].content );
                 }
-                if ( NULL != vm->seg[i].name ) {
+                if ( NULL != vm->seg[i].name ) {DEBUG_MSG("");
                     free( vm->seg[i].name );
                 }
             }
@@ -511,20 +508,22 @@ int del_mem( mem vm ) {
 
     return cmd_ok;
 }
+
 int init_stack(mem vm, registre* reg, unsigned int nseg)
 {	if (vm ==NULL)
 	{	ERROR_MSG("Memoire virtuelle mal chargée\n");
 		return 0;
 	}
+	print_mem(vm);
+	//memset(vm->seg[nseg-1].name,'\0',sizeof(vm->seg[nseg-1].name));
+	vm->seg[nseg-1].name      = strdup("[STACK]");
 
-	vm->seg[nseg].name      = strdup("[STACK]");
+        vm->seg[nseg-1].start._32 = 0xfffff000;
+        vm->seg[nseg-1].size._32  = STACKSZ_BYTES;
+        vm->seg[nseg-1].attr      = SCN_ATTR(1, RW_);
+        vm->seg[nseg-1].content   = calloc(vm->seg[nseg].size._64,1);
 
-        vm->seg[nseg].start._32 = 0xfffff000;
-        vm->seg[nseg].size._32  = STACKSZ_BYTES;
-        vm->seg[nseg].attr      = SCN_ATTR(1, RW_);
-        vm->seg[nseg].content   = calloc(vm->seg[nseg].size._64,1);
-
-	reg[29].val = vm->seg[nseg].start._32 ;
+	reg[29].val = vm->seg[nseg-1].start._32 ;
 	//INFO_MSG("Pile chargée avec succès");
 	return 1;
 }
