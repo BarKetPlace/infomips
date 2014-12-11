@@ -50,15 +50,15 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int 
 	reg[PC].val = start;
 	//DEBUG_MSG("%x %x %d",reg[PC].val, text_start, text_taille);
 	//Tant que le PC est dans la zone text
-	while(! (reg[PC].val>text_start+text_taille)) {	DEBUG_MSG("%x %x",reg[PC].val,text_start+text_taille);
+	while(! (reg[PC].val>text_start+text_taille)) {	//DEBUG_MSG("%x %x",reg[PC].val,text_start+text_taille);
 		if ( is_breakpoint(reg[PC].val, breakliste) == cmd_ok){
 			INFO_MSG("BREAKPOINT :: 0x%08x",reg[PC].val);
 			return cmd_unknown;
 		}
 		else{ //Pas de breakpoint
-		  DEBUG_MSG("%x",reg[PC].val);
+		  //DEBUG_MSG("%x",reg[PC].val);
 			tmp = fct_exec(reg[PC].val, memory, reg, dico,&useless);
-			if ( tmp != cmd_ok ) return tmp; DEBUG_MSG("%x",reg[PC].val);
+			if ( tmp != cmd_ok ) return tmp; //DEBUG_MSG("%x",reg[PC].val);
 		}
 //DEBUG_MSG("%x %x %d",reg[PC].val, text_start, text_taille);
 		//print_disasm(def, mot);

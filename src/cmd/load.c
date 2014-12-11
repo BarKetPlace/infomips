@@ -15,7 +15,7 @@
 #include "is_.h"
 #include "relocator.h"
 
-#define START_MEM 0x0
+
 
 // Cette fonction calcule le nombre de segments à prevoir
 // Elle cherche dans les symboles si les sections predefinies
@@ -115,7 +115,7 @@ char seg_name [256]= {0};
   }
 	memory->start_mem = START_MEM;
     next_segment_start = LIBC_MEM_END;
-    printf("\ndebut : %08x\n",next_segment_start);
+    //printf("\ndebut : %08x\n",next_segment_start);
     j=0;
 
     // on alloue libc
@@ -143,7 +143,7 @@ char seg_name [256]= {0};
     for (i=0; i<j; i++) {
         
         strcpy(seg_name,"libc");	
-	DEBUG_MSG("Changement de nom de : %s", memory->seg[i].name);
+	//DEBUG_MSG("Changement de nom de : %s", memory->seg[i].name);
         strcat(seg_name,memory->seg[i].name);
         free(memory->seg[i].name);
 	//	memset(memory->seg[i].name, '\0', strlen(memory->seg[i].name));

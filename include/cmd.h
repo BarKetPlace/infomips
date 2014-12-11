@@ -13,7 +13,7 @@
 
 
 
-//Définition des listes de nombres
+//Définition des listes de nombres (breakpoint)
 typedef struct _liste_int {
 uint32_t val; 
 struct _liste_int * suiv; }* Liste_int;
@@ -37,7 +37,7 @@ int debugcmd(interpreteur inter, mem memory, registre *reg);
 int resumecmd(interpreteur inter, mem memory, registre *reg);
 
 int runcmd(interpreteur inter,mem memory, registre* reg, Liste dico, Liste_int breakliste);
-//int adresse_to_instruc(mem memory, int adrr, Liste dico, instruction res);
+
 int stepcmd(mem memory,registre* reg, Liste dico);
 ////////////////////////////
 //break
