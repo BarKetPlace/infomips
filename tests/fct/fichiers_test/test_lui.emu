@@ -3,7 +3,7 @@
 #TEST_COMMENT="ok"
 #-------
 
-load ./tests/fct/mipslui.o
+load ./tests/fct/mips/lui.o
 assert reg $t2 0x2c340000
 
 

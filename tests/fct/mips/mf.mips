@@ -1,4 +1,4 @@
-# programme qui fait une boucle en incrementant un registre
+
 
 .set nomove # demande Ã  l'assembleur de respecter l'ordre des instructions mais permet des optimisations de boucles
 
