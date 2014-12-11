@@ -302,11 +302,14 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
             j++;
         }
     }
-	print_mem(memory);
+	//print_mem(memory);
+	WARNING_MSG("Relocation de la lib c");
     // on reloge libc
     for (i=0; i<j; i++) {
         reloc_segment(pf_libc, memory->seg[i], memory,endianness,&symtab_libc,NULL,NULL);
     }
+	INFO_MSG("Relocation de la libc terminee");
+
 //print_mem(memory);
     // on change le nom des differents segments de libc
     for (i=0; i<j; i++) {
@@ -342,13 +345,14 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
             j++;
         }
     }
-print_mem(memory);
+	//print_mem(memory);
+	WARNING_MSG("Relocation du programme");
     // on reloge chaque section du fichier
     for (i=k; i<j; i++) {
         reloc_segment(pf_elf, memory->seg[i], memory,endianness,&symtab,&symtab_libc,pf_libc);
 
     }
-
+	INFO_MSG("Relocation du programme terminee");
    
 
    // printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", fichier) ;
