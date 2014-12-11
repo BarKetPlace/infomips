@@ -368,6 +368,11 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
 	
 	print_mem(memory);
 
+	// On initialise le PC à l'adresse de début du segment .text
+	char texte[] = ".text";
+	reg[PC].val = find_sec_start(memory, 0, texte );
+
+
    // printf("\n------ Fichier ELF \"%s\" : sections lues lors du chargement ------\n", fichier) ;
     //print_mem(memory);
     //stab32_print( symtab);

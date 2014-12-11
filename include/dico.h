@@ -15,7 +15,7 @@
 
 //Selon son type, un bit d'un code ne signifie pas la même chose
 struct R {unsigned int func:6, sa:5, rd:5, rt:5, rs:5, op:6;};
-struct I {signed short imm:16, rt:5, rs:5, func:6;};
+struct I {signed short imm:16; unsigned int rt:5, rs:5, func:6;};
 struct J {unsigned int target:26, func:6;};
 
 //Un code 32 bits peut être vu soit comme un simple usigned int, soit comme un code de type R, J ou I
