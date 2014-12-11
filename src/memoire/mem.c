@@ -288,10 +288,10 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	    offset = swap_mot(rel[j].r_offset);//DEBUG_MSG("");
 	    info = swap_mot(rel[j].r_info);//DEBUG_MSG("");
 		syms = (info&0xffffff00)>>8; // Numéro dans la table de symbole
-		DEBUG_MSG("Symbole a reloger");
+		/*DEBUG_MSG("Symbole a reloger");
 		 printf("Offset\tInfo\tType\tVal.-syms\n");
 		printf("%x\t%x\t%s\t%x\n",offset,info,MIPS32_REL[(info&0xff)], syms );
-		DEBUG_MSG("");
+		DEBUG_MSG("");*/
 
 	    type_rel = (info&0xff); //DEBUG_MSG("%d",type_rel);
 		
@@ -300,16 +300,16 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 		//DEBUG_MSG("%s",symtab->sym[syms ].name);
 		if (symtab->sym[syms].type == section){
 	    needed_sec_name = strdup(symtab->sym[syms ].name);
-	DEBUG_MSG("%s",needed_sec_name);
+	//DEBUG_MSG("%s",needed_sec_name);
 	    needed_sec_start = find_sec_start(memory,syms , needed_sec_name);
-		DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
+		//DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
 		}
 
 		else if (symtab->sym[syms].type == notype){
 	    //needed_sec_name = strdup(symtab->sym[syms ].name);
-	DEBUG_MSG("%s",needed_sec_name);
+	//DEBUG_MSG("%s",needed_sec_name);
 	    needed_sec_start = seg.start._32; //find_sec_start(memory,syms , needed_sec_name);
-		DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
+		//DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
 		}
 		else if (symtab->sym[syms].type == function) {
 			needed_sec_name = strdup(symtab->sym[syms].name);
@@ -330,7 +330,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      find_word(memory, needed_sec_start+offset, &word_rel);
 	      nb_symb = (word_rel&0x03ffffff);
 	      //DEBUG_MSG("%x", nb_symb);
-	      DEBUG_MSG("%x",symtab->sym[nb_symb+1].addr._32);
+	     // DEBUG_MSG("%x",symtab->sym[nb_symb+1].addr._32);
 	      //sym32_print(symtab.sym[nb_symb+1]); 
 	      word_rel = (word_rel&0xfc000000) + symtab->sym[nb_symb+1].addr._32 + needed_sec_start;
 	     // DEBUG_MSG("%x", word_rel);
@@ -630,7 +630,7 @@ int find_word(mem memory, uint32_t adresse, uint32_t* res) {
 	uint start =0;
 	segment* seg =NULL;
 	//DEBUG_MSG("%d",memory->nseg);
-	DEBUG_MSG("%x %x",adresse, memory->start_mem);
+	//DEBUG_MSG("%x %x",adresse, memory->start_mem);
 	if (adresse<memory->start_mem){ WARNING_MSG("La memoire commence en 0x%08x",memory->start_mem); return cmd_unknown;}
 	if (adresse>STOP_MEM) {WARNING_MSG("La memoire termine en 0x%08x",STOP_MEM);	return cmd_unknown;}
 //DEBUG_MSG("");

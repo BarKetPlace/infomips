@@ -57,20 +57,12 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
     stab symtab_libc= new_stab(0); // table des symboles de la libc
     FILE * pf_elf, *pf_libc;
 
-/*
-    if ((argc < 2) || (argc > 2)) {
-        printf("Usage: %s <fichier elf> \n", argv[0]);
-        exit(1);
-    }
-*/
 
-//mem memory1 = *pmemory;
-	
-	
+
+
   if (memory->nseg) 
     {	WARNING_MSG("Un programme est déjà chargé en mémoire");
       return cmd_unknown;
-	
     }
 
 //mem memory = *pmemory;
@@ -192,7 +184,7 @@ stab32_print( symtab);
     }
 	INFO_MSG("Relocation du programme terminee");
   // print_mem(memory);
-	DEBUG_MSG("%d %d",memory->nseg, nsegments);
+	//DEBUG_MSG("%d %d",memory->nseg, nsegments);
 	memory->nseg = nsegments+1;
 		WARNING_MSG("Chargement de la pile");
 		if (!init_stack(memory, reg, memory->nseg))
