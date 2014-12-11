@@ -14,13 +14,15 @@
 
 
 
-// Fonction SLL
+// Fonction XOR
 
 
-int fct_sll(inst k, mem memory, registre* reg)
+
+int fct_xor(inst k, mem memory, registre* reg)
 {
 	 
-	reg[k.r.rd].val=((long)reg[k.r.rt].val)<<k.r.sa; 
+	long long temp=(reg[k.r.rs].val)^(reg[k.r.rt].val);
+	reg[k.r.rd].val=temp;
 	reg[PC].val+=4;
 	return cmd_ok;
 }

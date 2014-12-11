@@ -1,8 +1,8 @@
 .set noreorder
 .text 
 
-ADDI $9, $zero, 0xf00 #... dans $9
-ADDI $10, $zero, 40 
-SLL $11, $9, 4
-SRL $12, $9, 8 
-SRA $13, $9, 8
+ADDI $t1, $zero, 0xf00 #0xf00 dans $t1
+ADDI $t2, $zero, 0x2800 #0x2800 dans $t2
+SLL $t3, $t2, 8 #0x280000 dans $t3
+SRL $t4, $t2, 8 #0x28 dans $t4
+SRA $t5, $t2, 8 

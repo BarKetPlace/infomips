@@ -1,0 +1,13 @@
+#-------
+#TEST_RETURN_CODE=PASS           
+#TEST_COMMENT="ok"
+#-------
+
+load ./tests/fct/mips/div.o
+assert reg $t1 14
+assert reg $t2 3
+assert reg $HI 4
+assert reg $LO 2
+
+exit
+

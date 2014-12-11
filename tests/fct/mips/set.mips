@@ -1,10 +1,10 @@
 .set noreorder
 .text 
 
-ADDI $9, $10, 10 #FFFF dans $12
-ADDI $7, $zero, 6 #F0F0 dans $7
-SLT $11, $9, $7 #0 dans $11
-SLT $12, $7, $9 #1
-SLTI $13, $9, 123 #0
-SLTI $14, $9, 9 #1 
+ADDI $t1, $zero, 10 #10 dans $t1
+ADDI $t2, $zero, 6 #6 dans $t2
+SLT $t3, $t1, $t2 #0 dans $t3
+SLT $t4, $t2, $t1 #1 dans $t4
+SLTI $t5, $t1, 123 #1 dans $t5
+SLTI $t6, $t1, 9 #0 dans $t6
 

@@ -1,6 +1,10 @@
-.set noreorder
-.text 
+# programme qui fait une boucle en incrementant un registre
 
-ADDI $33 $10 6 #6 dans $HI
-ADDI $34 $zero 0x72 #72 dans $LO
+.set nomove # demande Ã  l'assembleur de respecter l'ordre des instructions mais permet des optimisations de boucles
 
+_start:
+.global _start
+addi $hi, $zero, 6 #6 dans $HI
+addi $lo, $zero, 0x72 #72 dans $LO
+MFHI $t1
+MFLO $t2 

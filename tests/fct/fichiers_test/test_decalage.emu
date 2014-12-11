@@ -1,0 +1,14 @@
+#-------
+#TEST_RETURN_CODE=PASS           
+#TEST_COMMENT="ok"
+#-------
+
+load ./tests/fct/mips/decalage.o
+assert reg $t1 0xf00
+assert reg $t2 0x2800
+assert reg $t3 0x280000
+assert reg $t4 0x28
+assert reg $t5 0x28
+
+exit
+

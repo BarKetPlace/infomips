@@ -19,7 +19,7 @@ int fct_sra(inst k, mem memory, registre* reg)
 	 
 	int signe = (reg[k.r.rt].val)&0x80000000;
 
-	uint32_t shifted = (reg[k.r.rt].val)>>(k.i.imm);
+	uint32_t shifted = (reg[k.r.rt].val)>>(k.r.sa);
 
 	 
 	reg[k.r.rd].val = signe + shifted;
