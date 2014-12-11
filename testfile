@@ -1,5 +1,7 @@
-load ./tests/fct/mips/division.o
-run
+load ./elf/boucle.o
+load ./elf/boucle.o
+debug
 disp reg all
+debug
 exit
 

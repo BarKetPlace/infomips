@@ -461,6 +461,7 @@ void print_mem( mem vm ) {
  */
 int del_mem( mem vm ) {
 	//DEBUG_MSG("");
+	
     if ( NULL != vm ) {
 
         if ( NULL != vm->seg ) {

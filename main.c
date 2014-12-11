@@ -33,7 +33,7 @@
 int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int* pbreaklist) {
     //DEBUG_MSG("input '%s'", inter->input);
     char cmdStr[MAX_STR];
-	
+	int tmp;
 	
     memset( cmdStr, '\0', MAX_STR );
 
@@ -59,7 +59,11 @@ int execute_cmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste
         return testcmd(inter);
     }
     if(strcmp(token, "load") == 0)
- 	{
+ 	{	/*if (memory) {
+			
+			memory = del_mem(memory);
+			memory = alloue_mem();
+		}*/
 		return loadcmd(inter, memory, reg);
 	}
 	if(strcmp(token, "disp") == 0){

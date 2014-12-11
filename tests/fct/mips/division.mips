@@ -1,6 +1,11 @@
 .set noreorder
 .text 
 
+#DIV $t1, $t2 #4 dans $HI, 2 dans $LO
+
 ADDI $t1, $zero, 14 #14 dans $t1
+nop
 ADDI $t2, $zero, 3 #3 dans $t2
+nop
 DIV $t1, $t2 #4 dans $HI, 2 dans $LO
+nop

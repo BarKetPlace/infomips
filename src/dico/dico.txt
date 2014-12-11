@@ -4,6 +4,7 @@ signature	masque		nom	  	type 	nb_arg 	syntaxe
 20000000	fc000000	ADDI		I	3	rt rs imm
 08000000	fc000000	J		J	1	target
 24000000	fc000000	ADDIU		I	3	rt rs imm
+0000001a	fc00ffff	DIV		R	2	rs rt
 00000021	fc0007ff	ADDU		R	3	rd rs rt
 00000024	fc0007ff	AND		R	3	rd rs rt
 03000000	fc000000	ANDI		I	3	rs rt imm
@@ -14,7 +15,7 @@ signature	masque		nom	  	type 	nb_arg 	syntaxe
 04000000	fc1f0000	BLTZ		I	2	rs imm
 14000000	fc000000	BNE		I	3	rs rt imm
 0000000d	fc00003f	BREAK		J	0	none
-0000001a	fc00ffff	DIV		R	2	rs rt
+
 0c000000	fc000000	JAL		J	1	target
 00000009	fc1f003f	JALR		R	2	rd rs
 00000008	fc1ff83f	JR		R	1	rs
@@ -37,7 +38,7 @@ a0000000	fc000000	SB		I	2	rt imm
 0000002b	fc0007ff	SLTU		R	3	rd rs rt
 00000003	ffe0003f	SRA		R	3	rd rt sa
 00000002	ffe0003f	SRL		R	3	rd rt sa
-00000022	fc0007ff	SUR		R	3	rd rs rt
+00000022	fc0007ff	SUB		R	3	rd rs rt
 00000023	fc0007ff	SUBU		R	3	rd rs rt
 ac000000	fc000000	SW		I	2	rt imm
 0000000c	fc00003f	SYSCALL	J	0	none

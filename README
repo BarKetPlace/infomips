@@ -7,7 +7,7 @@
 *******************************************************************
 
 
-Un fichier elf se trouve dans le dossier elf/
+Des fichiers Elf se trouve dans le dossier elf/
 Compilation du fichier principal:
 make main
 
@@ -17,5 +17,10 @@ Lancement en mode script:
 Lancement des fichiers tests:
 ./main ./tests/<fichier test>
 
-Suppression des fichiers objets (sauf ./elf/*.o )
+Suppression des fichiers objets (ceux contenus dans ./src/ )
 make clean
+
+
+Tests automatiques:
+	
+	find . -name "*.emu" -type f | xargs ./testing/simpleUnitTest.sh -e ./main -b

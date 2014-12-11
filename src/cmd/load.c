@@ -57,11 +57,14 @@ int loadcmd(interpreteur inter, mem memory, registre* reg)
     stab symtab_libc= new_stab(0); // table des symboles de la libc
     FILE * pf_elf, *pf_libc;
 
+	//memory = alloue_mem();
 
-
-
+//DEBUG_MSG("");
   if (memory->nseg) 
     {	WARNING_MSG("Un programme est déjà chargé en mémoire");
+	//memory = NULL;
+	//memory = alloue_mem();
+	
       return cmd_unknown;
     }
 
@@ -162,11 +165,11 @@ char seg_name [256]= {0};
     memory->start_mem = next_segment_start;
 		
   }
-	
+//DEBUG_MSG("");	
     // On va chercher les sections du fichier
     int k =j;
     next_segment_start = memory->start_mem;
-    for (i=0; i<NB_SECTIONS; i++) {
+    for (i=0; i<NB_SECTIONS; i++) {	
         if (is_in_symbols(section_names[i],symtab)) {
             elf_load_section_in_memory(pf_elf,memory, section_names[i],segment_permissions[i],next_segment_start);
             next_segment_start+= ((memory->seg[j].size._32+0x1000)>>12 )<<12; // on arrondit au 1k suppérieur
@@ -192,7 +195,7 @@ stab32_print( symtab);
 			ERROR_MSG("Erreur lors du chargement de la pile");
     		}
 		INFO_MSG("Pile initialisée");
-	
+	//DEBUG_MSG("");	
 	//print_mem(memory);
 
 	// On initialise le PC à l'adresse de début du segment .text
