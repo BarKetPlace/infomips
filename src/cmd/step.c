@@ -19,10 +19,10 @@ int stepcmd(mem memory, registre* reg, Liste dico)
 	uint32_t val;
 	int tmp;
 	definition def = NULL;
-	tmp =find_word(memory, reg[PC].val, &val);
+	//tmp =find_word(memory, reg[PC].val, &val);
 	inst mot;
-
-	if ( tmp == cmd_unknown ) return tmp;
+	int temoin = 0;
+	/*if ( tmp == cmd_unknown ) return tmp;
 	
 	mot.code=val;	
 	
@@ -34,15 +34,26 @@ int stepcmd(mem memory, registre* reg, Liste dico)
 		printf("\n");
 		WARNING_MSG(" Instruction inconnue ");
 		return cmd_exit;
-		}
-	//DEBUG_MSG("");
-	tmp = fct_exec(reg[PC].val, memory, reg, dico);
+		}*/
+	//DEBUG_MSG("%d",temoin);
+	tmp = fct_exec(reg[PC].val, memory, reg, dico, &temoin);
 	if ( tmp != cmd_ok ) return tmp;
+	//DEBUG_MSG("%d",temoin);
+	if (temoin == 1){//Si j'ai rencontré une instruction de type J
+		temoin = 0;
+		while (!temoin)  {
+			tmp = fct_exec(reg[PC].val, memory, reg, dico, &temoin);
+			if ( tmp != cmd_ok ) return tmp;
+			//DEBUG_MSG("%d",temoin);
+			}
+		temoin = 0;
+	}
+
 	//detail_def(def);
 
 	//def->f(mot, reg);
 	//reg[PC].val += 4;
-
+	
 	return cmd_ok;
 
 }

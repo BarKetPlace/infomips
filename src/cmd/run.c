@@ -19,7 +19,7 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int 
 	int start = memory->start_mem, reste;
 	uint32_t /*courante,*/ tmp, text_start, text_taille; //val;
 	token = get_next_token(inter);
-
+	int useless;
 	union inst_poly mot;
 	//definition def;
 
@@ -57,7 +57,7 @@ int runcmd(interpreteur inter, mem memory, registre* reg, Liste dico, Liste_int 
 		}
 		else{ //Pas de breakpoint
 		  //DEBUG_MSG("%x",reg[PC].val);
-			tmp = fct_exec(reg[PC].val, memory, reg, dico);
+			tmp = fct_exec(reg[PC].val, memory, reg, dico,&useless);
 			if ( tmp != cmd_ok ) return tmp;
 		}
 //DEBUG_MSG("%x %x %d",reg[PC].val, text_start, text_taille);

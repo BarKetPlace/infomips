@@ -15,9 +15,9 @@
 
 
 int step_intocmd(mem memory, registre* reg, Liste dico)
-{	
+{	/*
 	uint32_t val;
-	int tmp;
+	
 	definition def = NULL;
 	tmp =find_word(memory, reg[PC].val, &val);
 	inst mot;
@@ -34,10 +34,13 @@ int step_intocmd(mem memory, registre* reg, Liste dico)
 		printf("\n");
 		WARNING_MSG(" Instruction inconnue ");
 		return cmd_exit;
-		}
+		}*/
+
 	//DEBUG_MSG("");
-	tmp = fct_exec(reg[PC].val, memory, reg, dico);
+	int tmp, temoin;
+	tmp = fct_exec(reg[PC].val, memory, reg, dico, &temoin);
 	if ( tmp != cmd_ok ) return tmp;
+
 	//detail_def(def);
 
 	//def->f(mot, reg);

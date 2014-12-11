@@ -53,7 +53,7 @@ int fct_move(inst k, mem memory, registre* reg);
 int fct_neg(inst k, mem memory, registre* reg);
 int fct_li(inst k, mem memory, registre* reg);
 int fct_blt(inst k, mem memory, registre* reg);
-int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico);
+int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico, int* ptemoin);
 
 
 

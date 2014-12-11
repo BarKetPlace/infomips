@@ -38,7 +38,7 @@ typedef struct _def {
 	int nb_op;
 //	char nom_op[MAXSTR];
 	char* nom_op[4]; // MAXOP -> nombre max d'op
-	int (*f) (inst k,struct _mem* memory, registre* reg, struct _liste* dico);
+	int (*f) (inst k,struct _mem* memory, registre* reg);
 }* definition;
 
 //Définition des listes
