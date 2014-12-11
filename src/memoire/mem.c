@@ -53,7 +53,7 @@ int  init_mem(uint32_t nseg, registre* reg, mem vm) {
     else {
         uint i;
 
-        vm->seg = calloc( nseg, sizeof( *(vm->seg) ) );
+        vm->seg = calloc( nseg+1, sizeof( *(vm->seg) ) );
         if ( NULL == vm->seg ) {
             WARNING_MSG( "Unable to allocate host memory for vmem segment" );
             free( vm );
@@ -485,17 +485,17 @@ void print_mem( mem vm ) {
  * @param a virtual memory
  */
 int del_mem( mem vm ) {
-	DEBUG_MSG("");
+	//DEBUG_MSG("");
     if ( NULL != vm ) {
 
         if ( NULL != vm->seg ) {
             uint i;
 
-            for ( i= 0; i< vm->nseg; i++ ) {DEBUG_MSG("");
-                if ( NULL != vm->seg[i].content ) {DEBUG_MSG("");
+            for ( i= 0; i< vm->nseg; i++ ) {
+                if ( NULL != vm->seg[i].content ) {
                     free( vm->seg[i].content );
                 }
-                if ( NULL != vm->seg[i].name ) {DEBUG_MSG("");
+                if ( NULL != vm->seg[i].name ) {
                     free( vm->seg[i].name );
                 }
             }
@@ -516,6 +516,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
 	}
 	print_mem(vm);
 	//memset(vm->seg[nseg-1].name,'\0',sizeof(vm->seg[nseg-1].name));
+	//vm->seg[nseg-1]= calloc(1, sizeof( (vm->seg[nseg-1]) ));
 	vm->seg[nseg-1].name      = strdup("[STACK]");
 
         vm->seg[nseg-1].start._32 = 0xfffff000;

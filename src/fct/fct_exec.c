@@ -13,7 +13,7 @@
 
 
 int fct_exec(uint32_t adresse, mem memory, registre* reg, Liste dico){
-
+DEBUG_MSG("");
 		union inst_poly mot;
 		definition def;	
 		int tmp;
