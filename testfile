@@ -1,0 +1,5 @@
+load ./tests/fct/mips/division.o
+run
+disp reg all
+exit
+
