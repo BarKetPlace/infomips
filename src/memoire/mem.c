@@ -266,7 +266,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
     if (rel != NULL &&seg.content!=NULL && seg.size._32!=0) {
 
       //INFO_MSG("--------------Relocation de %s-------------------",seg.name) ;
-        //INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
+      //INFO_MSG("Nombre de symboles a reloger: %ld\n",scnsz/sizeof(*rel)) ;
 	int j,k;
 	uint32_t info=0, offset=0, type_rel=0, nb_symb=0;
 
@@ -287,11 +287,11 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	    //DEBUG_MSG("");
 	    offset = swap_mot(rel[j].r_offset);//DEBUG_MSG("");
 	    info = swap_mot(rel[j].r_info);//DEBUG_MSG("");
-		syms = (info&0xffffff00)>>8;
-		//DEBUG_MSG("Symbole a reloger");
-		// printf("Offset\tInfo\tType\tVal.-syms\n");
-		//printf("%x\t%x\t%s\t%x\n",offset,info,MIPS32_REL[(info&0xff)], syms );
-		//DEBUG_MSG("");
+		syms = (info&0xffffff00)>>8; // Numéro dans la table de symbole
+		DEBUG_MSG("Symbole a reloger");
+		 printf("Offset\tInfo\tType\tVal.-syms\n");
+		printf("%x\t%x\t%s\t%x\n",offset,info,MIPS32_REL[(info&0xff)], syms );
+		DEBUG_MSG("");
 
 	    type_rel = (info&0xff); //DEBUG_MSG("%d",type_rel);
 		
@@ -300,8 +300,16 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 		//DEBUG_MSG("%s",symtab->sym[syms ].name);
 		if (symtab->sym[syms].type == section){
 	    needed_sec_name = strdup(symtab->sym[syms ].name);
-	//DEBUG_MSG("%s",needed_sec_name);
+	DEBUG_MSG("%s",needed_sec_name);
 	    needed_sec_start = find_sec_start(memory,syms , needed_sec_name);
+		DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
+		}
+
+		else if (symtab->sym[syms].type == notype){
+	    //needed_sec_name = strdup(symtab->sym[syms ].name);
+	DEBUG_MSG("%s",needed_sec_name);
+	    needed_sec_start = seg.start._32; //find_sec_start(memory,syms , needed_sec_name);
+		DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
 		}
 		else if (symtab->sym[syms].type == function) {
 			needed_sec_name = strdup(symtab->sym[syms].name);
@@ -309,20 +317,22 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 			needed_sec_start = find_sec_start(memory, syms, texte);
 			//DEBUG_MSG("%x %x",needed_sec_start, seg.start._32);
 		}
-
-//DEBUG_MSG("");
+		else {
+			WARNING_MSG("Unknown relocation type");
+			return cmd_unknown;
+	     //DEBUG_MSG("");
 	    //DEBUG_MSG("%x",needed_sec_start);
-
+		}
 
 	    switch(type_rel){
 	    case R_MIPS_26: // Branchement
-			
+
 	      find_word(memory, needed_sec_start+offset, &word_rel);
 	      nb_symb = (word_rel&0x03ffffff);
 	      //DEBUG_MSG("%x", nb_symb);
-	      //DEBUG_MSG("%x",symtab->sym[nb_symb+1].addr._32);
+	      DEBUG_MSG("%x",symtab->sym[nb_symb+1].addr._32);
 	      //sym32_print(symtab.sym[nb_symb+1]); 
-	      word_rel = (word_rel&0xfc000000) + symtab->sym[nb_symb+1].addr._32;
+	      word_rel = (word_rel&0xfc000000) + symtab->sym[nb_symb+1].addr._32 + needed_sec_start;
 	     // DEBUG_MSG("%x", word_rel);
 	      load_word(memory, needed_sec_start+offset, swap_mot(word_rel));
 
@@ -363,7 +373,7 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	      // Les bits de poids faible sur les poids faible de la deuxième 
 	        //Première partie
 	      find_word(memory, P-4, &word_rel);
-			word_rel = (word_rel>>16)<<16;
+	      word_rel = (word_rel>>16)<<16;
 			//DEBUG_MSG("%x",(AHL+S) - ((short)(AHL+S) ));
 	      word_rel = word_rel + (  ((AHL+S) - ((short)(AHL+S) )) >>16 ) ;
 		//DEBUG_MSG("%x",word_rel);
@@ -391,14 +401,11 @@ void reloc_segment(FILE* fp, segment seg, mem memory,unsigned int endianness,sta
 	  }
 	//DEBUG_MSG("");
 
-        //------------------------------------------------------
-
-        //TODO : faire la relocation ICI !
-
-        //------------------------------------------------------
-
+       
     }
 	//DEBUG_MSG("");
+	//free(texte[]);
+	//free(needed_sec_name);
     del_scntab(section_tab);
     free( rel );
     free( reloc_name );
@@ -430,7 +437,7 @@ void print_mem( mem vm ) {
             if ( UNDEF == SCN_RIGHTS( vm->seg[i].attr ) ) {
                 continue;
             }
-	
+	//DEBUG_MSG("");
             printf( "%-8s\t", vm->seg[i].name );//DEBUG_MSG("");
             switch( SCN_RIGHTS( vm->seg[i].attr ) ) {
             case R__ :
@@ -514,7 +521,7 @@ int init_stack(mem vm, registre* reg, unsigned int nseg)
 	{	ERROR_MSG("Memoire virtuelle mal chargée\n");
 		return 0;
 	}
-	print_mem(vm);
+	//print_mem(vm);
 	//memset(vm->seg[nseg-1].name,'\0',sizeof(vm->seg[nseg-1].name));
 	//vm->seg[nseg-1]= calloc(1, sizeof( (vm->seg[nseg-1]) ));
 	vm->seg[nseg-1].name      = strdup("[STACK]");
@@ -623,7 +630,7 @@ int find_word(mem memory, uint32_t adresse, uint32_t* res) {
 	uint start =0;
 	segment* seg =NULL;
 	//DEBUG_MSG("%d",memory->nseg);
-	//DEBUG_MSG("%x %x",adresse, memory->start_mem);
+	DEBUG_MSG("%x %x",adresse, memory->start_mem);
 	if (adresse<memory->start_mem){ WARNING_MSG("La memoire commence en 0x%08x",memory->start_mem); return cmd_unknown;}
 	if (adresse>STOP_MEM) {WARNING_MSG("La memoire termine en 0x%08x",STOP_MEM);	return cmd_unknown;}
 //DEBUG_MSG("");
